@@ -446,6 +446,15 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#dealing-with-thread-unsafe-objects" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dealing with thread-unsafe objects
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -630,6 +639,15 @@
   <a href="#dealing-with-thread-unsafe-libraries" class="md-nav__link">
     <span class="md-ellipsis">
       Dealing with thread-unsafe libraries
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dealing-with-thread-unsafe-objects" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dealing with thread-unsafe objects
     </span>
   </a>
   
@@ -1009,6 +1027,28 @@ library. This means that non-reentrant libraries require a global lock:</p>
 </code></pre></div>
 <p>Any other wrapped function needs similar locking around each call into the
 library.</p>
+<h3 id="dealing-with-thread-unsafe-objects">Dealing with thread-unsafe objects</h3>
+<p>Similar to the section above, objects may need locking or atomics if they can
+be concurrently modified from multiple threads. CPython 3.13
+exposes a public C API that allows users to use the built-in
+per-object locks.</p>
+<p>For example the following code:
+<div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="nf">do_modification</span><span class="p">(</span><span class="n">MyObject</span><span class="w"> </span><span class="o">*</span><span class="n">obj</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">modification_on_obj</span><span class="p">(</span><span class="n">obj</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<p>Should be transformed to:
+<div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="nf">do_modification</span><span class="p">(</span><span class="n">MyObject</span><span class="w"> </span><span class="o">*</span><span class="n">obj</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">res</span><span class="p">;</span>
+<span class="w">    </span><span class="n">Py_BEGIN_CRTIICAL_SECTION</span><span class="p">(</span><span class="n">obj</span><span class="p">);</span>
+<span class="w">    </span><span class="n">res</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">modification_on_obj</span><span class="p">(</span><span class="n">obj</span><span class="p">);</span>
+<span class="w">    </span><span class="n">Py_END_CRTIICAL_SECTION</span><span class="p">(</span><span class="n">obj</span><span class="p">);</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">res</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<p>A variant for locking two objects at once is also available. For more information
+about <code>Py_BEGIN_CRITICAL_SECTION</code>, please see the
+<a href="https://docs.python.org/3.13/c-api/init.html#python-critical-section-api">Python C API documentation on critical sections</a>.</p>
 <h2 id="cython-thread-safety">Cython thread-safety</h2>
 <p>If your extension is written in Cython, you can generally assume that
 "Python-level" code that compiles to CPython C API operations on Python objects
