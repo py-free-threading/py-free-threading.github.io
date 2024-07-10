@@ -1,0 +1,1200 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../running-gil-disabled/">
+      
+      
+        <link rel="next" href="../ci/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.28">
+    
+    
+      
+        <title>Porting Extension Modules to Support Free-Threading - py-free-threading</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.6543a935.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="blue-grey" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#porting-extension-modules-to-support-free-threading" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="py-free-threading" class="md-header__button md-logo" aria-label="py-free-threading" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            py-free-threading
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Porting Extension Modules to Support Free-Threading
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="blue-grey" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Quansight-Labs/free-threaded-compatibility" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="py-free-threading" class="md-nav__button md-logo" aria-label="py-free-threading" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    py-free-threading
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Quansight-Labs/free-threaded-compatibility" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tracking/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Compatibility status tracking
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installing_cpython/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Installing a free-threaded Python
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../running-gil-disabled/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Running with the GIL disabled
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Porting Extension Modules to Support Free-Threading
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Porting Extension Modules to Support Free-Threading
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#declaring-free-threaded-support" class="md-nav__link">
+    <span class="md-ellipsis">
+      Declaring free-threaded support
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#suggested-plan-of-attack" class="md-nav__link">
+    <span class="md-ellipsis">
+      Suggested Plan of Attack
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Suggested Plan of Attack">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#locking-and-synchronization-primitives" class="md-nav__link">
+    <span class="md-ellipsis">
+      Locking and Synchronization Primitives
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#global-state" class="md-nav__link">
+    <span class="md-ellipsis">
+      Global state
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Global state">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#converting-to-thread-local-state" class="md-nav__link">
+    <span class="md-ellipsis">
+      Converting to thread local state
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#caches" class="md-nav__link">
+    <span class="md-ellipsis">
+      Caches
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dealing-with-thread-unsafe-libraries" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dealing with thread-unsafe libraries
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cython-thread-safety" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cython thread-safety
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cpython-c-api-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      CPython C API usage
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CPython C API usage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#unsafe-apis-returning-borrowed-references" class="md-nav__link">
+    <span class="md-ellipsis">
+      Unsafe APIs returning borrowed references
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adopt-pythoncapi-compat-to-use-new-c-api-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Adopt pythoncapi-compat to use new C API functions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#some-low-level-apis-dont-enforce-locking" class="md-nav__link">
+    <span class="md-ellipsis">
+      Some low-level APIs don't enforce locking
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#limited-api-support" class="md-nav__link">
+    <span class="md-ellipsis">
+      Limited API support
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ci/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Setting up CI
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#declaring-free-threaded-support" class="md-nav__link">
+    <span class="md-ellipsis">
+      Declaring free-threaded support
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#suggested-plan-of-attack" class="md-nav__link">
+    <span class="md-ellipsis">
+      Suggested Plan of Attack
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Suggested Plan of Attack">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#locking-and-synchronization-primitives" class="md-nav__link">
+    <span class="md-ellipsis">
+      Locking and Synchronization Primitives
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#global-state" class="md-nav__link">
+    <span class="md-ellipsis">
+      Global state
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Global state">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#converting-to-thread-local-state" class="md-nav__link">
+    <span class="md-ellipsis">
+      Converting to thread local state
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#caches" class="md-nav__link">
+    <span class="md-ellipsis">
+      Caches
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dealing-with-thread-unsafe-libraries" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dealing with thread-unsafe libraries
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cython-thread-safety" class="md-nav__link">
+    <span class="md-ellipsis">
+      Cython thread-safety
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cpython-c-api-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      CPython C API usage
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CPython C API usage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#unsafe-apis-returning-borrowed-references" class="md-nav__link">
+    <span class="md-ellipsis">
+      Unsafe APIs returning borrowed references
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#adopt-pythoncapi-compat-to-use-new-c-api-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Adopt pythoncapi-compat to use new C API functions
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#some-low-level-apis-dont-enforce-locking" class="md-nav__link">
+    <span class="md-ellipsis">
+      Some low-level APIs don't enforce locking
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#limited-api-support" class="md-nav__link">
+    <span class="md-ellipsis">
+      Limited API support
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="porting-extension-modules-to-support-free-threading">Porting Extension Modules to Support Free-Threading</h1>
+<p>Many Python extension modules are not thread-safe in the free-threaded build as
+of mid-2024. Up until now, the GIL has added implicit locking around any
+operation in Python or C that holds the GIL, and the GIL must be explicitly
+dropped before many thread-safety issues become problematic. Also, because of
+the GIL, attempting to parallelize many workflows using the Python
+<a href="https://docs.python.org/3/library/threading.html">threading</a> module will not
+produce any speedups, so thread-safety issues that are possible even with the
+GIL are not hit often since users do not make use of threading as much as other
+parallelization strategies. This means many codebases have threading bugs that
+up-until-now have only been theoretical or present in niche use cases. With
+free-threading, many more users will want to use Python threads.</p>
+<p>This means we must analyze the codebases of extension modules to identify
+thread-safety issues and make changes to thread-unsafe low-level code,
+including C, C++, and Cython code exposed to Python.</p>
+<h3 id="declaring-free-threaded-support">Declaring free-threaded support</h3>
+<p>Extension modules need to explicitly indicate they support running with the GIL
+disabled, otherwise a warning is printed and the GIL is re-enabled at runtime
+after importing a module that does not support the GIL. </p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Currently it is not possible for extensions written in Cython to declare
+they support running without the GIL. Work is under way to add support
+(see <a href="https://github.com/cython/cython/pull/6242">cython#6242</a>).</p>
+</div>
+<p>C++ extension modules making use of <code>pybind11</code> can easily declare support for
+running with the GIL disabled via the
+<a href="https://pybind11.readthedocs.io/en/stable/reference.html#_CPPv4N7module_23create_extension_moduleEPKcPKcP10module_def16mod_gil_not_used"><code>gil_not_used</code></a>
+argument to <code>create_extension_module</code>.</p>
+<p>C or C++ extension modules using multi-phase initialization can specify the
+<a href="https://docs.python.org/3.13/c-api/module.html#c.Py_mod_gil"><code>Py_mod_gil</code></a>
+module slot like this:</p>
+<div class="highlight"><pre><span></span><code><span class="k">static</span><span class="w"> </span><span class="n">PyModuleDef_Slot</span><span class="w"> </span><span class="n">module_slots</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="p">...</span>
+<span class="cp">#ifdef Py_GIL_DISABLED</span>
+<span class="w">    </span><span class="p">{</span><span class="n">Py_mod_gil</span><span class="p">,</span><span class="w"> </span><span class="n">Py_MOD_GIL_NOT_USED</span><span class="p">},</span>
+<span class="cp">#endif</span>
+<span class="w">    </span><span class="p">{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div>
+<p>The <code>Py_mod_gil</code> slot has no effect in the non-free-threaded build.</p>
+<p>Extensions that use single-phase initialization need to call
+<a href="https://docs.python.org/3.13/c-api/module.html#c.PyUnstable_Module_SetGIL"><code>PyUnstable_Module_SetGIL()</code></a>
+in the module's initialization function:</p>
+<div class="highlight"><pre><span></span><code><span class="n">PyMODINIT_FUNC</span>
+<span class="nf">PyInit__module</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">mod</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyModule_Create</span><span class="p">(</span><span class="o">&amp;</span><span class="n">module</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">mod</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="cp">#ifdef Py_GIL_DISABLED</span>
+<span class="w">    </span><span class="n">PyUnstable_Module_SetGIL</span><span class="p">(</span><span class="n">mod</span><span class="p">,</span><span class="w"> </span><span class="n">Py_MOD_GIL_NOT_USED</span><span class="p">);</span>
+<span class="cp">#endif</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>If you publish binaries and have downstream libraries that depend on your
+library, we suggest adding the <code>Py_mod_gil</code> slot and uploading nightly wheels
+as soon as basic support for the free-threaded build is established in the
+development branch. This will ease the work of libraries that depend on yours
+to also add support for the free-threaded build.</p>
+<h2 id="suggested-plan-of-attack">Suggested Plan of Attack</h2>
+<p>Put priority on thread-safety issues surfaced by real-world testing. Run the
+test suite for your project and fix any failures that occure only with the GIL
+disabled. Some issues may be due to changes in Python 3.13 that are not
+specific to the free-threaded build.</p>
+<p>Definitely run your existing test suite with the GIL disabled, but unless your
+tests make heavy use of the <code>threading</code> module, you will likely not hit many
+issues, so also consider constructing multithreaded tests to expose bugs based
+on workflows you want to support. Issues found in these tests are the issues
+your users will most likely hit first. The
+<a href="https://docs.python.org/3/library/concurrent.futures.html#concurrent.futures.ThreadPoolExecutor"><code>concurrent.futures.ThreadPoolExecutor</code></a>
+class is a lightweight way to create multithreaded tests where many threads
+repeatedly call a function simultaneously. You can also use the <code>threading</code>
+module directly. Adding a <code>threading.Barrier</code> before your test code is a good
+way to synchronize workers and encourage a race condition.</p>
+<p>Many C and C++ extensions assume the GIL serializes access to state shared
+between threads, introducing the possibility of data races and race conditions
+that were impossible before when the GIL is disabled.</p>
+<p>Cython code can also be thread-unsafe and exhibit undefined behavior due to
+data races just like any other C or C++ code. However, code operating on Python
+objects should not exhibit any low-level data races or undefined behavior due
+to Python-level semantics. If you find such a case, it may be a Cython or
+CPython bug and should be reported as such. That said, race conditions are
+allowed in Python and therefore Cython as well, so you will still need to add
+locking or synchronization where appropriate to ensure reproducible results
+when running a multithreaded algorithm on shared mutable data.</p>
+<p>The CPython C API exposes the <code>Py_GIL_DISABLED</code> macro in the free-threaded
+build. You can use it to enable low-level code that only runs under the
+free-threaded build, isolating possibly performance-impacting changes to the
+free-threaded build:</p>
+<div class="highlight"><pre><span></span><code><span class="cp">#ifdef Py_GIL_DISABLED</span>
+<span class="c1">// free-threaded specific code goes here</span>
+<span class="cp">#endif</span>
+
+<span class="cp">#ifndef Py_GIL_DISABLED</span>
+<span class="c1">// code for gil-enabled builds goes here</span>
+<span class="cp">#endif</span>
+</code></pre></div>
+<p>We suggest focusing on safety over single-threaded performance. For example, if
+adding a lock to a global cache would harm multithreaded scaling, and turning
+off the cache implies a a small performance hit, consider doing the simpler
+thing and disabling the cache in the free-threaded build. Single-threaded
+performance can always be improved later, once you've established free-threaded
+support and hopefully improved test coverage for multithreaded workflows.</p>
+<p>For NumPy, we are generally assuming users will not do pathological things like
+resizing an array while another thread is reading from or writing to it and do
+not explicitly account for this. Eventually we will need to add locking around
+data structures to avoid races caused by issues like this, but in this early
+stage of porting we are not planning to add locking on every operation exposed
+to users that mutates data. Locking will likely need to be added in the future,
+but that should be done carefully and with experience informed by real-world
+multithreaded scaling.</p>
+<p>For your libraries, we suggest a similar approach for now. Focus on thread
+safety issues that only occur with the GIL disabled. Any non-critical
+pre-existing thread safety issues can be dealt with later once the
+free-threaded build is used more. The goal for now should be to enable further
+refinement and experimentation by fixing issues that prevent using the library
+at all.</p>
+<h3 id="locking-and-synchronization-primitives">Locking and Synchronization Primitives</h3>
+<p>If your extension is written in C++, Rust, or another modern language that
+exposes locking primitives in the standard library, you should consider using
+the locking primitives provided by your language or framework to add locks when
+needed.</p>
+<p>For C code or C-like C++ code, the CPython 3.13 C API exposes
+<a href="https://docs.python.org/3.13/c-api/init.html#c.PyMutex"><code>PyMutex</code></a>, a
+high-performance locking primitive that supports static allocation. As of
+CPython 3.13, the mutex requires only one byte for storage, but future versions
+of CPython may change that, so you should not rely on the size of <code>PyMutex</code> in
+your code.</p>
+<h2 id="global-state">Global state</h2>
+<p>Many CPython C extensions make strong assumptions about the GIL. For example,
+before NumPy 2.1.0, the C code in NumPy made extensive use of C static global
+variables for storing settings, state, and caches. With the GIL, it is possible
+for Python threads to produce non-deterministic results from a calculation, but
+it is not possible for two C threads to simultaneously see the state of the C
+global variables, so no data races are possible.</p>
+<p>In free-threaded Python, global state like this is no longer safe against data
+races and undefined behavior in C code. A cache of <code>PyObject</code>s stored
+in a C global pointer array can be overwritten simultaneously by multiple
+Python threads, leading to memory corruption and segfaults.</p>
+<h3 id="converting-to-thread-local-state">Converting to thread local state</h3>
+<p>Often the easiest way to fix data races due to global state is to convert the
+global state to thread local state.</p>
+<p>Python and Cython code can make use of
+<a href="https://docs.python.org/3/library/threading.html#thread-local-data"><code>threading.local</code></a>
+to declare a thread-local Python object. C and C++ code can also use the
+<a href="https://docs.python.org/3/c-api/init.html#thread-specific-storage-tss-api"><code>Py_tss
+API</code></a>
+to store thread-local Python object references. <a href="https://peps.python.org/pep-0539">PEP
+539</a> has more details about the <code>Py_tss</code> API.</p>
+<p>Low-level C or C++ code can make use of the
+<a href="https://en.cppreference.com/w/c/thread/thread_local"><code>thread_local</code></a> storage
+specified by recent standard versions. Note that standardization of
+thread-local storage in C has been slower than C++, so you may need to use
+platform-specific definitions to declare variables with thread-local
+storage. Also note that thread-local storage on MSVC has
+<a href="https://learn.microsoft.com/en-us/cpp/parallel/thread-local-storage-tls?view=msvc-170#rules-and-limitations">caveats</a>,
+and you should not use thread-local storage for anything besides statically
+defined integers and pointers.</p>
+<p>NumPy has a <a href="https://github.com/numpy/numpy/blob/b77d2c6cc214cdcde567f356688ebddb2a5e7c8c/numpy/_core/include/numpy/npy_common.h#L116-L128"><code>NPY_TLS</code>
+macro</a>
+in the <code>numpy/npy_common.h</code> header. While you can include the numpy header and
+use <code>NPY_TLS</code> directly on NumPy 2.1 or newer, you can also add the definition
+to your own codebase, along with some build configuration tests to test for the
+correct definition to use.</p>
+<h3 id="caches">Caches</h3>
+<p>Global caches are also a common source of thread safety issues. For example, if
+a function requires an expensive intermediate result that only needs to be
+calculated once, many C extensions store the result in a global variable. This
+can lead to data races and memory corruption if more than one thread
+simultaneously tries to fill the cache.</p>
+<p>If the cache is not critical for performance, consider simply disabling the
+cache in the free-threaded build:</p>
+<div class="highlight"><pre><span></span><code><span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="o">*</span><span class="n">cache</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">my_function_with_a_cache</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="o">*</span><span class="n">my_cache</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="cp">#ifndef Py_GIL_DISABLED</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">cache</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">cache</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_expensive_result</span><span class="p">();</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">my_cache</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cache</span><span class="p">;</span>
+<span class="cp">#else</span>
+<span class="w">    </span><span class="n">my_cache</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">get_expensive_result</span><span class="p">();</span>
+<span class="cp">#endif;</span>
+<span class="w">    </span><span class="c1">// use the cache</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>If the cache is set up at import time during module initialization, then you
+can assume that module initialization is guaranteed to only happen on one
+thread, so you can initialize static globals safely during module
+initialization.</p>
+<div class="highlight"><pre><span></span><code><span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="o">*</span><span class="n">cache</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+
+<span class="n">PyMODINIT_FUNC</span>
+<span class="nf">PyInit__module</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">mod</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyModule_Create</span><span class="p">(</span><span class="o">&amp;</span><span class="n">module</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">mod</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// don&#39;t need to lock or do anything special</span>
+<span class="w">    </span><span class="n">cache</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">setup_cache</span><span class="p">();</span>
+
+<span class="w">    </span><span class="c1">// do rest of initialization</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>If the cache is critical for performance, cannot be generated at import time,
+but generally gets filled quickly after a program begins then you will need to
+use a single-initialization API to ensure the cache is only ever initialized
+once. In C++, use
+<a href="https://en.cppreference.com/w/cpp/thread/once_flag"><code>std::once_flag</code></a> or
+<a href="https://en.cppreference.com/w/cpp/thread/call_once"><code>std::call_once</code></a>.</p>
+<p>C does not have an equivalent portable API for single initialization. If you
+need that, take a look at <a href="https://github.com/numpy/numpy/pull/26780">this NumPy
+PR</a> for an example using atomic
+operations and a global mutex.</p>
+<p>If the cache is in the form of a data container, then you can lock access to
+the container, like in the following example:</p>
+<div class="highlight"><pre><span></span><code><span class="cp">#ifdef Py_GIL_DISABLED</span>
+<span class="k">static</span><span class="w"> </span><span class="n">PyMutex</span><span class="w"> </span><span class="n">cache_lock</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+<span class="cp">#define LOCK() PyMutex_Lock(&amp;cache_lock)</span>
+<span class="cp">#define UNLOCK() PyMutex_Unlock(&amp;cache_lock)</span>
+<span class="cp">#else</span>
+<span class="cp">#define LOCK()</span>
+<span class="cp">#define UNLOCK()</span>
+<span class="cp">#endif</span>
+
+<span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="o">*</span><span class="n">cache</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="k">static</span><span class="w"> </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">global_table</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">initialize_table</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// called during module initialization</span>
+<span class="w">    </span><span class="n">global_table</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyDict_New</span><span class="p">();</span>
+<span class="w">    </span><span class="k">return</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">function_accessing_the_cache</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">LOCK</span><span class="p">();</span>
+<span class="w">    </span><span class="c1">// use the cache</span>
+
+<span class="w">    </span><span class="n">UNLOCK</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="dealing-with-thread-unsafe-libraries">Dealing with thread-unsafe libraries</h3>
+<p>Many C, C++, and Fortran libraries are not written in a thread-safe manner. It
+is still possible to call these libraries from free-threaded Python, but
+wrappers must add appropriate locks to prevent undefined behavior.</p>
+<p>There are two kinds of thread unsafe libraries: reentrant and non-reentrant. A
+reentrant library generally will expose state as a struct that must be passed
+to library functions. So long as the state struct is not shared between
+threads, functions in the library can be safely executed simultaneously.</p>
+<p>Wrapping reentrant libraries requires adding locking whenever the state struct
+is accessed.</p>
+<div class="highlight"><pre><span></span><code><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">lib_state_struct</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">low_level_library_state</span><span class="w"> </span><span class="o">*</span><span class="n">state</span><span class="p">;</span>
+<span class="w">    </span><span class="n">PyMutex</span><span class="w"> </span><span class="n">lock</span><span class="p">;</span>
+<span class="p">}</span><span class="w"> </span><span class="n">lib_state_struct</span><span class="p">;</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">call_library_function</span><span class="p">(</span><span class="n">lib_state_struct</span><span class="w"> </span><span class="o">*</span><span class="n">lib_state</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">PyMutex_Lock</span><span class="p">(</span><span class="n">state</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">);</span>
+<span class="w">    </span><span class="n">library_function</span><span class="p">(</span><span class="n">lib_state</span><span class="o">-&gt;</span><span class="n">state</span><span class="p">);</span>
+<span class="w">    </span><span class="n">PyMutex_Unlock</span><span class="p">(</span><span class="n">state</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">call_another_library_function</span><span class="p">(</span><span class="n">lib_state_struct</span><span class="w"> </span><span class="o">*</span><span class="n">lib_state</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">PyMutex_Lock</span><span class="p">(</span><span class="n">state</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">);</span>
+<span class="w">    </span><span class="n">another_library_function</span><span class="p">(</span><span class="n">lib_state</span><span class="o">-&gt;</span><span class="n">state</span><span class="p">);</span>
+<span class="w">    </span><span class="n">PyMutex_Unlock</span><span class="p">(</span><span class="n">state</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>With this setup, if two threads call <code>library_function</code> and
+<code>another_library_functions</code> simultaneously, one thread will block until the
+other thread finishes, preventing concurrent access to <code>lib_state-&gt;state</code>.</p>
+<p>Non-reentrant libraries provide an even weaker guarantee: threads cannot
+call library functions simultaneously without causing undefined
+behavior. Generally this is due to use of global static state in the
+library. This means that non-reentrant libraries require a global lock:</p>
+<div class="highlight"><pre><span></span><code><span class="k">static</span><span class="w"> </span><span class="n">PyMutex</span><span class="w"> </span><span class="n">global_lock</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="nf">call_library_function</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="o">*</span><span class="n">argument</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">PyMutex_Lock</span><span class="p">(</span><span class="n">global_lock</span><span class="p">);</span>
+<span class="w">    </span><span class="n">library_function</span><span class="p">(</span><span class="n">argument</span><span class="p">);</span>
+<span class="w">    </span><span class="n">PyMutex_Unlock</span><span class="p">(</span><span class="n">global_lock</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Any other wrapped function needs similar locking around each call into the
+library.</p>
+<h2 id="cython-thread-safety">Cython thread-safety</h2>
+<p>If your extension is written in Cython, you can generally assume that
+"Python-level" code that compiles to CPython C API operations on Python objects
+is thread safe, but "C-level" code (e.g. code that will compile inside a <code>with
+nogil</code> block) may have thread-safety issues. Note that not all code outside
+<code>with nogil</code> blocks is thread safe. For example, a Python wrapper for a
+thread-unsafe C library is thread-unsafe if the GIL is disabled unless there is
+locking around uses of the thread-unsafe library. Another example: using
+thread-unsafe C-level constructs like a global variable is also thread-unsafe
+if the GIL is disabled.</p>
+<h2 id="cpython-c-api-usage">CPython C API usage</h2>
+<p>In the free-threaded build it is possible for the reference count of an object
+to change "underneath" a running thread when it is mutated by another
+thread. This means that many APIs that assume reference counts cannot be
+updated by another thread while it is running are no longer thread safe. In
+particular, C code returning "borrowed" references to Python objects in mutable
+containers like lists may introduce thread-safety issues. A borrowed reference
+happens when a C API function does not increment the reference count of a
+Python object before returning the object to the caller. "New" references are
+safe to use until the owning thread releases the reference, as in non
+free-threaded code.</p>
+<p>Most direct uses of the CPython C API are thread safe. There is no need to add
+locking for scenarios that should be bugs in CPython. You can assume, for
+example, that the initializer for a Python object can only be called by one
+thread and the C-level implementation of a Python function can only be called on
+one thread. Accessing the arguments of a Python function is thread safe no
+matter what C API constructs are used and no matter whether the reference is
+borrowed or owned because two threads can't simultaneously call the same
+function with the same arguments from the same Python-level context. Of course
+it's possible to implement argument parsing in a thread-unsafe manner using
+thread-unsafe C or C++ constructs, but it's not possible to do so using the
+CPython C API.</p>
+<h3 id="unsafe-apis-returning-borrowed-references">Unsafe APIs returning borrowed references</h3>
+<p>The <code>PyDict</code> and <code>PyList</code> APIs contain many functions returning borrowed
+references to items in dicts and lists. Since these containers are mutable,
+it's possible for another thread to delete the item from the container, leading
+to the item being de-allocated while the borrowed reference is still
+"alive". Even code like this:</p>
+<div class="highlight"><pre><span></span><code><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">item</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Py_NewRef</span><span class="p">(</span><span class="n">PyList_GetItem</span><span class="p">(</span><span class="n">list_object</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">))</span>
+</code></pre></div>
+<p>Is not thread safe, because in principle it's possible for the list item to be
+de-allocated before <code>Py_NewRef</code> gets a chance to increment the reference count.</p>
+<p>For that reason, you should inspect Python C API code to look for patterns
+where a borrowed reference is returned to a shared, mutable data structure, and
+replace uses of APIs like <code>PyList_GetItem</code> with APIs exposed by the CPython C
+API returning strong references like <code>PyList_GetItemRef</code>. Not all usages are
+problematic (see above) and we do not currently suggest converting all usages of
+possibly unsafe APIs returning borrowed references to return new reference. This
+would introduce unnecessary reference count churn in situations that are
+thread-safe by construction and also likely introduce new reference counting
+bugs in C or C++ code using the C API directly. However, many usages <em>are</em>
+unsafe, and maintaining a borrowed reference to an objects that could be exposed
+to another thread is unsafe.</p>
+<h3 id="adopt-pythoncapi-compat-to-use-new-c-api-functions">Adopt <code>pythoncapi-compat</code> to use new C API functions</h3>
+<p>Rather than maintaining compatibility shims to use functions added to the C API
+for Python 3.13 like <code>PyList_GetItemRef</code> while maintaining compatibility with
+earlier Python versions, we suggest adopting the
+<a href="https://github.com/python/pythoncapi-compat"><code>pythoncapi-compat</code></a> project as a
+build-time dependency. This is a header-only library that can be vendored as
+e.g. a git submodule and included to expose shims for C API functions on older
+versions of Python that do not have implementations.</p>
+<h3 id="some-low-level-apis-dont-enforce-locking">Some low-level APIs don't enforce locking</h3>
+<p>Some low-level functions like <code>PyList_SET_ITEM</code> and <code>PyTuple_SET_ITEM</code> do not
+do any internal locking and should only be used to build newly created
+values. Do <em>not</em> use them to modify existing containers in the free-threaded
+build.</p>
+<h3 id="limited-api-support">Limited API support</h3>
+<p>The free-threaded build does not support the limited CPython C API. If you
+currently use the limited API you will not be able to use it while shipping
+binaries for the free-threaded build. This also means that code inside <code>#ifdef
+Py_GIL_DISABLED</code> checks can use C API constructs outside the limited API if you
+would like to do that, although these uses will need to be removed once the
+free-threaded build gains support for compiling with the limited API.</p>
+
+
+
+
+
+
+
+  
+    
+  
+  
+    
+  
+
+
+  <aside class="md-source-file">
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Last update">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1-2.1-2M12.5 7v5.2l4 2.4-1 1L11 13V7h1.5M11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2v1.8Z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">July 10, 2024</span>
+  </span>
+
+    
+    
+      
+  <span class="md-source-file__fact">
+    <span class="md-icon" title="Created">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3h-2Z"/></svg>
+    </span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">July 10, 2024</span>
+  </span>
+
+    
+    
+    
+  </aside>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2024- Quansight Labs & open source contributors
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/Quansight-Labs/free-threaded-compatibility" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/Quansight-Labs/free-threaded-compatibility/blob/main/LICENSE" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 10a3.04 3.04 0 0 1 3-3 3.04 3.04 0 0 1 3 3 3.04 3.04 0 0 1-3 3 3.04 3.04 0 0 1-3-3m3 9 4 1v-3.08A7.54 7.54 0 0 1 12 18a7.54 7.54 0 0 1-4-1.08V20m4-16a5.78 5.78 0 0 0-4.24 1.74A5.78 5.78 0 0 0 6 10a5.78 5.78 0 0 0 1.76 4.23A5.78 5.78 0 0 0 12 16a5.78 5.78 0 0 0 4.24-1.77A5.78 5.78 0 0 0 18 10a5.78 5.78 0 0 0-1.76-4.26A5.78 5.78 0 0 0 12 4m8 6a8.04 8.04 0 0 1-.57 2.8A7.84 7.84 0 0 1 18 15.28V23l-6-2-6 2v-7.72A7.9 7.9 0 0 1 4 10a7.68 7.68 0 0 1 2.33-5.64A7.73 7.73 0 0 1 12 2a7.73 7.73 0 0 1 5.67 2.36A7.68 7.68 0 0 1 20 10Z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["header.autohide"], "search": "../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
+      
+    
+  </body>
+</html>
