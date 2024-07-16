@@ -755,16 +755,64 @@ including C, C++, and Cython code exposed to Python.</p>
 <p>Extension modules need to explicitly indicate they support running with the GIL
 disabled, otherwise a warning is printed and the GIL is re-enabled at runtime
 after importing a module that does not support the GIL. </p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Currently it is not possible for extensions written in Cython to declare
-they support running without the GIL. Work is under way to add support
-(see <a href="https://github.com/cython/cython/pull/6242">cython#6242</a>).</p>
-</div>
 <p>C++ extension modules making use of <code>pybind11</code> can easily declare support for
 running with the GIL disabled via the
 <a href="https://pybind11.readthedocs.io/en/stable/reference.html#_CPPv4N7module_23create_extension_moduleEPKcPKcP10module_def16mod_gil_not_used"><code>gil_not_used</code></a>
 argument to <code>create_extension_module</code>.</p>
+<p>Starting with Cython 3.1.0 (only available via the nightly wheels or the <code>master</code>
+branch as of right now), extension modules written in Cython can also do so using the
+<a href="https://cython.readthedocs.io/en/latest/src/userguide/source_files_and_compilation.html#compiler-directives"><code>freethreading_compatible</code></a>
+compiler directive. It can be enabled either per module as a directive
+(<code># cython: freethreading_compatible=True</code>) in <code>.pyx</code> files, or globally by adding
+<code>-Xfreethreading_compatible=True</code> to the Cython arguments via the project's
+build system.</p>
+<p>Here are a few examples of how to globally enable the directive in a few popular
+build systems:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">setuptools</label><label for="__tabbed_1_2">Meson</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>When using setuptools, you can pass the <code>compiler_directives</code> keyword argument
+to <code>cythonize</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">Cython.Compiler.Version</span> <span class="kn">import</span> <span class="n">version</span> <span class="k">as</span> <span class="n">cython_version</span>
+<span class="kn">from</span> <span class="nn">packaging.version</span> <span class="kn">import</span> <span class="n">Version</span>
+
+<span class="n">compiler_directives</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">if</span> <span class="n">Version</span><span class="p">(</span><span class="n">cython_version</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">Version</span><span class="p">(</span><span class="s2">&quot;3.1.0a1&quot;</span><span class="p">):</span>
+    <span class="n">compiler_directives</span><span class="p">[</span><span class="s2">&quot;freethreading_compatible&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+
+<span class="n">setup</span><span class="p">(</span>
+    <span class="n">ext_modules</span><span class="o">=</span><span class="n">cythonize</span><span class="p">(</span>
+        <span class="n">extensions</span><span class="p">,</span>
+        <span class="n">compiler_directives</span><span class="o">=</span><span class="n">compiler_directives</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<p>When using Meson, you can add the directive to the <code>cython_args</code> you're
+passing to <code>py.extension_module</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="n">cy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="vm">meson</span><span class="p">.</span><span class="n">get_compiler</span><span class="p">(</span><span class="s">&#39;cython&#39;</span><span class="p">)</span>
+
+<span class="n">cython_args</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[]</span>
+<span class="k">if</span><span class="w"> </span><span class="n">cy</span><span class="p">.</span><span class="n">version</span><span class="p">().</span><span class="n">version_compare</span><span class="p">(</span><span class="s">&#39;&gt;=3.1.0&#39;</span><span class="p">)</span>
+<span class="w">    </span><span class="n">cython_args</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="p">[</span><span class="s">&#39;-Xfreethreading_compatible=True&#39;</span><span class="p">]</span>
+<span class="k">endif</span>
+
+<span class="n">py</span><span class="p">.</span><span class="n">extension_module</span><span class="p">(</span><span class="s">&#39;modulename&#39;</span>
+<span class="w">    </span><span class="s">&#39;source.pyx&#39;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">cython_args</span><span class="p">:</span><span class="w"> </span><span class="n">cython_args</span><span class="p">,</span>
+<span class="w">    </span><span class="p">...</span>
+<span class="p">)</span>
+</code></pre></div>
+<p>You can also globally add the directive for all Cython extension modules:</p>
+<div class="highlight"><pre><span></span><code><span class="n">cy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="vm">meson</span><span class="p">.</span><span class="n">get_compiler</span><span class="p">(</span><span class="s">&#39;cython&#39;</span><span class="p">)</span>
+<span class="k">if</span><span class="w"> </span><span class="n">cy</span><span class="p">.</span><span class="n">version</span><span class="p">().</span><span class="n">version_compare</span><span class="p">(</span><span class="s">&#39;&gt;=3.1.0&#39;</span><span class="p">)</span>
+<span class="w">    </span><span class="nb">add_project_arguments</span><span class="p">(</span><span class="s">&#39;-Xfreethreading_compatible=true&#39;</span><span class="p">,</span><span class="w"> </span><span class="n">language</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s">&#39;cython&#39;</span><span class="p">)</span>
+<span class="k">endif</span>
+</code></pre></div>
+</div>
+</div>
+</div>
 <p>C or C++ extension modules using multi-phase initialization can specify the
 <a href="https://docs.python.org/3.13/c-api/module.html#c.Py_mod_gil"><code>Py_mod_gil</code></a>
 module slot like this:</p>
