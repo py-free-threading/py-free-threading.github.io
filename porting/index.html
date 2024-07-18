@@ -813,6 +813,10 @@ passing to <code>py.extension_module</code>:</p>
 </div>
 </div>
 </div>
+<p>You will also need to declare support in your code.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:3"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><input id="__tabbed_2_3" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">C API</label><label for="__tabbed_2_2">Pybind11</label><label for="__tabbed_2_3">Cython</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <p>C or C++ extension modules using multi-phase initialization can specify the
 <a href="https://docs.python.org/3.13/c-api/module.html#c.Py_mod_gil"><code>Py_mod_gil</code></a>
 module slot like this:</p>
@@ -841,8 +845,33 @@ in the module's initialization function:</p>
 <span class="cp">#endif</span>
 <span class="p">}</span>
 </code></pre></div>
+</div>
+<div class="tabbed-block">
+<p>For pybind11, you need to add the <code>py::mod_gil_not_used()</code> tag to a module:</p>
+<div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;pybind11/pybind11.h&gt;</span>
+<span class="k">namespace</span><span class="w"> </span><span class="nn">py</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nn">pybind11</span><span class="p">;</span>
+
+<span class="n">PYBIND11_MODULE</span><span class="p">(</span><span class="n">example</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">py</span><span class="o">::</span><span class="n">mod_gil_not_used</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="p">...</span>
+<span class="p">}</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<p>For Cython code, you need to set the <code>freethreading_compatible</code> directive.
+You can do this in one of
+<a href="https://cython.readthedocs.io/en/latest/src/userguide/source_files_and_compilation.html#how-to-set-directives">several ways</a>,
+e.g., in a source file:</p>
+<div class="highlight"><pre><span></span><code><span class="c"># cython: freethreading_compatible=True</span>
+</code></pre></div>
+<p>Or by passing the directive when invoking the <code>cython</code> executable:</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>cython<span class="w"> </span>-X<span class="w"> </span><span class="nv">freethreading_compatible</span><span class="o">=</span>True
+</code></pre></div>
+<p>Or via a build system specific way of passing directives to Cython.</p>
+</div>
+</div>
+</div>
 <p>If you publish binaries and have downstream libraries that depend on your
-library, we suggest adding the <code>Py_mod_gil</code> slot and uploading nightly wheels
+library, we suggest adding support as described above and uploading nightly wheels
 as soon as basic support for the free-threaded build is established in the
 development branch. This will ease the work of libraries that depend on yours
 to also add support for the free-threaded build.</p>
@@ -1192,7 +1221,7 @@ free-threaded build gains support for compiling with the limited API.</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1-2.1-2M12.5 7v5.2l4 2.4-1 1L11 13V7h1.5M11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2v1.8Z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">July 16, 2024</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">July 18, 2024</span>
   </span>
 
     
