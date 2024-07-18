@@ -754,21 +754,69 @@ including C, C++, and Cython code exposed to Python.</p>
 <h3 id="declaring-free-threaded-support">Declaring free-threaded support</h3>
 <p>Extension modules need to explicitly indicate they support running with the GIL
 disabled, otherwise a warning is printed and the GIL is re-enabled at runtime
-after importing a module that does not support the GIL. </p>
+after importing a module that does not support the GIL.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:3"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">C API</label><label for="__tabbed_1_2">Pybind11</label><label for="__tabbed_1_3">Cython</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>C or C++ extension modules using multi-phase initialization can specify the
+<a href="https://docs.python.org/3.13/c-api/module.html#c.Py_mod_gil"><code>Py_mod_gil</code></a>
+module slot like this:</p>
+<div class="highlight"><pre><span></span><code><span class="k">static</span><span class="w"> </span><span class="n">PyModuleDef_Slot</span><span class="w"> </span><span class="n">module_slots</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="p">...</span>
+<span class="cp">#ifdef Py_GIL_DISABLED</span>
+<span class="w">    </span><span class="p">{</span><span class="n">Py_mod_gil</span><span class="p">,</span><span class="w"> </span><span class="n">Py_MOD_GIL_NOT_USED</span><span class="p">},</span>
+<span class="cp">#endif</span>
+<span class="w">    </span><span class="p">{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div>
+<p>The <code>Py_mod_gil</code> slot has no effect in the non-free-threaded build.</p>
+<p>Extensions that use single-phase initialization need to call
+<a href="https://docs.python.org/3.13/c-api/module.html#c.PyUnstable_Module_SetGIL"><code>PyUnstable_Module_SetGIL()</code></a>
+in the module's initialization function:</p>
+<div class="highlight"><pre><span></span><code><span class="n">PyMODINIT_FUNC</span>
+<span class="nf">PyInit__module</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">mod</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyModule_Create</span><span class="p">(</span><span class="o">&amp;</span><span class="n">module</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">mod</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="cp">#ifdef Py_GIL_DISABLED</span>
+<span class="w">    </span><span class="n">PyUnstable_Module_SetGIL</span><span class="p">(</span><span class="n">mod</span><span class="p">,</span><span class="w"> </span><span class="n">Py_MOD_GIL_NOT_USED</span><span class="p">);</span>
+<span class="cp">#endif</span>
+<span class="p">}</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
 <p>C++ extension modules making use of <code>pybind11</code> can easily declare support for
 running with the GIL disabled via the
 <a href="https://pybind11.readthedocs.io/en/stable/reference.html#_CPPv4N7module_23create_extension_moduleEPKcPKcP10module_def16mod_gil_not_used"><code>gil_not_used</code></a>
-argument to <code>create_extension_module</code>.</p>
+argument to <code>create_extension_module</code>. Example:</p>
+<div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;pybind11/pybind11.h&gt;</span>
+<span class="k">namespace</span><span class="w"> </span><span class="nn">py</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nn">pybind11</span><span class="p">;</span>
+
+<span class="n">PYBIND11_MODULE</span><span class="p">(</span><span class="n">example</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">py</span><span class="o">::</span><span class="n">mod_gil_not_used</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="p">...</span>
+<span class="p">}</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
 <p>Starting with Cython 3.1.0 (only available via the nightly wheels or the <code>master</code>
-branch as of right now), extension modules written in Cython can also do so using the
+branch as of right now), extension modules written in Cython can do so using the
 <a href="https://cython.readthedocs.io/en/latest/src/userguide/source_files_and_compilation.html#compiler-directives"><code>freethreading_compatible</code></a>
-compiler directive. It can be enabled either per module as a directive
-(<code># cython: freethreading_compatible=True</code>) in <code>.pyx</code> files, or globally by adding
-<code>-Xfreethreading_compatible=True</code> to the Cython arguments via the project's
-build system.</p>
+compiler directive.</p>
+<p>You can do this in one of
+<a href="https://cython.readthedocs.io/en/latest/src/userguide/source_files_and_compilation.html#how-to-set-directives">several ways</a>,
+e.g., in a source file:</p>
+<div class="highlight"><pre><span></span><code><span class="c"># cython: freethreading_compatible=True</span>
+</code></pre></div>
+<p>Or by passing the directive when invoking the <code>cython</code> executable:</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>cython<span class="w"> </span>-X<span class="w"> </span><span class="nv">freethreading_compatible</span><span class="o">=</span>True
+</code></pre></div>
+<p>Or via a build system specific way of passing directives to Cython.</p>
 <p>Here are a few examples of how to globally enable the directive in a few popular
 build systems:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">setuptools</label><label for="__tabbed_1_2">Meson</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">setuptools</label><label for="__tabbed_2_2">Meson</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <p>When using setuptools, you can pass the <code>compiler_directives</code> keyword argument
@@ -813,60 +861,6 @@ passing to <code>py.extension_module</code>:</p>
 </div>
 </div>
 </div>
-<p>You will also need to declare support in your code.</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="2:3"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><input id="__tabbed_2_3" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">C API</label><label for="__tabbed_2_2">Pybind11</label><label for="__tabbed_2_3">Cython</label></div>
-<div class="tabbed-content">
-<div class="tabbed-block">
-<p>C or C++ extension modules using multi-phase initialization can specify the
-<a href="https://docs.python.org/3.13/c-api/module.html#c.Py_mod_gil"><code>Py_mod_gil</code></a>
-module slot like this:</p>
-<div class="highlight"><pre><span></span><code><span class="k">static</span><span class="w"> </span><span class="n">PyModuleDef_Slot</span><span class="w"> </span><span class="n">module_slots</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="p">...</span>
-<span class="cp">#ifdef Py_GIL_DISABLED</span>
-<span class="w">    </span><span class="p">{</span><span class="n">Py_mod_gil</span><span class="p">,</span><span class="w"> </span><span class="n">Py_MOD_GIL_NOT_USED</span><span class="p">},</span>
-<span class="cp">#endif</span>
-<span class="w">    </span><span class="p">{</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">}</span>
-<span class="p">};</span>
-</code></pre></div>
-<p>The <code>Py_mod_gil</code> slot has no effect in the non-free-threaded build.</p>
-<p>Extensions that use single-phase initialization need to call
-<a href="https://docs.python.org/3.13/c-api/module.html#c.PyUnstable_Module_SetGIL"><code>PyUnstable_Module_SetGIL()</code></a>
-in the module's initialization function:</p>
-<div class="highlight"><pre><span></span><code><span class="n">PyMODINIT_FUNC</span>
-<span class="nf">PyInit__module</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
-<span class="p">{</span>
-<span class="w">    </span><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">mod</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">PyModule_Create</span><span class="p">(</span><span class="o">&amp;</span><span class="n">module</span><span class="p">);</span>
-<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">mod</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span>
-<span class="w">    </span><span class="p">}</span>
-
-<span class="cp">#ifdef Py_GIL_DISABLED</span>
-<span class="w">    </span><span class="n">PyUnstable_Module_SetGIL</span><span class="p">(</span><span class="n">mod</span><span class="p">,</span><span class="w"> </span><span class="n">Py_MOD_GIL_NOT_USED</span><span class="p">);</span>
-<span class="cp">#endif</span>
-<span class="p">}</span>
-</code></pre></div>
-</div>
-<div class="tabbed-block">
-<p>For pybind11, you need to add the <code>py::mod_gil_not_used()</code> tag to a module:</p>
-<div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;pybind11/pybind11.h&gt;</span>
-<span class="k">namespace</span><span class="w"> </span><span class="nn">py</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nn">pybind11</span><span class="p">;</span>
-
-<span class="n">PYBIND11_MODULE</span><span class="p">(</span><span class="n">example</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">py</span><span class="o">::</span><span class="n">mod_gil_not_used</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="p">...</span>
-<span class="p">}</span>
-</code></pre></div>
-</div>
-<div class="tabbed-block">
-<p>For Cython code, you need to set the <code>freethreading_compatible</code> directive.
-You can do this in one of
-<a href="https://cython.readthedocs.io/en/latest/src/userguide/source_files_and_compilation.html#how-to-set-directives">several ways</a>,
-e.g., in a source file:</p>
-<div class="highlight"><pre><span></span><code><span class="c"># cython: freethreading_compatible=True</span>
-</code></pre></div>
-<p>Or by passing the directive when invoking the <code>cython</code> executable:</p>
-<div class="highlight"><pre><span></span><code>$<span class="w"> </span>cython<span class="w"> </span>-X<span class="w"> </span><span class="nv">freethreading_compatible</span><span class="o">=</span>True
-</code></pre></div>
-<p>Or via a build system specific way of passing directives to Cython.</p>
 </div>
 </div>
 </div>
