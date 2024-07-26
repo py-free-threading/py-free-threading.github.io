@@ -440,10 +440,10 @@ build on a CI runner is with the <code>deadsnakes</code> Ubuntu PPA and the
 <span class="w">  </span><span class="nt">free-threaded</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
 <span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@...</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deadsnakes/action@...</span>
-<span class="w">      </span><span class="nt">with</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">python-version</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;3.13-dev&#39;</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@...</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deadsnakes/action@...</span>
+<span class="w">        </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">python-version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3.13-dev</span>
 <span class="w">          </span><span class="nt">nogil</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 </code></pre></div>
 <p>You should replace the ellipses with versions for the actions. If there is a
@@ -455,15 +455,15 @@ nightly wheels, we suggest configuring <code>cibuildwheel</code> to build nightl
 free-threaded wheels.</p>
 <p>You will need to specify the following variables in the environment for the
 cibuildwheel action:</p>
-<div class="highlight"><pre><span></span><code><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Build wheels</span>
-<span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pypa/cibuildwheel@...</span>
-<span class="w">        </span><span class="nt">env</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">CIBW_PRERELEASE_PYTHONS</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
-<span class="w">          </span><span class="nt">CIBW_FREE_THREADED_SUPPORT</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">True</span>
-<span class="w">          </span><span class="nt">CIBW_BUILD</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cp313t-${{ matrix.buildplat }}</span>
-<span class="w">          </span><span class="c1"># TODO: remove along with installing build deps in</span>
-<span class="w">          </span><span class="c1"># cibw_before_build.sh when a released cython can build numpy</span>
-<span class="w">          </span><span class="nt">CIBW_BUILD_FRONTEND</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;pip;</span><span class="nv"> </span><span class="s">args:</span><span class="nv"> </span><span class="s">--no-build-isolation&quot;</span>
+<div class="highlight"><pre><span></span><code><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Build wheels</span>
+<span class="w">    </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pypa/cibuildwheel@...</span>
+<span class="w">    </span><span class="nt">env</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">CIBW_PRERELEASE_PYTHONS</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">      </span><span class="nt">CIBW_FREE_THREADED_SUPPORT</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">      </span><span class="nt">CIBW_BUILD</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cp313t-${{ matrix.buildplat }}</span>
+<span class="w">          </span><span class="l l-Scalar l-Scalar-Plain"># TODO</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">remove along with installing build deps in</span>
+<span class="w">          </span><span class="l l-Scalar l-Scalar-Plain"># cibw_before_build.sh when a released cython can build numpy</span>
+<span class="w">      </span><span class="nt">CIBW_BUILD_FRONTEND</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;pip;</span><span class="nv"> </span><span class="s">args:</span><span class="nv"> </span><span class="s">--no-build-isolation&#39;</span>
 </code></pre></div>
 <p>As above, replace the ellipses with a <code>cibuildwheel</code> version.</p>
 <p>If your project depends on Cython, you will need to install a Cython nightly
@@ -472,7 +472,7 @@ that will compile under the free-threaded build. You likely do not need to
 disable <code>pip</code>'s build isolation if your project does not depend on Cython.</p>
 <p>You can install nightly wheels for Cython and NumPy using the following
 install command:</p>
-<div class="highlight"><pre><span></span><code>pip install -i https://pypi.anaconda.org/scientific-python-nightly-wheels/simple cython numpy
+<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>-i<span class="w"> </span>https://pypi.anaconda.org/scientific-python-nightly-wheels/simple<span class="w"> </span>cython<span class="w"> </span>numpy
 </code></pre></div>
 <p>Note that nightly wheels may not be available on all platforms yet. Windows
 wheels, in particular, are not currently available for NumPy or projects that
@@ -505,7 +505,7 @@ module supports running without the GIL.</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1-2.1-2M12.5 7v5.2l4 2.4-1 1L11 13V7h1.5M11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2v1.8Z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">July 18, 2024</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">July 26, 2024</span>
   </span>
 
     
