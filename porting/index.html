@@ -884,6 +884,13 @@ passing to <code>py.extension_module</code>:</p>
 </div>
 </div>
 </div>
+<p>In CI, you will need to ensure a nightly cython is installed for
+free-threaded builds and disable build isolation by passing
+<code>--no-build-isolation</code> to <code>pip</code> at build time. If you
+use <code>cibuildwheel</code> to produce wheels, you can conditionally set
+<code>CIBW_BUILD_FRONTEND</code> to <code>build; args: --no-build-isolation</code> for free-threaded
+builds. If your project normally uses <code>pip</code> to build wheels, the variable
+should be set to <code>pip; args --no-build-isolation</code>.</p>
 </div>
 <div class="tabbed-block">
 <p>Starting with NumPy 2.1.0 (only available via the nightly wheels or the
