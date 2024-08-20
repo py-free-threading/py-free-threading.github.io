@@ -16,7 +16,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.31">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.32">
     
     
       
@@ -615,8 +615,60 @@ that you have to customize the install - e.g., for Windows there is a
 <em>Download free-threaded binaries</em> checkbox under "Advanced Options".
 See also the <a href="https://docs.python.org/3.13/using/windows.html#installing-free-threaded-binaries">Using Python on Windows</a>
 section of the Python 3.13 docs.</p>
+<p>Automating the process of downloading the official installers
+and installing the free-threaded binaries is also possible:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Windows</label><label for="__tabbed_1_2">macOS</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>On Windows, you can invoke the installer from the command-line prompt:</p>
+<div class="highlight"><pre><span></span><code><span class="nv">$url</span> <span class="p">=</span> <span class="s1">&#39;https://www.python.org/ftp/python/3.13.0/python-3.13.0rc1-amd64.exe&#39;</span>
+<span class="nb">Invoke-WebRequest</span> <span class="n">-Uri</span> <span class="nv">$url</span> <span class="n">-OutFile</span> <span class="s1">&#39;python.exe&#39;</span>
+<span class="n">python</span><span class="p">.</span><span class="n">exe</span> <span class="p">/</span><span class="n">quiet</span> <span class="n">Include_freethreaded</span><span class="p">=</span><span class="n">1</span>
+</code></pre></div>
+<p>If you are running this script without administrator privileges,
+a UAC prompt will trigger when you try to run the installer.
+The resulting Python installation will be available afterwards
+in <code>AppData\Local\Programs\Python\Python313\python3.13t.exe</code>.
+See <a href="https://docs.python.org/3.13/using/windows.html#installing-without-ui">Installing Without UI</a>
+for more information.</p>
+</div>
+<div class="tabbed-block">
+<p>On macOS, you can use <code>installer</code> to install a macOS package you've
+downloaded:</p>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-O<span class="w"> </span>https://www.python.org/ftp/python/3.13.0/python-3.13.0rc1-macos11.pkg
+
+<span class="c1"># create installer choice changes to customize the install:</span>
+<span class="c1">#    enable the PythonTFramework-3.13 package</span>
+<span class="c1">#    while accepting the other defaults (install all other packages)</span>
+cat<span class="w"> </span>&gt;<span class="w"> </span>./choicechanges.plist<span class="w"> </span><span class="s">&lt;&lt;EOF</span>
+<span class="s">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="s">&lt;!DOCTYPE plist PUBLIC &quot;-//Apple//DTD PLIST 1.0//EN&quot; &quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;&gt;</span>
+<span class="s">&lt;plist version=&quot;1.0&quot;&gt;</span>
+<span class="s">&lt;array&gt;</span>
+<span class="s">        &lt;dict&gt;</span>
+<span class="s">                &lt;key&gt;attributeSetting&lt;/key&gt;</span>
+<span class="s">                &lt;integer&gt;1&lt;/integer&gt;</span>
+<span class="s">                &lt;key&gt;choiceAttribute&lt;/key&gt;</span>
+<span class="s">                &lt;string&gt;selected&lt;/string&gt;</span>
+<span class="s">                &lt;key&gt;choiceIdentifier&lt;/key&gt;</span>
+<span class="s">                &lt;string&gt;org.python.Python.PythonTFramework-3.13&lt;/string&gt;</span>
+<span class="s">        &lt;/dict&gt;</span>
+<span class="s">&lt;/array&gt;</span>
+<span class="s">&lt;/plist&gt;</span>
+<span class="s">EOF</span>
+
+sudo<span class="w"> </span>installer<span class="w"> </span>-pkg<span class="w"> </span>./python-3.13.0rc1-macos11.pkg<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-applyChoiceChangesXML<span class="w"> </span>./choicechanges.plist<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-target<span class="w"> </span>/
+rm<span class="w"> </span>-f<span class="w"> </span>python-3.13.0rc1-macos11.pkg
+</code></pre></div>
+<p>See also <a href="https://github.com/python/cpython/issues/120098">this Github issue</a>
+for more information.</p>
+</div>
+</div>
+</div>
 <h3 id="linux-distros">Linux distros</h3>
-<div class="tabbed-set tabbed-alternate" data-tabs="1:3"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Fedora</label><label for="__tabbed_1_2">Nixpkgs</label><label for="__tabbed_1_3">Ubuntu</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:3"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><input id="__tabbed_2_3" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Fedora</label><label for="__tabbed_2_2">Nixpkgs</label><label for="__tabbed_2_3">Ubuntu</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <p>Fedora ships a packaged version, which you can install with:</p>
@@ -699,7 +751,7 @@ do that, you can use the following:</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1-2.1-2M12.5 7v5.2l4 2.4-1 1L11 13V7h1.5M11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2v1.8Z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">July 26, 2024</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">August 20, 2024</span>
   </span>
 
     
@@ -788,7 +840,7 @@ do that, you can use the following:</p>
     <script id="__config" type="application/json">{"base": "..", "features": ["header.autohide"], "search": "../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
+      <script src="../assets/javascripts/bundle.471ce7a9.min.js"></script>
       
     
   </body>
