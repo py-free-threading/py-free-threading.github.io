@@ -621,7 +621,7 @@ and installing the free-threaded binaries is also possible:</p>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <p>On Windows, you can invoke the installer from the command-line prompt:</p>
-<div class="highlight"><pre><span></span><code><span class="nv">$url</span> <span class="p">=</span> <span class="s1">&#39;https://www.python.org/ftp/python/3.13.0/python-3.13.0rc1-amd64.exe&#39;</span>
+<div class="highlight"><pre><span></span><code><span class="nv">$url</span> <span class="p">=</span> <span class="s1">&#39;https://www.python.org/ftp/python/3.13.0/python-3.13.0rc2-amd64.exe&#39;</span>
 <span class="nb">Invoke-WebRequest</span> <span class="n">-Uri</span> <span class="nv">$url</span> <span class="n">-OutFile</span> <span class="s1">&#39;python.exe&#39;</span>
 <span class="n">python</span><span class="p">.</span><span class="n">exe</span> <span class="p">/</span><span class="n">quiet</span> <span class="n">Include_freethreaded</span><span class="p">=</span><span class="n">1</span>
 </code></pre></div>
@@ -635,7 +635,7 @@ for more information.</p>
 <div class="tabbed-block">
 <p>On macOS, you can use <code>installer</code> to install a macOS package you've
 downloaded:</p>
-<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-O<span class="w"> </span>https://www.python.org/ftp/python/3.13.0/python-3.13.0rc1-macos11.pkg
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-O<span class="w"> </span>https://www.python.org/ftp/python/3.13.0/python-3.13.0rc2-macos11.pkg
 
 <span class="c1"># create installer choice changes to customize the install:</span>
 <span class="c1">#    enable the PythonTFramework-3.13 package</span>
@@ -657,10 +657,10 @@ cat<span class="w"> </span>&gt;<span class="w"> </span>./choicechanges.plist<spa
 <span class="s">&lt;/plist&gt;</span>
 <span class="s">EOF</span>
 
-sudo<span class="w"> </span>installer<span class="w"> </span>-pkg<span class="w"> </span>./python-3.13.0rc1-macos11.pkg<span class="w"> </span><span class="se">\</span>
+sudo<span class="w"> </span>installer<span class="w"> </span>-pkg<span class="w"> </span>./python-3.13.0rc2-macos11.pkg<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>-applyChoiceChangesXML<span class="w"> </span>./choicechanges.plist<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>-target<span class="w"> </span>/
-rm<span class="w"> </span>-f<span class="w"> </span>python-3.13.0rc1-macos11.pkg
+rm<span class="w"> </span>-f<span class="w"> </span>python-3.13.0rc2-macos11.pkg
 </code></pre></div>
 <p>See also <a href="https://github.com/python/cpython/issues/120098">this Github issue</a>
 for more information.</p>
@@ -751,7 +751,7 @@ do that, you can use the following:</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">August 20, 2024</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">September 9, 2024</span>
   </span>
 
     
