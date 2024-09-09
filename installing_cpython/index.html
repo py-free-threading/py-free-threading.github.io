@@ -365,9 +365,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#conda" class="md-nav__link">
+  <a href="#conda-forge" class="md-nav__link">
     <span class="md-ellipsis">
-      Conda
+      Conda-forge
     </span>
   </a>
   
@@ -539,9 +539,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#conda" class="md-nav__link">
+  <a href="#conda-forge" class="md-nav__link">
     <span class="md-ellipsis">
-      Conda
+      Conda-forge
     </span>
   </a>
   
@@ -697,10 +697,8 @@ sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w
 </div>
 </div>
 </div>
-<h3 id="conda">Conda</h3>
-<p>Conda packages are currently available for macOS arm64 and Linux x86-64 under a
-label in the <code>ad-testing</code> (<code>ad</code> means "anaconda distribution") channel:</p>
-<div class="highlight"><pre><span></span><code>conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>nogil<span class="w"> </span>-c<span class="w"> </span>defaults<span class="w"> </span>-c<span class="w"> </span>ad-testing/label/py313_nogil<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.13
+<h3 id="conda-forge">Conda-forge</h3>
+<div class="highlight"><pre><span></span><code>mamba<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>nogil<span class="w"> </span>-c<span class="w"> </span>conda-forge/label/python_rc<span class="w"> </span>python-freethreading
 </code></pre></div>
 <h2 id="containers">Containers</h2>
 <p>The <a href="https://github.com/pypa/manylinux">manylinux containers</a> have free-threaded
