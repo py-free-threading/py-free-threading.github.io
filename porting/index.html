@@ -1119,15 +1119,15 @@ is accessed.</p>
 <span class="p">}</span><span class="w"> </span><span class="n">lib_state_struct</span><span class="p">;</span>
 
 <span class="kt">int</span><span class="w"> </span><span class="nf">call_library_function</span><span class="p">(</span><span class="n">lib_state_struct</span><span class="w"> </span><span class="o">*</span><span class="n">lib_state</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">PyMutex_Lock</span><span class="p">(</span><span class="n">lib_state</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">);</span>
+<span class="w">    </span><span class="n">PyMutex_Lock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">lib_state</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">);</span>
 <span class="w">    </span><span class="n">library_function</span><span class="p">(</span><span class="n">lib_state</span><span class="o">-&gt;</span><span class="n">state</span><span class="p">);</span>
-<span class="w">    </span><span class="n">PyMutex_Unlock</span><span class="p">(</span><span class="n">lib_state</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">)</span>
+<span class="w">    </span><span class="n">PyMutex_Unlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">lib_state</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">)</span>
 <span class="p">}</span>
 
 <span class="kt">int</span><span class="w"> </span><span class="nf">call_another_library_function</span><span class="p">(</span><span class="n">lib_state_struct</span><span class="w"> </span><span class="o">*</span><span class="n">lib_state</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">PyMutex_Lock</span><span class="p">(</span><span class="n">lib_state</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">);</span>
+<span class="w">    </span><span class="n">PyMutex_Lock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">lib_state</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">);</span>
 <span class="w">    </span><span class="n">another_library_function</span><span class="p">(</span><span class="n">lib_state</span><span class="o">-&gt;</span><span class="n">state</span><span class="p">);</span>
-<span class="w">    </span><span class="n">PyMutex_Unlock</span><span class="p">(</span><span class="n">lib_state</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">)</span>
+<span class="w">    </span><span class="n">PyMutex_Unlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">lib_state</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>With this setup, if two threads call <code>library_function</code> and
@@ -1140,9 +1140,9 @@ library. This means that non-reentrant libraries require a global lock:</p>
 <div class="highlight"><pre><span></span><code><span class="k">static</span><span class="w"> </span><span class="n">PyMutex</span><span class="w"> </span><span class="n">global_lock</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">0</span><span class="p">};</span>
 
 <span class="kt">int</span><span class="w"> </span><span class="nf">call_library_function</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="o">*</span><span class="n">argument</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="n">PyMutex_Lock</span><span class="p">(</span><span class="n">global_lock</span><span class="p">);</span>
+<span class="w">    </span><span class="n">PyMutex_Lock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">global_lock</span><span class="p">);</span>
 <span class="w">    </span><span class="n">library_function</span><span class="p">(</span><span class="n">argument</span><span class="p">);</span>
-<span class="w">    </span><span class="n">PyMutex_Unlock</span><span class="p">(</span><span class="n">global_lock</span><span class="p">);</span>
+<span class="w">    </span><span class="n">PyMutex_Unlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">global_lock</span><span class="p">);</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>Any other wrapped function needs similar locking around each call into the
