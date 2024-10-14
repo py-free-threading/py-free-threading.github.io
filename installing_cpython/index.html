@@ -365,9 +365,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#conda-forge" class="md-nav__link">
+  <a href="#conda-packages" class="md-nav__link">
     <span class="md-ellipsis">
-      Conda-forge
+      Conda Packages
     </span>
   </a>
   
@@ -539,9 +539,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#conda-forge" class="md-nav__link">
+  <a href="#conda-packages" class="md-nav__link">
     <span class="md-ellipsis">
-      Conda-forge
+      Conda Packages
     </span>
   </a>
   
@@ -697,9 +697,24 @@ sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w
 </div>
 </div>
 </div>
-<h3 id="conda-forge">Conda-forge</h3>
+<h3 id="conda-packages">Conda Packages</h3>
+<div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">Conda-forge</label><label for="__tabbed_3_2">Anaconda Testing</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>mamba<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>nogil<span class="w"> </span>-c<span class="w"> </span>conda-forge<span class="w"> </span>python-freethreading
 </code></pre></div>
+</div>
+<div class="tabbed-block">
+<p>Anaconda's test channel includes the Python interpreter and ABI-compatible
+builds of many common packages, like NumPy, Cython, Pandas, etc.  These
+packages use the <code>python_abi</code> metapackage and should be compatible with
+conda-forge:</p>
+<div class="highlight"><pre><span></span><code>conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>nogil<span class="w"> </span>--override-channels<span class="w"> </span>-c<span class="w"> </span>ad-testing/label/py313<span class="w"> </span>-c<span class="w"> </span>https://repo.anaconda.com/pkgs/main<span class="w"> </span>python-freethreading
+</code></pre></div>
+<p><a href="https://anaconda.org/ad-testing/repo?label=py313_nogil&amp;type=any">Full list of Anaconda test packages built with free-threading ABI.</a></p>
+</div>
+</div>
+</div>
 <h2 id="containers">Containers</h2>
 <p>The <a href="https://github.com/pypa/manylinux">manylinux containers</a> have free-threaded
 builds. You can use any of the actively supported images:</p>
