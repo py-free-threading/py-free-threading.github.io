@@ -20,7 +20,7 @@
     
     
       
-        <title>Porting Extension Modules to Support Free-Threading - py-free-threading</title>
+        <title>Porting Python Packages to Support Free-Threading - py-free-threading</title>
       
     
     
@@ -72,7 +72,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#porting-extension-modules-to-support-free-threading" class="md-skip">
+        <a href="#porting-python-packages-to-support-free-threading" class="md-skip">
           Skip to content
         </a>
       
@@ -108,7 +108,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Porting Extension Modules to Support Free-Threading
+              Porting Python Packages to Support Free-Threading
             
           </span>
         </div>
@@ -344,7 +344,7 @@
           
   
   <span class="md-ellipsis">
-    Porting Extension Modules to Support Free-Threading
+    Porting Python Packages to Support Free-Threading
   </span>
   
 
@@ -355,7 +355,7 @@
         
   
   <span class="md-ellipsis">
-    Porting Extension Modules to Support Free-Threading
+    Porting Python Packages to Support Free-Threading
   </span>
   
 
@@ -377,28 +377,19 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#declaring-free-threaded-support" class="md-nav__link">
+  <a href="#updating-extension-modules" class="md-nav__link">
     <span class="md-ellipsis">
-      Declaring free-threaded support
+      Updating Extension Modules
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#suggested-plan-of-attack" class="md-nav__link">
-    <span class="md-ellipsis">
-      Suggested Plan of Attack
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Suggested Plan of Attack">
+    <nav class="md-nav" aria-label="Updating Extension Modules">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#locking-and-synchronization-primitives" class="md-nav__link">
+  <a href="#declaring-free-threaded-support" class="md-nav__link">
     <span class="md-ellipsis">
-      Locking and Synchronization Primitives
+      Declaring free-threaded support
     </span>
   </a>
   
@@ -410,19 +401,70 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#global-state" class="md-nav__link">
+  <a href="#suggested-plan-of-attack" class="md-nav__link">
     <span class="md-ellipsis">
-      Global state
+      Suggested Plan of Attack
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Global state">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#locking-and-synchronization-primitives" class="md-nav__link">
+    <span class="md-ellipsis">
+      Locking and Synchronization Primitives
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Locking and Synchronization Primitives">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#converting-to-thread-local-state" class="md-nav__link">
+  <a href="#native-mutexes" class="md-nav__link">
     <span class="md-ellipsis">
-      Converting to thread local state
+      Native mutexes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pymutex" class="md-nav__link">
+    <span class="md-ellipsis">
+      PyMutex
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#critical-sections" class="md-nav__link">
+    <span class="md-ellipsis">
+      Critical Sections
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dealing-with-global-state" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dealing with global state
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Dealing with global state">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#converting-global-state-to-thread-local-state" class="md-nav__link">
+    <span class="md-ellipsis">
+      Converting global state to thread local state
     </span>
   </a>
   
@@ -437,19 +479,43 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#dealing-with-thread-unsafe-libraries" class="md-nav__link">
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fixing-thread-unsafe-tests" class="md-nav__link">
     <span class="md-ellipsis">
-      Dealing with thread-unsafe libraries
+      Fixing thread-unsafe tests.
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Fixing thread-unsafe tests.">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pytest-is-not-thread-safe" class="md-nav__link">
+    <span class="md-ellipsis">
+      pytest is not thread-safe
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#dealing-with-thread-unsafe-objects" class="md-nav__link">
+  <a href="#the-warnings-module-is-not-thread-safe" class="md-nav__link">
     <span class="md-ellipsis">
-      Dealing with thread-unsafe objects
+      The warnings module is not thread-safe
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#file-system-thread-safety" class="md-nav__link">
+    <span class="md-ellipsis">
+      File system thread safety
     </span>
   </a>
   
@@ -461,9 +527,27 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#dealing-with-thread-unsafe-libraries" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dealing with thread-unsafe libraries
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dealing-with-thread-unsafe-objects" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dealing with thread-unsafe objects
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#cython-thread-safety" class="md-nav__link">
     <span class="md-ellipsis">
-      Cython thread-safety
+      Cython thread safety
     </span>
   </a>
   
@@ -595,28 +679,19 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#declaring-free-threaded-support" class="md-nav__link">
+  <a href="#updating-extension-modules" class="md-nav__link">
     <span class="md-ellipsis">
-      Declaring free-threaded support
+      Updating Extension Modules
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#suggested-plan-of-attack" class="md-nav__link">
-    <span class="md-ellipsis">
-      Suggested Plan of Attack
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Suggested Plan of Attack">
+    <nav class="md-nav" aria-label="Updating Extension Modules">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#locking-and-synchronization-primitives" class="md-nav__link">
+  <a href="#declaring-free-threaded-support" class="md-nav__link">
     <span class="md-ellipsis">
-      Locking and Synchronization Primitives
+      Declaring free-threaded support
     </span>
   </a>
   
@@ -628,19 +703,70 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#global-state" class="md-nav__link">
+  <a href="#suggested-plan-of-attack" class="md-nav__link">
     <span class="md-ellipsis">
-      Global state
+      Suggested Plan of Attack
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Global state">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#locking-and-synchronization-primitives" class="md-nav__link">
+    <span class="md-ellipsis">
+      Locking and Synchronization Primitives
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Locking and Synchronization Primitives">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#converting-to-thread-local-state" class="md-nav__link">
+  <a href="#native-mutexes" class="md-nav__link">
     <span class="md-ellipsis">
-      Converting to thread local state
+      Native mutexes
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pymutex" class="md-nav__link">
+    <span class="md-ellipsis">
+      PyMutex
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#critical-sections" class="md-nav__link">
+    <span class="md-ellipsis">
+      Critical Sections
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dealing-with-global-state" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dealing with global state
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Dealing with global state">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#converting-global-state-to-thread-local-state" class="md-nav__link">
+    <span class="md-ellipsis">
+      Converting global state to thread local state
     </span>
   </a>
   
@@ -655,19 +781,43 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#dealing-with-thread-unsafe-libraries" class="md-nav__link">
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fixing-thread-unsafe-tests" class="md-nav__link">
     <span class="md-ellipsis">
-      Dealing with thread-unsafe libraries
+      Fixing thread-unsafe tests.
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Fixing thread-unsafe tests.">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pytest-is-not-thread-safe" class="md-nav__link">
+    <span class="md-ellipsis">
+      pytest is not thread-safe
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#dealing-with-thread-unsafe-objects" class="md-nav__link">
+  <a href="#the-warnings-module-is-not-thread-safe" class="md-nav__link">
     <span class="md-ellipsis">
-      Dealing with thread-unsafe objects
+      The warnings module is not thread-safe
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#file-system-thread-safety" class="md-nav__link">
+    <span class="md-ellipsis">
+      File system thread safety
     </span>
   </a>
   
@@ -679,9 +829,27 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#dealing-with-thread-unsafe-libraries" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dealing with thread-unsafe libraries
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dealing-with-thread-unsafe-objects" class="md-nav__link">
+    <span class="md-ellipsis">
+      Dealing with thread-unsafe objects
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#cython-thread-safety" class="md-nav__link">
     <span class="md-ellipsis">
-      Cython thread-safety
+      Cython thread safety
     </span>
   </a>
   
@@ -756,21 +924,23 @@
   
 
 
-<h1 id="porting-extension-modules-to-support-free-threading">Porting Extension Modules to Support Free-Threading</h1>
-<p>Many Python extension modules are not thread-safe in the free-threaded build as
-of mid-2024. Up until now, the GIL has added implicit locking around any
-operation in Python or C that holds the GIL, and the GIL must be explicitly
-dropped before many thread-safety issues become problematic. Also, because of
-the GIL, attempting to parallelize many workflows using the Python
+<h1 id="porting-python-packages-to-support-free-threading">Porting Python Packages to Support Free-Threading</h1>
+<p>Many Python packages, particularly packages relying on C extension modules, are
+not thread-safe in the free-threaded build as of mid-2024. Up until now, the GIL
+has added implicit locking around any operation in Python or C that holds the
+GIL, and the GIL must be explicitly dropped before many thread safety issues
+become problematic. Also, because of the GIL, attempting to parallelize many
+workflows using the Python
 <a href="https://docs.python.org/3/library/threading.html">threading</a> module will not
-produce any speedups, so thread-safety issues that are possible even with the
+produce any speedups, so thread safety issues that are possible even with the
 GIL are not hit often since users do not make use of threading as much as other
 parallelization strategies. This means many codebases have threading bugs that
 up-until-now have only been theoretical or present in niche use cases. With
 free-threading, many more users will want to use Python threads.</p>
-<p>This means we must analyze the codebases of extension modules to identify
-thread-safety issues and make changes to thread-unsafe low-level code,
-including C, C++, and Cython code exposed to Python.</p>
+<p>This means we must analyze Python codebases, particularly in low-level extension
+modules, to identify thread safety issues and make changes to thread-unsafe
+low-level code, including C, C++, and Cython code exposed to Python.</p>
+<h2 id="updating-extension-modules">Updating Extension Modules</h2>
 <h3 id="declaring-free-threaded-support">Declaring free-threaded support</h3>
 <p>Extension modules need to explicitly indicate they support running with the GIL
 disabled, otherwise a warning is printed and the GIL is re-enabled at runtime
@@ -893,7 +1063,7 @@ how to build projects that depend on Cython.</p>
 <div class="tabbed-block">
 <p>Starting with NumPy 2.1.0 (only available via the nightly wheels or the
 <code>main</code> branch as of right now), extension modules containing f2py-wrapped
-Fortran code can declare they are thread safe and support free-threading
+Fortran code can declare they are thread-safe and support free-threading
 using the
 <a href="https://numpy.org/devdocs/f2py/usage.html#extension-module-construction"><code>--freethreading-compatible</code></a>
 command-line argument:</p>
@@ -908,7 +1078,7 @@ as soon as basic support for the free-threaded build is established in the
 development branch. This will ease the work of libraries that depend on yours
 to also add support for the free-threaded build.</p>
 <h2 id="suggested-plan-of-attack">Suggested Plan of Attack</h2>
-<p>Put priority on thread-safety issues surfaced by real-world testing. Run the
+<p>Put priority on thread safety issues surfaced by real-world testing. Run the
 test suite for your project and fix any failures that occur only with the GIL
 disabled. Some issues may be due to changes in Python 3.13 that are not
 specific to the free-threaded build.</p>
@@ -922,6 +1092,14 @@ class is a lightweight way to create multithreaded tests where many threads
 repeatedly call a function simultaneously. You can also use the <code>threading</code>
 module directly. Adding a <code>threading.Barrier</code> before your test code is a good
 way to synchronize workers and encourage a race condition.</p>
+<p>You can also look at
+<a href="https://github.com/Quansight-Labs/pytest-run-parallel">pytest-run-parallel</a> as
+well as
+<a href="https://github.com/tonybaloney/pytest-freethreaded">pytest-freethreaded</a>, which
+both offer pytest plugins to enable running tests in an existing <code>pytest</code> test
+suite simultaneously in many threads. See the section below on <a href="./#dealing-with-global-state-in-tests">global state in
+tests</a> for more information
+about updating test suites to work with the free-threaded build.</p>
 <p>Many C and C++ extensions assume the GIL serializes access to state shared
 between threads, introducing the possibility of data races and race conditions
 that were impossible before when the GIL is disabled.</p>
@@ -965,18 +1143,59 @@ pre-existing thread safety issues can be dealt with later once the
 free-threaded build is used more. The goal for now should be to enable further
 refinement and experimentation by fixing issues that prevent using the library
 at all.</p>
-<h3 id="locking-and-synchronization-primitives">Locking and Synchronization Primitives</h3>
+<h2 id="locking-and-synchronization-primitives">Locking and Synchronization Primitives</h2>
+<h3 id="native-mutexes">Native mutexes</h3>
 <p>If your extension is written in C++, Rust, or another modern language that
 exposes locking primitives in the standard library, you should consider using
 the locking primitives provided by your language or framework to add locks when
 needed.</p>
+<p>If you need to call arbitrary Python code while the lock is held, care
+should be taken to avoid creating deadlocks with the GIL on the GIL-enabled
+build.</p>
+<h3 id="pymutex"><code>PyMutex</code></h3>
 <p>For C code or C-like C++ code, the CPython 3.13 C API exposes
 <a href="https://docs.python.org/3.13/c-api/init.html#c.PyMutex"><code>PyMutex</code></a>, a
 high-performance locking primitive that supports static allocation. As of
 CPython 3.13, the mutex requires only one byte for storage, but future versions
 of CPython may change that, so you should not rely on the size of <code>PyMutex</code> in
 your code.</p>
-<h2 id="global-state">Global state</h2>
+<p>You can use <code>PyMutex</code> in both the free-threaded and GIL-enabled build of Python
+3.13 or newer. <code>PyMutex</code> is hooked into the CPython runtime, so that if a thread
+tries to acquire the mutex and ends up blocked, garbage collection can still
+proceed and, in the GIL-enabled build, the blocked thread releases the GIL,
+allowing other threads to continue running. This implies that it is impossible
+to create a deadlock between a <code>PyMutex</code> and the GIL. For this reason, it is not
+necessary to add code for the GIL-enabled build to ensure the GIL is released
+before acquiring a <code>PyMutex</code>. If you do not call into the CPython C API while
+holding the lock, <code>PyMutex</code> has no special advantages over other mutexes, besides
+low-level details like performance or the size of the mutex object in memory.</p>
+<p>See the section on <a href="./#dealing-with-thread-unsafe-libraries">dealing with thread-unsafe low-level
+libraries</a> below for an example
+using PyMutex to lock around a thread-unsafe C library.</p>
+<h3 id="critical-sections">Critical Sections</h3>
+<p>Python 3.13 or newer also offers a <a href="https://docs.python.org/3/c-api/init.html#python-critical-section-api">critical section
+API</a> that
+is useful for locking either a single object or a pair of objects during a
+low-level operation. The critical section API is intended to provide weaker, but
+still useful locking guarantees compared to directly locking access to an object
+using a mutex. This provides similar guarantees to the GIL and avoids
+the risk of deadlocks introduced by locking individual objects.</p>
+<p>The main difference compared with using a per-object lock is that active
+critical sections are suspended if a thread calls <code>PyEval_SaveThread</code> (e.g. when
+the GIL is released on the GIL-enabled build), and then restored when the thread
+calls <code>PyEval_RestoreThread</code> (e.g. when the GIL is re-acquired on the
+GIL-enabled build). This means that while the critical sections are suspended,
+it's possible for any thread to re-acquire a thread state and mutate the locked
+object. This can also happen with the GIL, since the GIL is a re-entrant lock,
+and extensions are allowed to recursively release and acquire it in an
+interleaved manner.</p>
+<p>Critical sections are most useful when implementing the low-level internals of a
+custom object that you fully control. You can apply critical sections around
+modification of internal state to effectively serialize access to that state.</p>
+<p>See the section below on <a href="./##dealing-with-thread-unsafe-objects">dealing with thread-unsafe
+objects</a> for an example using
+the critical section API.</p>
+<h2 id="dealing-with-global-state">Dealing with global state</h2>
 <p>Many CPython C extensions make strong assumptions about the GIL. For example,
 before NumPy 2.1.0, the C code in NumPy made extensive use of C static global
 variables for storing settings, state, and caches. With the GIL, it is possible
@@ -984,10 +1203,10 @@ for Python threads to produce non-deterministic results from a calculation, but
 it is not possible for two C threads to simultaneously see the state of the C
 global variables, so no data races are possible.</p>
 <p>In free-threaded Python, global state like this is no longer safe against data
-races and undefined behavior in C code. A cache of <code>PyObject</code>s stored
-in a C global pointer array can be overwritten simultaneously by multiple
-Python threads, leading to memory corruption and segfaults.</p>
-<h3 id="converting-to-thread-local-state">Converting to thread local state</h3>
+races and undefined behavior in C code. A cache of <code>PyObject</code> pointers stored in
+a C global array can be overwritten simultaneously by multiple Python threads,
+leading to memory corruption and segfaults.</p>
+<h3 id="converting-global-state-to-thread-local-state">Converting global state to thread local state</h3>
 <p>Often the easiest way to fix data races due to global state is to convert the
 global state to thread local state.</p>
 <p>Python and Cython code can make use of
@@ -1105,7 +1324,64 @@ recommend always using <code>PyMutex</code>. For pointers on how to do that, che
 <a href="https://github.com/numpy/numpy/pull/27011">this NumPy PR</a> that ports all
 <code>PyThread_type_lock</code> usages to <code>PyMutex</code>.</p>
 </div>
-<h3 id="dealing-with-thread-unsafe-libraries">Dealing with thread-unsafe libraries</h3>
+<h2 id="fixing-thread-unsafe-tests">Fixing thread-unsafe tests.</h2>
+<p>Many existing tests are written using global state. This is not a problem if the
+test only runs once, but if you would like to use your tests to check for
+possible thread safety issues by running existing tests on many threads, you
+will likely need to update the tests to eliminate use of global state.</p>
+<p>Since tests using global state are inherently racey, this means that test
+failures associated with these tests are also inherently flakey. If you see
+tests failing intermittently, you should not discount that you are using global
+state in a test, or even inadvertently using global state in <code>pytest</code> itself.</p>
+<h4 id="pytest-is-not-thread-safe"><code>pytest</code> is not thread-safe</h4>
+<p>See <a href="https://docs.pytest.org/en/stable/explanation/flaky.html#thread-safety">the <code>pytest</code>
+docs</a>
+for more information about this. While tests can manage their own threads, you
+should not assume that functionality provided by <code>pytest</code> is thread-safe.</p>
+<p>Functionality that is known not to be thread-safe includes:</p>
+<ul>
+<li><a href="https://docs.pytest.org/en/stable/reference/reference.html#pytest.warns"><code>pytest.warns</code></a>,
+    it relies on <code>warnings.catch_warnings</code>, which is not thread-safe.</li>
+<li>The <a href="https://docs.pytest.org/en/stable/reference/reference.html#std-fixture-tmp_path"><code>tmp_path</code></a>
+    and <a href="https://docs.pytest.org/en/stable/reference/reference.html#std-fixture-tmpdir"><code>tmpdir</code></a>
+    fixtures, since they rely on the filesystem</li>
+<li>The <a href="https://docs.pytest.org/en/stable/reference/reference.html#std-fixture-capsys"><code>capsys</code>
+    fixture</a>,
+    because of shared use of <code>sys.stdout</code> and <code>sys.stderr</code>.</li>
+<li>The <a href="https://docs.pytest.org/en/stable/reference/reference.html#std-fixture-monkeypatch"><code>monkeypatch</code>
+    fixture</a>.</li>
+</ul>
+<p>Note that the <code>pytest</code> maintainers have explicitly ruled out making <code>pytest</code>
+thread-safe, please do not open issues asking to fix thread safety issues in
+<code>pytest</code> itself.</p>
+<h4 id="the-warnings-module-is-not-thread-safe">The <code>warnings</code> module is not thread-safe</h4>
+<p>Many tests carefully ensure that warnings will be seen by the user in cases
+where the library author intends users to see them. These tests inevintably make
+use of the <a href="https://docs.python.org/3/library/warnings.html"><code>warnings</code>
+module</a>. As noted in <a href="https://docs.python.org/3/library/warnings.html#available-context-managers">the
+documentation for
+<code>warnings.catch_warnings</code></a>,
+the functionality provided by Python to track warnings is inherently
+thread-unsafe. This means tests that check for warnings should be marked as
+thread-unsafe and should be skipped when running tests on many threads
+simultaneously, since they will randomly pass or fail depending on thread
+timing.</p>
+<p>Hopefully in the future it will be possible for Python to write a scalable
+infrastucture for tracking warnings to fix this issue once and for all. See <a href="https://github.com/python/cpython/issues/91505">the
+CPython issue</a> tracking this
+problem for more information.</p>
+<h4 id="file-system-thread-safety">File system thread safety</h4>
+<p>Many tests make use of the file system, either via a temporary file, or by
+simply directly writing to the folder running the test. If the filename used by
+the test is a constant or it is ever shared between instances of the test, the
+filesystem becomes shared global state, and the test will not be thread-safe.</p>
+<p>The easiest way to fix this is to use
+<a href="https://docs.python.org/3/library/tempfile.html"><code>tempfile</code></a>, which
+automatically handles generating file handles in a thread-safe manner. If for
+some reason this isn't practical, consider forcing the filenames used in tests
+to be unique, for example by appending a
+<a href="https://docs.python.org/3/library/uuid.html">UUID</a> to the filename.</p>
+<h2 id="dealing-with-thread-unsafe-libraries">Dealing with thread-unsafe libraries</h2>
 <p>Many C, C++, and Fortran libraries are not written in a thread-safe manner. It
 is still possible to call these libraries from free-threaded Python, but
 wrappers must add appropriate locks to prevent undefined behavior.</p>
@@ -1149,7 +1425,7 @@ library. This means that non-reentrant libraries require a global lock:</p>
 </code></pre></div>
 <p>Any other wrapped function needs similar locking around each call into the
 library.</p>
-<h3 id="dealing-with-thread-unsafe-objects">Dealing with thread-unsafe objects</h3>
+<h2 id="dealing-with-thread-unsafe-objects">Dealing with thread-unsafe objects</h2>
 <p>Similar to the section above, objects may need locking or atomics if they can
 be concurrently modified from multiple threads. CPython 3.13
 exposes a public C API that allows users to use the built-in
@@ -1171,12 +1447,12 @@ per-object locks.</p>
 <p>A variant for locking two objects at once is also available. For more information
 about <code>Py_BEGIN_CRITICAL_SECTION</code>, please see the
 <a href="https://docs.python.org/3.13/c-api/init.html#python-critical-section-api">Python C API documentation on critical sections</a>.</p>
-<h2 id="cython-thread-safety">Cython thread-safety</h2>
+<h2 id="cython-thread-safety">Cython thread safety</h2>
 <p>If your extension is written in Cython, you can generally assume that
 "Python-level" code that compiles to CPython C API operations on Python objects
-is thread safe, but "C-level" code (e.g. code that will compile inside a
-<code>with nogil</code> block) may have thread-safety issues. Note that not all code outside
-<code>with nogil</code> blocks is thread safe. For example, a Python wrapper for a
+is thread-safe, but "C-level" code (e.g. code that will compile inside a
+<code>with nogil</code> block) may have thread safety issues. Note that not all code outside
+<code>with nogil</code> blocks is thread-safe. For example, a Python wrapper for a
 thread-unsafe C library is thread-unsafe if the GIL is disabled unless there is
 locking around uses of the thread-unsafe library. Another example: using
 thread-unsafe C-level constructs like a global variable is also thread-unsafe
@@ -1185,18 +1461,18 @@ if the GIL is disabled.</p>
 <p>In the free-threaded build it is possible for the reference count of an object
 to change "underneath" a running thread when it is mutated by another
 thread. This means that many APIs that assume reference counts cannot be
-updated by another thread while it is running are no longer thread safe. In
+updated by another thread while it is running are no longer thread-safe. In
 particular, C code returning "borrowed" references to Python objects in mutable
-containers like lists may introduce thread-safety issues. A borrowed reference
+containers like lists may introduce thread safety issues. A borrowed reference
 happens when a C API function does not increment the reference count of a
 Python object before returning the object to the caller. "New" references are
 safe to use until the owning thread releases the reference, as in non
 free-threaded code.</p>
-<p>Most direct uses of the CPython C API are thread safe. There is no need to add
+<p>Most direct uses of the CPython C API are thread-safe. There is no need to add
 locking for scenarios that should be bugs in CPython. You can assume, for
 example, that the initializer for a Python object can only be called by one
 thread and the C-level implementation of a Python function can only be called on
-one thread. Accessing the arguments of a Python function is thread safe no
+one thread. Accessing the arguments of a Python function is thread-safe no
 matter what C API constructs are used and no matter whether the reference is
 borrowed or owned because two threads can't simultaneously call the same
 function with the same arguments from the same Python-level context. Of course
@@ -1211,7 +1487,7 @@ to the item being de-allocated while the borrowed reference is still
 "alive". Even code like this:</p>
 <div class="highlight"><pre><span></span><code><span class="n">PyObject</span><span class="w"> </span><span class="o">*</span><span class="n">item</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Py_NewRef</span><span class="p">(</span><span class="n">PyList_GetItem</span><span class="p">(</span><span class="n">list_object</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">))</span>
 </code></pre></div>
-<p>Is not thread safe, because in principle it's possible for the list item to be
+<p>Is not thread-safe, because in principle it's possible for the list item to be
 de-allocated before <code>Py_NewRef</code> gets a chance to increment the reference count.</p>
 <p>For that reason, you should inspect Python C API code to look for patterns
 where a borrowed reference is returned to a shared, mutable data structure, and
@@ -1268,7 +1544,7 @@ free-threaded build gains support for compiling with the limited API.</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">October 9, 2024</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">October 29, 2024</span>
   </span>
 
     
