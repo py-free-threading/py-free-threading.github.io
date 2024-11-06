@@ -426,9 +426,33 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#testing-scenarios" class="md-nav__link">
+  <a href="#pytest-plugins-to-discover-concurrency-issues" class="md-nav__link">
     <span class="md-ellipsis">
-      Testing scenarios
+      pytest plugins to discover concurrency issues
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="pytest plugins to discover concurrency issues">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#repeated-test-execution" class="md-nav__link">
+    <span class="md-ellipsis">
+      Repeated test execution
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#writing-explicitly-concurrent-test-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Writing explicitly concurrent test cases
     </span>
   </a>
   
@@ -555,9 +579,33 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#testing-scenarios" class="md-nav__link">
+  <a href="#pytest-plugins-to-discover-concurrency-issues" class="md-nav__link">
     <span class="md-ellipsis">
-      Testing scenarios
+      pytest plugins to discover concurrency issues
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="pytest plugins to discover concurrency issues">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#repeated-test-execution" class="md-nav__link">
+    <span class="md-ellipsis">
+      Repeated test execution
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#writing-explicitly-concurrent-test-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      Writing explicitly concurrent test cases
     </span>
   </a>
   
@@ -664,23 +712,46 @@ several strategies, which we will summarize next.</p>
 <h2 id="ensure-that-an-extension-module-is-free-threaded-compliant">Ensure that an extension module is free-threaded compliant</h2>
 <p>We highly suggest reading the detailed guide presented on
 <a href="../porting/">Porting Extension Modules to Support Free-Threading</a></p>
-<h2 id="testing-scenarios">Testing scenarios</h2>
-<p>In order to check that a function or class has no concurrency issues, it is
-necessary to define test functions that cover such cases. For such scenarios, the
-standard <code>threading</code> library defines several low-level parallel primitives that
-can be used to test for concurrency, while the <code>concurrent.futures</code> module
-provides high-level constructs.</p>
-<p>For example, consider a method <code>MyClass.call_unsafe</code>
-that has been flagged as having concurrency issues since it mutates attributes
-of a shared object that is accessed by multiple threads. We can write a test for
-it using first low-level primitives:</p>
-<div class="highlight"><pre><span></span><code><span class="sd">&quot;&quot;&quot;test_concurrent.py&quot;&quot;&quot;</span>
+<h2 id="pytest-plugins-to-discover-concurrency-issues">pytest plugins to discover concurrency issues</h2>
+<p>As parallel testing has become a critical component to ensure compatibility
+with free-threaded CPython, several community-led pytest plugins have been
+implemented that attempt to smoke out issues by running all tests in a test
+suite in a concurrent manner:</p>
+<ul>
+<li><a href="https://github.com/Quansight-Labs/pytest-run-parallel">pytest-run-parallel</a></li>
+<li><a href="https://github.com/tonybaloney/pytest-freethreaded">pytest-freethreaded</a></li>
+</ul>
+<p>The advantage of using a pytest plugin as opposed to manually using the
+<code>threading</code> and/or <code>concurrent.futures</code> modules mainly resides in their
+ability to integrate with the ecosystem constructs like markers, fixtures,
+skip and failure flags. For more information regarding the usage of these
+libraries please refer to the documentation of each project.</p>
+<h3 id="repeated-test-execution">Repeated test execution</h3>
+<p>Given the non-deterministic nature of parallel execution, tests for code that
+has a concurrency issue may still pass most of the time.
+In order to more reliably reproduce a test failure under concurrency, we
+recommend using <a href="https://github.com/pytest-dev/pytest-repeat">pytest-repeat</a>,
+which enables the <code>--count</code> flag in the <code>pytest</code> command:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Setting PYTHON_GIL=0 ensures that the GIL is effectively disabled.</span>
+<span class="nv">PYTHON_GIL</span><span class="o">=</span><span class="m">0</span><span class="w"> </span>pytest<span class="w"> </span>-x<span class="w"> </span>-v<span class="w"> </span>--count<span class="o">=</span><span class="m">100</span><span class="w"> </span>test_concurrent.py
+</code></pre></div>
+<p>We advise to set <code>count</code> to <code>100</code> (or even larger if needed), in order to
+ensure at least one concurrent clash event.</p>
+<h2 id="writing-explicitly-concurrent-test-cases">Writing explicitly concurrent test cases</h2>
+<p>It may be desirable to have tests using, e.g., <code>threading</code> or
+<code>concurrent.futures</code> in your test suite in order to prevent adding
+additional test dependencies or to test a particular subset of tests for
+concurrency issues by default. The stdlib <code>threading</code> module defines several
+low-level parallel primitives that can be used to test for concurrency,
+while the <code>concurrent.futures</code> module provides higher-level constructs.</p>
+<p>For example, consider a method <code>MyClass.call_unsafe</code> that has been flagged as
+having concurrency issues since it mutates attributes of a shared object that
+is accessed by multiple threads. We can write a test for it using either
+<code>threading</code> or <code>concurrent.futures</code> primitives:</p>
+<details>
+<summary>Example using threading:</summary>
 
-<span class="c1"># Low level parallel primitives</span>
-<span class="kn">import</span> <span class="nn">threading</span>
-
-<span class="c1"># High level parallel constructs</span>
-<span class="kn">from</span> <span class="nn">concurrent.futures</span> <span class="kn">import</span> <span class="n">ThreadPoolExecutor</span>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">threading</span>
 
 <span class="c1"># Library to test</span>
 <span class="kn">from</span> <span class="nn">mylib</span> <span class="kn">import</span> <span class="n">MyClass</span>
@@ -716,6 +787,18 @@ it using first low-level primitives:</p>
 
     <span class="c1"># Do something about the results</span>
     <span class="k">assert</span> <span class="n">check_results</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+</code></pre></div>
+
+</details>
+
+<details>
+<summary>Example using concurrent.futures:</summary>
+
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">threading</span>
+<span class="kn">from</span> <span class="nn">concurrent.futures</span> <span class="kn">import</span> <span class="n">ThreadPoolExecutor</span>
+
+<span class="c1"># Library to test</span>
+<span class="kn">from</span> <span class="nn">mylib</span> <span class="kn">import</span> <span class="n">MyClass</span>
 
 
 <span class="k">def</span> <span class="nf">test_call_unsafe_concurrent_pool</span><span class="p">():</span>
@@ -741,15 +824,9 @@ it using first low-level primitives:</p>
     <span class="c1"># Do something about the results</span>
     <span class="k">assert</span> <span class="n">check_results</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
 </code></pre></div>
-<p>Given the non-deterministic nature of parallel execution, such tests may pass
-from time to time. In order to reliably ensuring their failure under concurrency,
-we recommend using <code>pytest-repeat</code>, which enables the <code>--count</code> flag in the
-<code>pytest</code> command:</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># Setting PYTHON_GIL=0 ensures that the GIL is effectively disabled.</span>
-<span class="nv">PYTHON_GIL</span><span class="o">=</span><span class="m">0</span><span class="w"> </span>pytest<span class="w"> </span>-x<span class="w"> </span>-v<span class="w"> </span>--count<span class="o">=</span><span class="m">100</span><span class="w"> </span>test_concurrent.py
-</code></pre></div>
-<p>We advise to set <code>count</code> in the order of hundreds and even larger, in order to
-ensure at least one concurrent clash event.</p>
+
+</details>
+
 <h2 id="debugging-tests-that-depend-on-native-calls">Debugging tests that depend on native calls</h2>
 <p>If your code has native dependencies, either via C/C++ or Cython, <code>gdb</code>
 (or <code>lldb</code>) can be used as follows:</p>
@@ -817,7 +894,7 @@ run into any confusing free-threading-specific errors that you suspect apply to
 other libraries and aren't covered here.</p>
 <h3 id="cython-compilation-errors-unknown-type-name-__pyx_vectorcallfunc">Cython compilation errors: <code>unknown type name '__pyx_vectorcallfunc'</code></h3>
 <p>This happens if you try to build a Cython extension for the free-threaded build
-using the current stable release of Cython (3.0.10 at the time of writing). The
+using the current stable release of Cython (3.0.11 at the time of writing). The
 current stable release of Cython does not support the free-threaded build. You
 must either build Cython from the <code>master</code> branch <a href="https://github.com/cython/cython">on
 Github</a> or use the nightly wheel:</p>
@@ -865,7 +942,7 @@ runners.</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">November 5, 2024</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">November 6, 2024</span>
   </span>
 
     
