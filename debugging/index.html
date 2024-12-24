@@ -515,6 +515,48 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#compiling-cpython-and-foundational-packages-with-thread-sanitizer-tsan" class="md-nav__link">
+    <span class="md-ellipsis">
+      Compiling CPython and foundational packages with thread sanitizer (TSAN)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Compiling CPython and foundational packages with thread sanitizer (TSAN)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#compile-free-threaded-cpython-with-tsan" class="md-nav__link">
+    <span class="md-ellipsis">
+      Compile free-threaded CPython with TSAN
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#compile-numpy-with-tsan" class="md-nav__link">
+    <span class="md-ellipsis">
+      Compile NumPy with TSAN
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#useful-tsan-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      Useful TSAN options
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -658,6 +700,48 @@
   <a href="#cython-compilation-errors-unknown-type-name-__pyx_vectorcallfunc" class="md-nav__link">
     <span class="md-ellipsis">
       Cython compilation errors: unknown type name '__pyx_vectorcallfunc'
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#compiling-cpython-and-foundational-packages-with-thread-sanitizer-tsan" class="md-nav__link">
+    <span class="md-ellipsis">
+      Compiling CPython and foundational packages with thread sanitizer (TSAN)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Compiling CPython and foundational packages with thread sanitizer (TSAN)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#compile-free-threaded-cpython-with-tsan" class="md-nav__link">
+    <span class="md-ellipsis">
+      Compile free-threaded CPython with TSAN
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#compile-numpy-with-tsan" class="md-nav__link">
+    <span class="md-ellipsis">
+      Compile NumPy with TSAN
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#useful-tsan-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      Useful TSAN options
     </span>
   </a>
   
@@ -912,6 +996,90 @@ architectures. The pure-python version of Cython is usually only marginally
 slower than a compiled version, so you should default to installing the wheel in
 CI instead of compiling Cython, which can take up to a few minutes on some CI
 runners.</p>
+<h2 id="compiling-cpython-and-foundational-packages-with-thread-sanitizer-tsan">Compiling CPython and foundational packages with thread sanitizer (TSAN)</h2>
+<p><a href="https://github.com/google/sanitizers/wiki/ThreadSanitizerCppManual">Thread sanitizer</a> (or TSAN) helps
+to detect C/C++ data races in concurrent systems. This tool can help to reveal free-threading
+related bugs in CPython and foundational packages (e.g. <code>numpy</code>).
+In this section we provide the commands to build a free-threading compatible
+CPython interpreter and packages with TSAN and other hints to discover
+potential data races.</p>
+<h3 id="compile-free-threaded-cpython-with-tsan">Compile free-threaded CPython with TSAN</h3>
+<ul>
+<li>Clone the latest stable branch (<code>3.13</code>):</li>
+</ul>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/python/cpython.git<span class="w"> </span>-b<span class="w"> </span><span class="m">3</span>.13
+</code></pre></div>
+<ul>
+<li>Configure and build the interpreter. Below instructions are for Linux
+    (Windows and macOS may require some changes). We skip the instructions on how
+    to install the Clang compiler.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>cpython
+<span class="nv">CC</span><span class="o">=</span>clang-18<span class="w"> </span><span class="nv">CXX</span><span class="o">=</span>clang++-18<span class="w"> </span>./configure<span class="w"> </span>--disable-gil<span class="w"> </span>--with-thread-sanitizer<span class="w"> </span>--prefix<span class="w"> </span><span class="nv">$PWD</span>/cpython-tsan
+make<span class="w"> </span>-j<span class="w"> </span><span class="m">8</span>
+make<span class="w"> </span>install
+</code></pre></div>
+<ul>
+<li>To use the built Python interpreter:</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="c1"># Create a virtual environment:</span>
+<span class="nv">$PWD</span>/cpython-tsan/bin/python3.13t<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>~/tsanvenv
+<span class="c1"># Then activate it:</span>
+<span class="nb">source</span><span class="w"> </span>~/tsanvenv/bin/activate
+
+python<span class="w"> </span>-VV
+<span class="c1"># Python 3.13.1 experimental free-threading build (tags/v3.13.1:06714517797, Dec 19 2024, 10:06:54) [Clang 18.1.3 (1ubuntu1)]</span>
+<span class="nv">PYTHON_GIL</span><span class="o">=</span><span class="m">0</span><span class="w"> </span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import sys; print(sys._is_gil_enabled())&quot;</span>
+<span class="c1"># False</span>
+
+<span class="c1"># Exit the `cpython` folder (preparation for the next step below)</span>
+<span class="nb">cd</span><span class="w"> </span>..
+</code></pre></div>
+<h3 id="compile-numpy-with-tsan">Compile NumPy with TSAN</h3>
+<ul>
+<li>Get the source code (for example, the <code>main</code> branch)</li>
+</ul>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>--recursive<span class="w"> </span>https://github.com/numpy/numpy.git
+</code></pre></div>
+<ul>
+<li>Install the build requirements:</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>numpy
+python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements/build_requirements.txt
+<span class="c1"># Make sure to install a compatible Cython version (master branch is best for now)</span>
+python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-U<span class="w"> </span>git+https://github.com/cython/cython
+</code></pre></div>
+<ul>
+<li>Build the package</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">CC</span><span class="o">=</span>clang-18
+<span class="nb">export</span><span class="w"> </span><span class="nv">CXX</span><span class="o">=</span>clang++-18
+<span class="nb">export</span><span class="w"> </span><span class="nv">CFLAGS</span><span class="o">=</span>-fsanitize<span class="o">=</span>thread
+<span class="nb">export</span><span class="w"> </span><span class="nv">CXXFLAGS</span><span class="o">=</span>-fsanitize<span class="o">=</span>thread
+<span class="nb">export</span><span class="w"> </span><span class="nv">LDFLAGS</span><span class="o">=</span>-fsanitize<span class="o">=</span>thread
+
+python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-v<span class="w"> </span>.<span class="w"> </span>--no-build-isolation
+</code></pre></div>
+<h3 id="useful-tsan-options">Useful TSAN options</h3>
+<ul>
+<li>By default TSAN reports warnings. To stop execution on TSAN errors, use:</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="nv">TSAN_OPTIONS</span><span class="o">=</span><span class="nv">halt_on_error</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>pytest<span class="w"> </span>test.py
+</code></pre></div>
+<ul>
+<li>To add TSAN suppressions (written in a file: <code>tsan-suppressions</code>):</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="c1"># Let&#39;s show an example content of suppressions,</span>
+<span class="c1"># more info: https://github.com/google/sanitizers/wiki/ThreadSanitizerSuppressions</span>
+cat<span class="w"> </span><span class="nv">$PWD</span>/tsan-suppressions
+
+race:llvm::RuntimeDyldELF::registerEHFrames
+race:partial_vectorcall_fallback
+race:dnnl_sgemm
+
+
+<span class="nb">export</span><span class="w"> </span><span class="nv">TSAN_OPTIONS</span><span class="o">=</span><span class="s2">&quot;suppressions=</span><span class="nv">$PWD</span><span class="s2">/tsan-suppressions&quot;</span><span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>pytest<span class="w"> </span>test.py
+</code></pre></div>
 <div class="footnote">
 <hr />
 <ol>
@@ -942,7 +1110,7 @@ runners.</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">November 6, 2024</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">December 24, 2024</span>
   </span>
 
     
