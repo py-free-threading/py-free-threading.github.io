@@ -1097,8 +1097,8 @@ build systems:</p>
 <div class="tabbed-block">
 <p>When using setuptools, you can pass the <code>compiler_directives</code> keyword argument
 to <code>cythonize</code>:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">Cython.Compiler.Version</span> <span class="kn">import</span> <span class="n">version</span> <span class="k">as</span> <span class="n">cython_version</span>
-<span class="kn">from</span> <span class="nn">packaging.version</span> <span class="kn">import</span> <span class="n">Version</span>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">Cython.Compiler.Version</span><span class="w"> </span><span class="kn">import</span> <span class="n">version</span> <span class="k">as</span> <span class="n">cython_version</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">packaging.version</span><span class="w"> </span><span class="kn">import</span> <span class="n">Version</span>
 
 <span class="n">compiler_directives</span> <span class="o">=</span> <span class="p">{}</span>
 <span class="k">if</span> <span class="n">Version</span><span class="p">(</span><span class="n">cython_version</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">Version</span><span class="p">(</span><span class="s2">&quot;3.1.0a0&quot;</span><span class="p">):</span>

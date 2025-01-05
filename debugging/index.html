@@ -835,13 +835,13 @@ is accessed by multiple threads. We can write a test for it using either
 <details>
 <summary>Example using threading:</summary>
 
-<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">threading</span>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">threading</span>
 
 <span class="c1"># Library to test</span>
-<span class="kn">from</span> <span class="nn">mylib</span> <span class="kn">import</span> <span class="n">MyClass</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mylib</span><span class="w"> </span><span class="kn">import</span> <span class="n">MyClass</span>
 
 
-<span class="k">def</span> <span class="nf">test_call_unsafe_concurrent_threading</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_call_unsafe_concurrent_threading</span><span class="p">():</span>
     <span class="c1"># Defines a thread barrier that will be spawned before parallel execution</span>
     <span class="c1"># this increases the probability of concurrent access clashes.</span>
     <span class="n">n_threads</span> <span class="o">=</span> <span class="mi">10</span>
@@ -852,7 +852,7 @@ is accessed by multiple threads. We can write a test for it using either
 
     <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
 
-    <span class="k">def</span> <span class="nf">closure</span><span class="p">():</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">closure</span><span class="p">():</span>
         <span class="c1"># Ensure that all threads reach this point before concurrent execution.</span>
         <span class="n">barrier</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
         <span class="n">r</span> <span class="o">=</span> <span class="n">cls_instance</span><span class="o">.</span><span class="n">call_unsafe</span><span class="p">()</span>
@@ -878,14 +878,14 @@ is accessed by multiple threads. We can write a test for it using either
 <details>
 <summary>Example using concurrent.futures:</summary>
 
-<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">threading</span>
-<span class="kn">from</span> <span class="nn">concurrent.futures</span> <span class="kn">import</span> <span class="n">ThreadPoolExecutor</span>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">threading</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">concurrent.futures</span><span class="w"> </span><span class="kn">import</span> <span class="n">ThreadPoolExecutor</span>
 
 <span class="c1"># Library to test</span>
-<span class="kn">from</span> <span class="nn">mylib</span> <span class="kn">import</span> <span class="n">MyClass</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mylib</span><span class="w"> </span><span class="kn">import</span> <span class="n">MyClass</span>
 
 
-<span class="k">def</span> <span class="nf">test_call_unsafe_concurrent_pool</span><span class="p">():</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">test_call_unsafe_concurrent_pool</span><span class="p">():</span>
     <span class="c1"># Defines a thread barrier that will be spawned before parallel execution</span>
     <span class="c1"># this increases the probability of concurrent access clashes.</span>
     <span class="n">n_threads</span> <span class="o">=</span> <span class="mi">10</span>
@@ -894,7 +894,7 @@ is accessed by multiple threads. We can write a test for it using either
     <span class="c1"># This object will be shared by all the threads.</span>
     <span class="n">cls_instance</span> <span class="o">=</span> <span class="n">MyClass</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">closure</span><span class="p">():</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">closure</span><span class="p">():</span>
         <span class="c1"># Ensure that all threads reach this point before concurrent execution.</span>
         <span class="n">barrier</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
         <span class="n">r</span> <span class="o">=</span> <span class="n">cls_instance</span><span class="o">.</span><span class="n">call_unsafe</span><span class="p">()</span>
@@ -1035,6 +1035,19 @@ python<span class="w"> </span>-VV
 <span class="c1"># Exit the `cpython` folder (preparation for the next step below)</span>
 <span class="nb">cd</span><span class="w"> </span>..
 </code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>On MacOS, you may see messages like this when you start Python:</p>
+<div class="highlight"><pre><span></span><code>python(7027,0x1f6dfc240) malloc: nano zone abandoned due to inability to reserve vm space.
+</code></pre></div>
+<p>This message is being emmitted by the MacOS malloc implementation. As
+<a href="https://stackoverflow.com/questions/64126942/malloc-nano-zone-abandoned-due-to-inability-to-preallocate-reserved-vm-space">explained
+here</a>,
+this happens for any program compiled with thread sanitizer on MacOS and can
+be safely ignored by setting the <code>MallocNanoZone</code> environment variable to
+0. You should only set this in session you are running thread sanitizer
+under, as this setting will slow down other programs that allocate memory.</p>
+</div>
 <h3 id="compile-numpy-with-tsan">Compile NumPy with TSAN</h3>
 <ul>
 <li>Get the source code (for example, the <code>main</code> branch)</li>
@@ -1052,13 +1065,7 @@ python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </sp
 <ul>
 <li>Build the package</li>
 </ul>
-<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">CC</span><span class="o">=</span>clang-18
-<span class="nb">export</span><span class="w"> </span><span class="nv">CXX</span><span class="o">=</span>clang++-18
-<span class="nb">export</span><span class="w"> </span><span class="nv">CFLAGS</span><span class="o">=</span>-fsanitize<span class="o">=</span>thread
-<span class="nb">export</span><span class="w"> </span><span class="nv">CXXFLAGS</span><span class="o">=</span>-fsanitize<span class="o">=</span>thread
-<span class="nb">export</span><span class="w"> </span><span class="nv">LDFLAGS</span><span class="o">=</span>-fsanitize<span class="o">=</span>thread
-
-python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-v<span class="w"> </span>.<span class="w"> </span>--no-build-isolation
+<div class="highlight"><pre><span></span><code><span class="nv">CC</span><span class="o">=</span>clang-18<span class="w"> </span><span class="nv">CXX</span><span class="o">=</span>clang++-18<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-v<span class="w"> </span>.<span class="w"> </span>--no-build-isolation<span class="w"> </span>-Csetup-args<span class="o">=</span>-Db_sanitize<span class="o">=</span>thread
 </code></pre></div>
 <h3 id="useful-tsan-options">Useful TSAN options</h3>
 <ul>
@@ -1110,7 +1117,7 @@ race:dnnl_sgemm
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">December 24, 2024</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">January 5, 2025</span>
   </span>
 
     

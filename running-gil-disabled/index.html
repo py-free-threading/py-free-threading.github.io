@@ -478,7 +478,7 @@ following incantation:</p>
 </code></pre></div>
 <p>To verify whether the GIL is disabled at runtime or not, you can use this in
 your code:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">sys</span>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
 
 <span class="n">sys</span><span class="o">.</span><span class="n">_is_gil_enabled</span><span class="p">()</span>
 </code></pre></div>
@@ -496,7 +496,7 @@ python<span class="w"> </span>-Xgil<span class="o">=</span><span class="m">0</sp
 <p>To check whether the Python interpreter you're using is a free-threaded build,
 irrespective of whether the GIL was re-enabled at runtime or not, you can use
 this within your code:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">sysconfig</span>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">sysconfig</span>
 
 <span class="n">is_freethreaded</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">sysconfig</span><span class="o">.</span><span class="n">get_config_var</span><span class="p">(</span><span class="s2">&quot;Py_GIL_DISABLED&quot;</span><span class="p">))</span>
 </code></pre></div>
