@@ -16,7 +16,7 @@
       
       
       <link rel="icon" href="assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.50">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.2">
     
     
       
@@ -24,7 +24,7 @@
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.a40c8224.min.css">
+      <link rel="stylesheet" href="assets/stylesheets/main.d7758b05.min.css">
       
         
         <link rel="stylesheet" href="assets/stylesheets/palette.06af60db.min.css">
@@ -72,7 +72,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#introduction" class="md-skip">
+        <a href="#python-free-threading-guide" class="md-skip">
           Skip to content
         </a>
       
@@ -108,7 +108,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Introduction
+              Python free-threading guide
             
           </span>
         </div>
@@ -264,7 +264,8 @@
           
   
   <span class="md-ellipsis">
-    Introduction
+    Python free-threading guide
+    
   </span>
   
 
@@ -275,7 +276,8 @@
         
   
   <span class="md-ellipsis">
-    Introduction
+    Python free-threading guide
+    
   </span>
   
 
@@ -325,6 +327,7 @@
   
   <span class="md-ellipsis">
     Compatibility Status Tracking
+    
   </span>
   
 
@@ -345,6 +348,7 @@
   
   <span class="md-ellipsis">
     Installing Free-Threaded Python
+    
   </span>
   
 
@@ -365,6 +369,7 @@
   
   <span class="md-ellipsis">
     Running Python with the GIL Disabled
+    
   </span>
   
 
@@ -385,6 +390,7 @@
   
   <span class="md-ellipsis">
     Porting Python Packages to Support Free-Threading
+    
   </span>
   
 
@@ -405,6 +411,7 @@
   
   <span class="md-ellipsis">
     Setting up CI
+    
   </span>
   
 
@@ -425,6 +432,7 @@
   
   <span class="md-ellipsis">
     Uncovering Concurrency Issues, Testing and Debugging
+    
   </span>
   
 
@@ -445,6 +453,7 @@
   
   <span class="md-ellipsis">
     More Resources
+    
   </span>
   
 
@@ -502,11 +511,12 @@
                 
                   
 
+
   
   
 
 
-<h1 id="introduction">Introduction</h1>
+<h1 id="python-free-threading-guide">Python free-threading guide</h1>
 <p>Free-threaded CPython is coming! <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19.14 7.5A2.86 2.86 0 0 1 22 10.36v3.78A2.86 2.86 0 0 1 19.14 17H12c0 .39.32.96.71.96H17v1.68a2.86 2.86 0 0 1-2.86 2.86H9.86A2.86 2.86 0 0 1 7 19.64v-3.75a2.85 2.85 0 0 1 2.86-2.85h5.25a2.85 2.85 0 0 0 2.85-2.86V7.5zm-4.28 11.79c-.4 0-.72.3-.72.89s.32.71.72.71a.71.71 0 0 0 .71-.71c0-.59-.32-.89-.71-.89m-10-1.79A2.86 2.86 0 0 1 2 14.64v-3.78A2.86 2.86 0 0 1 4.86 8H12c0-.39-.32-.96-.71-.96H7V5.36A2.86 2.86 0 0 1 9.86 2.5h4.28A2.86 2.86 0 0 1 17 5.36v3.75a2.85 2.85 0 0 1-2.86 2.85H8.89a2.85 2.85 0 0 0-2.85 2.86v2.68zM9.14 5.71c.4 0 .72-.3.72-.89s-.32-.71-.72-.71c-.39 0-.71.12-.71.71s.32.89.71.89"/></svg></span> <img alt="🧵" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.1.0/assets/svg/1f9f5.svg" title=":thread:" /></p>
 <p>After the <a href="https://discuss.python.org/t/a-steering-council-notice-about-pep-703-making-the-global-interpreter-lock-optional-in-cpython/30474">acceptance by the Python Steering Council</a>
 of, and the <a href="https://discuss.python.org/t/pep-703-making-the-global-interpreter-lock-optional-in-cpython-acceptance/37075">gradual rollout strategy</a> for,
@@ -514,8 +524,8 @@ of, and the <a href="https://discuss.python.org/t/pep-703-making-the-global-inte
 a lot of work is happening both in CPython itself and across the Python ecosystem.</p>
 <p>This website aims to serve as a centralized resource both for Python package
 maintainers and end users interested in supporting or experimenting with
-free-threaded Python. An overview of the compatibility status of various Python
-libraries is maintained in:</p>
+free-threaded Python. We are tracking the compatibility of a number of packages
+that include native code, you can take a look at our progress here:</p>
 <ul>
 <li><a href="tracking/">Compatibility Status Tracking</a></li>
 </ul>
@@ -563,7 +573,7 @@ are needed to interface with CPython from other languages.</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">November 5, 2024</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">February 3, 2025</span>
   </span>
 
     
@@ -652,7 +662,7 @@ are needed to interface with CPython from other languages.</p>
     <script id="__config" type="application/json">{"base": ".", "features": ["header.autohide"], "search": "assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="assets/javascripts/bundle.60a45f97.min.js"></script>
+      <script src="assets/javascripts/bundle.f13b1293.min.js"></script>
       
     
   </body>
