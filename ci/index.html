@@ -404,9 +404,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#ubuntu-linux-ci-setup-via-deadsnakes-action" class="md-nav__link">
+  <a href="#ci-setup-via-setup-uv" class="md-nav__link">
     <span class="md-ellipsis">
-      Ubuntu Linux CI setup via deadsnakes-action
+      CI setup via setup-uv
     </span>
   </a>
   
@@ -507,9 +507,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#ubuntu-linux-ci-setup-via-deadsnakes-action" class="md-nav__link">
+  <a href="#ci-setup-via-setup-uv" class="md-nav__link">
     <span class="md-ellipsis">
-      Ubuntu Linux CI setup via deadsnakes-action
+      CI setup via setup-uv
     </span>
   </a>
   
@@ -556,22 +556,19 @@
 <p>Currently the <code>setup-python</code> GitHub Action <a href="https://github.com/actions/setup-python/issues/771">does not
 support</a> installing a
 free-threaded build. For now, here are some relatively easy ways:</p>
-<h2 id="ubuntu-linux-ci-setup-via-deadsnakes-action">Ubuntu Linux CI setup via <code>deadsnakes-action</code></h2>
+<h2 id="ci-setup-via-setup-uv">CI setup via <code>setup-uv</code></h2>
 <p>The easiest way to get a free-threaded Python build on a CI runner is with the
-<code>deadsnakes</code> Ubuntu PPA and the <code>deadsnakes-action</code> GitHub Action:</p>
+<a href="https://github.com/astral-sh/setup-uv"><code>setup-uv</code></a> Github Action:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">jobs</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">free-threaded</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
 <span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@...</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deadsnakes/action@...</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">astral-sh/setup-uv@...</span>
 <span class="w">        </span><span class="nt">with</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">python-version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3.13-dev</span>
-<span class="w">          </span><span class="nt">nogil</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">          </span><span class="nt">python-version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3.13t</span>
 </code></pre></div>
-<p>You should replace the ellipses with versions for the actions. If there is a
-newer CPython 3.13 release available since this document was written or
-updated, use that version instead.</p>
+<p>You should replace the ellipses with versions for the actions.</p>
 <h2 id="windows-ci-setup-via-custom-powershell">Windows CI setup via custom PowerShell</h2>
 <p>For installing a free-threaded build of Python on a Windows CI runner
 (<code>runs-on: windows-latest</code>), you can download and install directly from
@@ -588,11 +585,11 @@ Windows</a>.</p>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">custom python install script</span>
 <span class="w">        </span><span class="nt">shell</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pwsh</span>
 <span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
-<span class="w">          </span><span class="no">$pythonInstallerUrl = &quot;https://www.python.org/ftp/python/3.13.1/python-3.13.1-amd64.exe&quot;</span>
-<span class="w">          </span><span class="no">Invoke-WebRequest $pythonInstallerUrl -OutFile setup-python.exe</span>
-<span class="w">          </span><span class="no">Start-Process &quot;setup-python.exe&quot; -argumentlist &quot;/quiet PrependPath=1 TargetDir=C:\Python313 Include_freethreaded=1&quot; -wait</span>
-<span class="w">          </span><span class="no">C:\Python313\python3.13t.exe -m pip install -r requirements.txt</span>
-<span class="w">          </span><span class="no">C:\Python313\python3.13t.exe -c &quot;import sys; print(sys._is_gil_enabled())&quot;</span>
+<span class="w">          </span><span class="no">$pythonInstallerUrl = &#39;https://www.nuget.org/api/v2/package/python-freethreaded/3.13.1&#39;</span>
+<span class="w">          </span><span class="no">Invoke-WebRequest $pythonInstallerUrl -OutFile &#39;python-freethreaded.3.13.1.nupkg&#39;</span>
+<span class="w">          </span><span class="no">Install-Package python-freethreaded -Scope CurrentUser -Source $pwd</span>
+<span class="w">          </span><span class="no">$python_dir = (Get-Item((Get-Package -Name python-freethreaded).Source)).DirectoryName</span>
+<span class="w">          </span><span class="no">$env:path = $python_dir + &quot;\tools;&quot; + $python_dir + &quot;\tools\Scripts;&quot; + $env:Path</span>
 </code></pre></div>
 <h2 id="building-free-threaded-wheels-with-cibuildwheel">Building free-threaded wheels with cibuildwheel</h2>
 <p><a href="https://cibuildwheel.pypa.io/en/stable/">cibuildwheel</a> has support
@@ -679,7 +676,7 @@ free-threading.</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">January 24, 2025</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">February 3, 2025</span>
   </span>
 
     
