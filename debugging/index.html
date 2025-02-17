@@ -551,10 +551,34 @@
   
 </li>
         
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#running-python-under-tsan" class="md-nav__link">
+    <span class="md-ellipsis">
+      Running python under TSAN
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Running python under TSAN">
+      <ul class="md-nav__list">
+        
           <li class="md-nav__item">
   <a href="#useful-tsan-options" class="md-nav__link">
     <span class="md-ellipsis">
       Useful TSAN options
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#running-pytest-tests-under-tsan" class="md-nav__link">
+    <span class="md-ellipsis">
+      Running pytest tests under TSAN
     </span>
   </a>
   
@@ -747,10 +771,34 @@
   
 </li>
         
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#running-python-under-tsan" class="md-nav__link">
+    <span class="md-ellipsis">
+      Running python under TSAN
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Running python under TSAN">
+      <ul class="md-nav__list">
+        
           <li class="md-nav__item">
   <a href="#useful-tsan-options" class="md-nav__link">
     <span class="md-ellipsis">
       Useful TSAN options
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#running-pytest-tests-under-tsan" class="md-nav__link">
+    <span class="md-ellipsis">
+      Running pytest tests under TSAN
     </span>
   </a>
   
@@ -1079,12 +1127,14 @@ python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </sp
 <span class="c1"># or with debug info</span>
 <span class="c1"># CC=clang-18 CXX=clang++-18 python -m pip install -v . --no-build-isolation -Csetup-args=-Db_sanitize=thread -Csetup-args=-Dbuildtype=debugoptimized</span>
 </code></pre></div>
+<h2 id="running-python-under-tsan">Running python under TSAN</h2>
 <h3 id="useful-tsan-options">Useful TSAN options</h3>
 <ul>
 <li>By default TSAN reports warnings. To stop execution on TSAN errors, use:</li>
 </ul>
 <div class="highlight"><pre><span></span><code><span class="nv">TSAN_OPTIONS</span><span class="o">=</span><span class="nv">halt_on_error</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>pytest<span class="w"> </span>test.py
 </code></pre></div>
+<p>See <a href="https://github.com/google/sanitizers/wiki/ThreadSanitizerFlags">the TSAN documentation</a> for a full listing of options accepted by TSAN.</p>
 <ul>
 <li>To add TSAN suppressions (written in a file: <code>tsan-suppressions</code>):</li>
 </ul>
@@ -1098,6 +1148,42 @@ race:dnnl_sgemm
 
 
 <span class="nb">export</span><span class="w"> </span><span class="nv">TSAN_OPTIONS</span><span class="o">=</span><span class="s2">&quot;suppressions=</span><span class="nv">$PWD</span><span class="s2">/tsan-suppressions&quot;</span><span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>pytest<span class="w"> </span>test.py
+</code></pre></div>
+<h3 id="running-pytest-tests-under-tsan">Running pytest tests under TSAN</h3>
+<p>By default, pytest <a href="https://docs.pytest.org/en/stable/how-to/capture-stdout-stderr.html">captures all output from
+tests</a>,
+this means that you might only see output like <code>ThreadSanitizer: reported 2 warnings</code>, but with no accompanying report with details about the warning.</p>
+<p>To ensure that pytest doesn't capture any output from ThreadSanitizer, you can
+pass <code>-s</code> (short for <code>--show-capture</code>) to your pytest invocation.</p>
+<p>Some authors of this guide have observed hangs running pytest with
+<code>halt_on_error=1</code>. If you observe hangs, try setting <code>halt_on_error=0</code> in
+TSAN_OPTIONS.</p>
+<p>The <a href="https://github.com/pytest-dev/pytest-xdist">pytest-xdist</a> plugin can also
+sometimes be problematic if a test runner happens to crash during
+execution. While <code>pytest-xdist</code> does have some support for detecting crashed
+worker, it is not foolproof and the authors of this guide have observed hangs on
+CI due to pytest-xdist not properly handling a worker failing due to a TSAN
+error.</p>
+<p>The <code>pytest-xdist</code> plugin also <a href="https://github.com/pytest-dev/pytest-xdist/issues/82">makes it impossible to obtain stdout from
+a test runner</a>, so there
+is no way to see TSAN output if there is an issue. This can lead to hangs on CI
+machines with no accompanying error report to explain the nature of the
+hang. For that reason we suggest uninstalling <code>pytest-xdist</code> from your
+environment to ensure it isn't used. If you need to use <code>pytest-xdist</code> to make
+the tests complete in a reasonable amount of time, we suggest using
+<a href="https://pypi.org/project/pytest-timeout/"><code>pytest-timeout</code></a> to ensure hung
+tests eventually exit, particularly on CI.</p>
+<p>TSAN includes a check to ensure allocators never fail. This can lead to runtime
+crashes if a test happens to try allocating a very large block of memory
+specifically to ensure such an allocation does fail correctly. Set
+<code>allocator_may_return_null=1</code> in <code>TSAN_OPTIONS</code> to avoid this.</p>
+<p>If a TSAN warning is detected, the exit code of the running process will be set
+to a nonzero value (66, by default). If for some reason that is problematic in
+your test suite then you can set <code>exitcode=0</code> in <code>TSAN_OPTIONS</code> to make TSAN
+quit "successfully" if a warning is detected. For example, you might set this if
+a subprocess returning a nonzero exit code unexpectedly breaks a test.</p>
+<p>Altogether, a pytest invocation using TSAN might look like:</p>
+<div class="highlight"><pre><span></span><code>$ TSAN_OPTIONS=&#39;allocator_may_return_null=1 halt_on_error=1&#39; pytest -s
 </code></pre></div>
 <div class="footnote">
 <hr />
@@ -1129,7 +1215,7 @@ race:dnnl_sgemm
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">February 15, 2025</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">February 17, 2025</span>
   </span>
 
     
