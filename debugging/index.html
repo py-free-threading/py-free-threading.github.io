@@ -534,6 +534,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#cpython_sanity-docker-images" class="md-nav__link">
+    <span class="md-ellipsis">
+      cpython_sanity docker images
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#compile-free-threaded-cpython-with-tsan" class="md-nav__link">
     <span class="md-ellipsis">
       Compile free-threaded CPython with TSAN
@@ -752,6 +761,15 @@
   
     <nav class="md-nav" aria-label="Compiling CPython and foundational packages with thread sanitizer (TSAN)">
       <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cpython_sanity-docker-images" class="md-nav__link">
+    <span class="md-ellipsis">
+      cpython_sanity docker images
+    </span>
+  </a>
+  
+</li>
         
           <li class="md-nav__item">
   <a href="#compile-free-threaded-cpython-with-tsan" class="md-nav__link">
@@ -1061,6 +1079,13 @@ related bugs in CPython and foundational packages (e.g. <code>numpy</code>).
 In this section we provide the commands to build a free-threading compatible
 CPython interpreter and packages with TSAN and other hints to discover
 potential data races.</p>
+<h3 id="cpython_sanity-docker-images"><code>cpython_sanity</code> docker images</h3>
+<p>To ease working with thread sanitizer in projects that use Python, NumPy, and
+SciPy, we have create a set of docker images that contain a pre-built Python
+interpreter and common dependencies that can be tricky to build.</p>
+<p>See <a href="https://github.com/nascheme/cpython_sanity">the <code>cpython_sanity</code>
+repository</a> for more information
+about how to use the docker images.</p>
 <h3 id="compile-free-threaded-cpython-with-tsan">Compile free-threaded CPython with TSAN</h3>
 <ul>
 <li>Clone the latest stable branch (<code>3.13</code>):</li>
@@ -1093,6 +1118,10 @@ python<span class="w"> </span>-VV
 <span class="c1"># Exit the `cpython` folder (preparation for the next step below)</span>
 <span class="nb">cd</span><span class="w"> </span>..
 </code></pre></div>
+<p>If you use pyenv, you can also enable a thread sanitizer build with <code>pyenv install</code> like so:</p>
+<div class="highlight"><pre><span></span><code><span class="nv">CC</span><span class="o">=</span>/path/to/clang<span class="w"> </span><span class="nv">CXX</span><span class="o">=</span>/path/to/clang++<span class="w"> </span><span class="nv">CONFIGURE_OPTS</span><span class="o">=</span><span class="s2">&quot;--with-thread-sanitizer&quot;</span><span class="w"> </span>pyenv<span class="w"> </span>install<span class="w"> </span><span class="m">3</span>.14t-dev
+</code></pre></div>
+<p>And then activate the build with e.g. <code>pyenv local 3.14t-dev</code>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>On MacOS, you may see messages like this when you start Python:</p>
@@ -1215,7 +1244,7 @@ a subprocess returning a nonzero exit code unexpectedly breaks a test.</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">February 17, 2025</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">February 25, 2025</span>
   </span>
 
     
