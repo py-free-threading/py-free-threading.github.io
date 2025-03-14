@@ -9,10 +9,10 @@
       
       
       
-        <link rel="prev" href="../porting-extensions/">
+        <link rel="prev" href="../porting/">
       
       
-        <link rel="next" href="../debugging/">
+        <link rel="next" href="../porting-extensions/">
       
       
       <link rel="icon" href="../assets/images/favicon.png">
@@ -20,7 +20,7 @@
     
     
       
-        <title>Setting up CI - py-free-threading</title>
+        <title>Validating thread safety with testing - py-free-threading</title>
       
     
     
@@ -72,7 +72,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#setting-up-ci" class="md-skip">
+        <a href="#validating-thread-safety-with-testing" class="md-skip">
           Skip to content
         </a>
       
@@ -108,7 +108,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Setting up CI
+              Validating thread safety with testing
             
           </span>
         </div>
@@ -353,10 +353,31 @@
       
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../testing/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Validating thread safety with testing
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -366,6 +387,77 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#fixing-thread-unsafe-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fixing thread-unsafe tests.
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Fixing thread-unsafe tests.">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pytest-is-not-thread-safe" class="md-nav__link">
+    <span class="md-ellipsis">
+      pytest is not thread-safe
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#the-warnings-module-is-not-thread-safe" class="md-nav__link">
+    <span class="md-ellipsis">
+      The warnings module is not thread-safe
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#file-system-thread-safety" class="md-nav__link">
+    <span class="md-ellipsis">
+      File system thread safety
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hypothesis-is-not-thread-safe" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hypothesis is not thread-safe
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -395,31 +487,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Setting up CI
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../ci/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -429,53 +500,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#ci-setup-via-setup-uv" class="md-nav__link">
-    <span class="md-ellipsis">
-      CI setup via setup-uv
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#windows-ci-setup-via-custom-powershell" class="md-nav__link">
-    <span class="md-ellipsis">
-      Windows CI setup via custom PowerShell
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#building-free-threaded-wheels-with-cibuildwheel" class="md-nav__link">
-    <span class="md-ellipsis">
-      Building free-threaded wheels with cibuildwheel
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -549,29 +573,53 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#ci-setup-via-setup-uv" class="md-nav__link">
+  <a href="#fixing-thread-unsafe-tests" class="md-nav__link">
     <span class="md-ellipsis">
-      CI setup via setup-uv
+      Fixing thread-unsafe tests.
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Fixing thread-unsafe tests.">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pytest-is-not-thread-safe" class="md-nav__link">
+    <span class="md-ellipsis">
+      pytest is not thread-safe
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#windows-ci-setup-via-custom-powershell" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#the-warnings-module-is-not-thread-safe" class="md-nav__link">
     <span class="md-ellipsis">
-      Windows CI setup via custom PowerShell
+      The warnings module is not thread-safe
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#building-free-threaded-wheels-with-cibuildwheel" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#file-system-thread-safety" class="md-nav__link">
     <span class="md-ellipsis">
-      Building free-threaded wheels with cibuildwheel
+      File system thread safety
     </span>
   </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hypothesis-is-not-thread-safe" class="md-nav__link">
+    <span class="md-ellipsis">
+      Hypothesis is not thread-safe
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -594,108 +642,199 @@
   
 
 
-<h1 id="setting-up-ci">Setting up CI</h1>
-<p>Currently the <code>setup-python</code> GitHub Action <a href="https://github.com/actions/setup-python/issues/771">does not
-support</a> installing a
-free-threaded build. For now, here are some relatively easy ways:</p>
-<h2 id="ci-setup-via-setup-uv">CI setup via <code>setup-uv</code></h2>
-<p>The easiest way to get a free-threaded Python build on a CI runner is with the
-<a href="https://github.com/astral-sh/setup-uv"><code>setup-uv</code></a> Github Action:</p>
-<div class="highlight"><pre><span></span><code><span class="nt">jobs</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">free-threaded</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
-<span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@...</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">astral-sh/setup-uv@...</span>
-<span class="w">        </span><span class="nt">with</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">python-version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3.13t</span>
+<h1 id="validating-thread-safety-with-testing">Validating thread safety with testing</h1>
+<p>Put priority on thread safety issues surfaced by real-world testing. Run the
+test suite for your project and fix any failures that occur only with the GIL
+disabled. Some issues may be due to changes in Python 3.13 that are not
+specific to the free-threaded build.</p>
+<p>If you are unable to run your package with the GIL disabled because of problems
+in extension modules or in dependencies, you can still test with the GIL enabled
+by setting the thread switch interval to a very small value (e.g. a microsecond
+or shorter). You can call
+<a href="https://docs.python.org/3/library/sys.html#sys.setswitchinterval"><code>sys.setswitchiterval</code></a>
+before running multithreaded tests to force Python to release the GIL more often
+that the default configuration. This can expose thread safety issues that the
+GIL is masking.</p>
+<p>Unless your tests make heavy use of the <code>threading</code> module, you will likely not
+hit many issues, so also consider constructing multithreaded tests to expose
+bugs based on workflows you want to support. Issues found in these tests are the
+issues your users will most likely hit first.</p>
+<p>Multithreaded Python programs can exhibit <a href="https://en.wikipedia.org/wiki/Race_condition">race
+conditions</a> which produce random
+results depending on the order of execution in a multithreaded context. This can
+happen even with the GIL providing locking, so long as the algorithm releases
+the GIL at some point, and many Python operations can lead to the GIL being
+released at some point. If your library was not designed with multithreading in
+mind, it is likely that some form of locking or synchronization is necessary to
+make mutable data structures defined by your library thread-safe. You should
+document the thread-safety guarantees of your library, both with and without the
+GIL.</p>
+<p>You should focus your efforts on analyzing the safety of shared use of mutable
+data structures or mutable global state. Decide whether it is supported and to
+what level it is supported to share mutable state between threads. It is a valid
+choice to leave it up to users to add synchronization, with the proviso that
+thread-unsafe data structures should be clearly documented as such.</p>
+<p>Generally global mutable state is not safe in the free-threaded build without
+some form of locking. Many projects use global mutable state (e.g. module-level
+or class-level state) for convenience with the assumption that the GIL provides
+locking on the state. That will most likely not be valid without some form of
+explicit locking on the free-threaded build. It is also likely that there are
+latent thread-safety issues related to use of global state even in the GIL-enabled
+build.</p>
+<p>Many test suites are implemented using global mutable state or assume that tests
+cannot run simultaneously. See the section below on <a href="../porting/#fixing-thread-unsafe-tests">global state in
+tests</a> for more information about
+updating test suites to work with the free-threaded build and dealing with tests
+that become flaky when run in a thread pool.</p>
+<p>You can look at
+<a href="https://github.com/Quansight-Labs/pytest-run-parallel">pytest-run-parallel</a> as
+well as
+<a href="https://github.com/tonybaloney/pytest-freethreaded">pytest-freethreaded</a>, which
+both offer pytest plugins to enable running tests in an existing <code>pytest</code> test
+suite simultaneously in many threads, with the goal of validating thread
+safety. <a href="https://github.com/amyreese/unittest-ft">unittest-ft</a> offers similar
+functionality for running <code>unittest</code>-based tests in parallel.</p>
+<p>These plugins are useful for discovering issues related to use of global state,
+but cannot discover issues from multithreaded use of data structures defined by
+your library.</p>
+<p>If you would like to create your own testing utilities, the
+<a href="https://docs.python.org/3/library/concurrent.futures.html#concurrent.futures.ThreadPoolExecutor"><code>concurrent.futures.ThreadPoolExecutor</code></a>
+class is a lightweight way to create multithreaded tests where many threads
+repeatedly call a function simultaneously. You can also use the <code>threading</code>
+module directly for more complicated multithreaded test workflows. Adding a
+<code>threading.Barrier</code> before a line of code that you suspect will trigger a race
+condition is a good way to synchronize workers and increase the chances that an
+infrequent test failure will trigger.</p>
+<p>NumPy makes use of the following helper function to enable writing explicitly
+multithreaded tests, with a number of useful features to generically set up
+different testing scenarios:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">concurrent.futures</span><span class="w"> </span><span class="kn">import</span> <span class="n">ThreadPoolExecutor</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">threading</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">run_threaded</span><span class="p">(</span>
+    <span class="n">func</span><span class="p">,</span>
+    <span class="n">num_threads</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span>
+    <span class="n">pass_count</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">pass_barrier</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">outer_iterations</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">prepare_args</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Runs a function many times in parallel&quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">outer_iterations</span><span class="p">):</span>
+        <span class="k">with</span> <span class="n">ThreadPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="n">num_threads</span><span class="p">)</span> <span class="k">as</span> <span class="n">tpe</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">prepare_args</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">args</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">args</span> <span class="o">=</span> <span class="n">prepare_args</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">pass_barrier</span><span class="p">:</span>
+                <span class="n">barrier</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Barrier</span><span class="p">(</span><span class="n">num_threads</span><span class="p">)</span>
+                <span class="n">args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">barrier</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">pass_count</span><span class="p">:</span>
+                <span class="n">all_args</span> <span class="o">=</span> <span class="p">[(</span><span class="n">func</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_threads</span><span class="p">)]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">all_args</span> <span class="o">=</span> <span class="p">[(</span><span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_threads</span><span class="p">)]</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">futures</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">all_args</span><span class="p">:</span>
+                    <span class="n">futures</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tpe</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="o">*</span><span class="n">arg</span><span class="p">))</span>
+            <span class="k">finally</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">futures</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">num_threads</span> <span class="ow">and</span> <span class="n">pass_barrier</span><span class="p">:</span>
+                    <span class="n">barrier</span><span class="o">.</span><span class="n">abort</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">futures</span><span class="p">:</span>
+                <span class="n">f</span><span class="o">.</span><span class="n">result</span><span class="p">()</span>
 </code></pre></div>
-<p>You should replace the ellipses with versions for the actions.</p>
-<h2 id="windows-ci-setup-via-custom-powershell">Windows CI setup via custom PowerShell</h2>
-<p>For installing a free-threaded build of Python on a Windows CI runner
-(<code>runs-on: windows-latest</code>), you can download and install directly from
-<a href="https://www.python.org/ftp/python/">https://www.python.org/ftp/python/</a> as
-shown in the following PowerShell snippet (noting that the free-threaded
-binary is named <code>python{version}t.exe</code>, where the "t" is for free-"t"hreaded).
-For more tips see the <a href="https://docs.python.org/3.13/using/windows.html#installing-without-ui">docs on silent installation and options on
-Windows</a>.</p>
-<div class="highlight"><pre><span></span><code><span class="nt">jobs</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">free-threaded</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">windows-latest</span>
-<span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@...</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">custom python install script</span>
-<span class="w">        </span><span class="nt">shell</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pwsh</span>
-<span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
-<span class="w">          </span><span class="no">$pythonInstallerUrl = &#39;https://www.nuget.org/api/v2/package/python-freethreaded/3.13.1&#39;</span>
-<span class="w">          </span><span class="no">Invoke-WebRequest $pythonInstallerUrl -OutFile &#39;python-freethreaded.3.13.1.nupkg&#39;</span>
-<span class="w">          </span><span class="no">Install-Package python-freethreaded -Scope CurrentUser -Source $pwd</span>
-<span class="w">          </span><span class="no">$python_dir = (Get-Item((Get-Package -Name python-freethreaded).Source)).DirectoryName</span>
-<span class="w">          </span><span class="no">$env:path = $python_dir + &quot;\tools;&quot; + $python_dir + &quot;\tools\Scripts;&quot; + $env:Path</span>
+<p>Using this helper, you could write a multithreaded test using a shared list like this:</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">test_parallel_append</span><span class="p">():</span>
+    <span class="n">shared_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">closure</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+        <span class="n">b</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+        <span class="n">shared_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+    <span class="n">run_threaded</span><span class="p">(</span><span class="n">closure</span><span class="p">,</span> <span class="n">num_threads</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">pass_barrier</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">pass_count</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="k">assert</span> <span class="nb">sum</span><span class="p">(</span><span class="n">shared_list</span><span class="p">)</span> <span class="o">==</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">8</span><span class="p">))</span>
 </code></pre></div>
-<h2 id="building-free-threaded-wheels-with-cibuildwheel">Building free-threaded wheels with cibuildwheel</h2>
-<p><a href="https://cibuildwheel.pypa.io/en/stable/">cibuildwheel</a> has support
-for building free-threaded wheels on all platforms. If your project releases
-nightly wheels, we suggest configuring <code>cibuildwheel</code> to build nightly
-free-threaded wheels.</p>
-<p>If your project depends on Cython or the NumPy C API, you will need to install a
-Cython nightly wheel in the build, as the newest stable release of Cython cannot
-generate code that will compile under the free-threaded build. Cython 3.1.0 and
-NumPy 2.1.0 will be or are the first stable releases to support free-threaded
-python. See <a href="../tracking/">the project tracker</a> for more detailed information
-about projects you may depend on.</p>
-<p>You can install nightly wheels for both Cython and NumPy using the following
-install command:</p>
-<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>-i<span class="w"> </span>https://pypi.anaconda.org/scientific-python-nightly-wheels/simple<span class="w"> </span>cython<span class="w"> </span>numpy
-</code></pre></div>
-<p>To ensure wheels are built correctly under cibuildwheel, you will need to
-specify the following variables in the environment for the cibuildwheel action:</p>
-<div class="highlight"><pre><span></span><code><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Build wheels</span>
-<span class="w">    </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pypa/cibuildwheel@...</span>
-<span class="w">    </span><span class="nt">env</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">CIBW_PRERELEASE_PYTHONS</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="w">      </span><span class="nt">CIBW_FREE_THREADED_SUPPORT</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="w">      </span><span class="nt">CIBW_BUILD</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cp313t-${{ matrix.buildplat }}</span>
-<span class="w">      </span><span class="c1"># TODO:</span>
-<span class="w">      </span><span class="c1"># remove when a released cython can build free-threaded extensions</span>
-<span class="w">      </span><span class="nt">CIBW_BUILD_FRONTEND</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;pip;</span><span class="nv"> </span><span class="s">args:</span><span class="nv"> </span><span class="s">--no-build-isolation&#39;</span>
-</code></pre></div>
-<p>As above, replace the ellipses with a <code>cibuildwheel</code> version.</p>
-<p>If for some reason disabling build isolation is unworkable, you can also tell
-pip about the nightly wheel index and it will use it in an isolated build. To
-do this, set:</p>
-<div class="highlight"><pre><span></span><code><span class="nt">CIBW_BUILD_FRONTEND</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;pip;</span><span class="nv"> </span><span class="s">args:</span><span class="nv"> </span><span class="s">--pre</span><span class="nv"> </span><span class="s">--extra-index-url</span><span class="nv"> </span><span class="s">&quot;https://pypi.anaconda.org/scientific-python-nightly-wheels/simple&quot;&#39;</span>
-</code></pre></div>
-<p>Many projects use <code>build</code> instead of <code>pip</code> for the build frontend. See <a href="https://cibuildwheel.pypa.io/en/stable/options/#build-frontend">the
-cibuildwheel</a>
-docs for more information about how to pass arguments to <code>build</code> and <code>pip</code>. See
-<a href="https://github.com/pypa/build/issues/651#issuecomment-2243025713">this
-comment</a> on
-the <code>build</code> issue tracker if you need to use <code>build</code> and cannot disable build
-isolation.</p>
-<p>Note that nightly wheels may not be available on all platforms yet. Windows
-wheels, in particular, are not currently available for NumPy or projects that
-depend on NumPy (e.g., SciPy).</p>
-<p>You will also likely need to manually pass <code>-Xgil=0</code> or set <code>PYTHON_GIL=0</code> in
-your shell environment while running tests to ensure the GIL is actually
-disabled during tests, at least until you can register that your extension
-modules support disabling the GIL via <code>Py_mod_gil</code> and all of your runtime test
-dependencies do the same. See <a href="../porting/">the porting guide</a> for more
-information about declaring support for free-threaded python in your extension.</p>
-<div class="admonition info">
-<p class="admonition-title">Info</p>
-<p>If a dependency of your package does not support free-threading or has not
-yet done a release which includes <code>cp313t</code> wheels, this can be tricky to
-work around because an environment marker for free-threading does not exist
-(see <a href="https://discuss.python.org/t/environment-marker-for-free-threading/60007">this Discourse thread</a>).
-Hence it is not possible to special-case free-threading with static metadata
-in <code>pyproject.toml</code>. It's fine to still upload <code>cp313t</code> wheels for your
-package to PyPI; the user may then be responsible for getting the
-dependency installed (e.g., from a nightly wheel or building the
-dependency's <code>main</code> branch from source) if the last release of the
-dependency doesn't cleanly build from source or doesn't work under
-free-threading.</p>
-</div>
+<p>Generally multithreaded tests look something like the above: define a closure
+that operates on (possibly) shared data, spawn a thread pool that runs the
+closure in many threads, and assert something about the state of the world
+either inside the closure or after the thread pool finishes running. The
+assertion might be merely that a crash doesn't happen, in which case no explicit
+asserts are necessary.</p>
+<p>Tests that fail due to thread safety issues are inherently
+<a href="https://testautomationpatterns.org/wiki/index.php/FLAKY_TESTS">flaky</a>. You
+should not be surprised to see tests that pass or fail randomly, or even fail a
+very small percentage of the time. When writing multithreaded tests your goal
+should be to maximize the chances of triggering a thread safety issue. You could
+pass <code>outer_iterations</code> to <code>run_threaded</code> to multiply the number of chances a
+thread triggers a thread safety issue in a single test.</p>
+<h2 id="fixing-thread-unsafe-tests">Fixing thread-unsafe tests.</h2>
+<p>Many existing tests are written using global state. This is not a problem if the
+test only runs once, but if you would like to use your tests to check for
+possible thread safety issues by running existing tests on many threads, you
+will likely need to update the tests to eliminate use of global state.</p>
+<p>Since tests using global state are inherently racey, this means that test
+failures associated with these tests are also inherently flakey. If you see
+tests failing intermittently, you should not discount that you are using global
+state in a test, or even inadvertently using global state in <code>pytest</code> itself.</p>
+<h4 id="pytest-is-not-thread-safe"><code>pytest</code> is not thread-safe</h4>
+<p>See <a href="https://docs.pytest.org/en/stable/explanation/flaky.html#thread-safety">the <code>pytest</code>
+docs</a>
+for more information about this. While tests can manage their own threads, you
+should not assume that functionality provided by <code>pytest</code> is thread-safe.</p>
+<p>Functionality that is known not to be thread-safe includes:</p>
+<ul>
+<li><a href="https://docs.pytest.org/en/stable/reference/reference.html#pytest.warns"><code>pytest.warns</code></a>,
+    it relies on <code>warnings.catch_warnings</code>, which is not thread-safe.</li>
+<li>The <a href="https://docs.pytest.org/en/stable/reference/reference.html#std-fixture-tmp_path"><code>tmp_path</code></a>
+    and <a href="https://docs.pytest.org/en/stable/reference/reference.html#std-fixture-tmpdir"><code>tmpdir</code></a>
+    fixtures, since they rely on the filesystem</li>
+<li>The <a href="https://docs.pytest.org/en/stable/reference/reference.html#std-fixture-capsys"><code>capsys</code>
+    fixture</a>,
+    because of shared use of <code>sys.stdout</code> and <code>sys.stderr</code>.</li>
+<li>The <a href="https://docs.pytest.org/en/stable/reference/reference.html#std-fixture-monkeypatch"><code>monkeypatch</code>
+    fixture</a>.</li>
+</ul>
+<p>Note that the <code>pytest</code> maintainers have explicitly ruled out making <code>pytest</code>
+thread-safe, please do not open issues asking to fix thread safety issues in
+<code>pytest</code> itself.</p>
+<h4 id="the-warnings-module-is-not-thread-safe">The <code>warnings</code> module is not thread-safe</h4>
+<p>Many tests carefully ensure that warnings will be seen by the user in cases
+where the library author intends users to see them. These tests inevintably make
+use of the <a href="https://docs.python.org/3/library/warnings.html"><code>warnings</code>
+module</a>. As noted in <a href="https://docs.python.org/3/library/warnings.html#available-context-managers">the
+documentation for
+<code>warnings.catch_warnings</code></a>,
+the functionality provided by Python to track warnings is inherently
+thread-unsafe. This means tests that check for warnings should be marked as
+thread-unsafe and should be skipped when running tests on many threads
+simultaneously, since they will randomly pass or fail depending on thread
+timing.</p>
+<p>Hopefully in the future it will be possible for Python to write a scalable
+infrastucture for tracking warnings to fix this issue once and for all. See <a href="https://github.com/python/cpython/issues/91505">the
+CPython issue</a> tracking this
+problem for more information.</p>
+<h4 id="file-system-thread-safety">File system thread safety</h4>
+<p>Many tests make use of the file system, either via a temporary file, or by
+simply directly writing to the folder running the test. If the filename used by
+the test is a constant or it is ever shared between instances of the test, the
+filesystem becomes shared global state, and the test will not be thread-safe.</p>
+<p>The easiest way to fix this is to use
+<a href="https://docs.python.org/3/library/tempfile.html"><code>tempfile</code></a>, which
+automatically handles generating file handles in a thread-safe manner. If for
+some reason this isn't practical, consider forcing the filenames used in tests
+to be unique, for example by appending a
+<a href="https://docs.python.org/3/library/uuid.html">UUID</a> to the filename.</p>
+<h4 id="hypothesis-is-not-thread-safe">Hypothesis is not thread-safe</h4>
+<p>The details of this are <a href="https://hypothesis.readthedocs.io/en/latest/details.html#thread-safety-policy">spelled
+out</a>
+in the Hypothesis documentation. Similar to Pytest, it should be safe to spawn
+helper threads in a hypothesis test and pass data generated by hypothesis into
+those threads, so long as the use of helper threads does not change the order in
+which hypothesis generates test data or exhibits non-deterministic behavior. It
+is also not safe to interact with the Hypothesis API simultaneously from multiple
+threads.</p>
 
 
 
@@ -718,7 +857,7 @@ free-threading.</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="February 15, 2025 21:58:51">February 15, 2025</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 14, 2025 19:08:35">March 14, 2025</span>
   </span>
 
     
@@ -728,7 +867,7 @@ free-threading.</p>
     <span class="md-icon" title="Created">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="July 10, 2024 10:09:59">July 10, 2024</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 14, 2025 19:08:35">March 14, 2025</span>
   </span>
 
     

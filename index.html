@@ -299,6 +299,42 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#installing-and-running-free-threaded-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installing and Running Free-threaded Python
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#updating-code-to-run-on-free-threaded-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      Updating code to run on free-threaded Python
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#advanced-topics-for-package-maintainers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Advanced topics for package maintainers
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#further-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      Further reading
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#about-this-site" class="md-nav__link">
     <span class="md-ellipsis">
       About this site
@@ -406,6 +442,48 @@
   
   
     <li class="md-nav__item">
+      <a href="testing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Validating thread safety with testing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="porting-extensions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Updating Extension Modules
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="ci/" class="md-nav__link">
         
   
@@ -431,7 +509,7 @@
         
   
   <span class="md-ellipsis">
-    Uncovering Concurrency Issues, Testing and Debugging
+    Debugging thread safety issues
     
   </span>
   
@@ -489,6 +567,42 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#installing-and-running-free-threaded-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      Installing and Running Free-threaded Python
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#updating-code-to-run-on-free-threaded-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      Updating code to run on free-threaded Python
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#advanced-topics-for-package-maintainers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Advanced topics for package maintainers
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#further-reading" class="md-nav__link">
+    <span class="md-ellipsis">
+      Further reading
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#about-this-site" class="md-nav__link">
     <span class="md-ellipsis">
       About this site
@@ -529,15 +643,119 @@ that include native code, you can take a look at our progress here:</p>
 <ul>
 <li><a href="tracking/">Compatibility Status Tracking</a></li>
 </ul>
-<p>This website also provide documentation and porting guidance - with a focus on
-extension modules using the Python C API, because that's where most of the work
-will be. The following resources should get you started:</p>
+<p>This website also provide documentation and guidance for setting up a
+free-threaded Python development environment and getting code working under the
+free-threaded build.</p>
+<h2 id="installing-and-running-free-threaded-python">Installing and Running Free-threaded Python</h2>
+<p>The following sections describe how to install free-threaded Python and how
+to run with the GIL disabled and verify that is the case.</p>
 <ul>
 <li><a href="installing_cpython/">Installing Free-Threaded Python</a></li>
 <li><a href="running-gil-disabled/">Running Python with the GIL Disabled</a></li>
+</ul>
+<h2 id="updating-code-to-run-on-free-threaded-python">Updating code to run on free-threaded Python</h2>
+<p>If you are interested in updating your code to work on free-threaded Python,
+what you need to do depends on your needs and goals. Please select the option
+that best describes you:</p>
+<details class="success">
+<summary>I am writing a Python script or application that uses Python libraries I don't maintain</summary>
+<p>You should start experimenting with free-threaded Python once the libraries
+you depend on advertise support for free-threading. See <a href="tracking/">the tracking
+table</a> for more details about the status of free-threaded
+support in Python libraries.</p>
+<p>If your dependencies advertise free-threaded support, good news! If you do
+not use the <code>threading</code> module and do not plan to, then you're done and you
+can feel safe declaring support for running your project on the
+free-threaded build.</p>
+<p>If you would like to use the <code>threading</code> module to improve the performance of
+your project, you should read the documentation of your dependencies and
+learn about their thread safety guarantees. This is particularly true of
+libraries that expose mutable objects, doubly so if you want to mutate a
+shared object from many threads.</p>
+<p>Pure Python code can exhibit thread safety issues, so you may also want to
+look at the first section of the porting guide, particularly on the thread
+safety of pure Python code:</p>
+<ul>
 <li><a href="porting/">Porting Python Packages to Support Free-Threading</a></li>
-<li><a href="ci/">Setting up CI</a></li>
-<li><a href="debugging/">Uncovering Concurrency Issues, Testing and Debugging</a></li>
+</ul>
+</details>
+<details class="success">
+<summary>I maintain a pure Python app or tool written in pure Python with no public Python API</summary>
+<p>You should start experimenting with free-threaded Python once the libraries
+you depend on advertise support for free-threading. See <a href="tracking/">the tracking
+table</a> for more details about the status of free-threaded
+support in Python libraries.</p>
+<p>If your dependencies advertise free-threaded support, good news! If you do
+not use the <code>threading</code> module and do not plan to, then you're done and you
+can feel safe declaring support for running your project on the
+free-threaded build.</p>
+<p>If you make use of the <code>threading</code> module internally and already have
+multithreaded tests, consider experimenting with your existing tests with a
+very short <a href="https://docs.python.org/3/library/sys.html#sys.getswitchinterval">thread switch
+interval</a>. This
+can elicit thread safety issues on the GIL-enabled build. If you do not use
+<code>threading</code> or thread pools internally your tool or app should behave
+identically under free-threading.</p>
+<p>If you would like to use the <code>threading</code> module to improve the performance of
+your project, you should read the documentation of your dependencies and
+learn about their thread safety guarantees. This is particularly true of
+libraries that expose mutable objects, doubly so if you want to mutate a
+shared object from many threads.</p>
+<p>Pure Python code can exhibit thread safety issues, so you may also want to
+look at the first section of the porting guide, particularly on the thread
+safety of pure Python code:</p>
+<ul>
+<li><a href="porting/">Porting Python Packages to Support Free-Threading</a></li>
+</ul>
+</details>
+<details class="success">
+<summary>I maintain a pure Python package with a public Python API</summary>
+<p>Free-threading is implemented in CPython such that pure Python code is
+thread-safe, at least to the same extent as it is with the GIL enabled
+today. We use "thread-safe" here to mean that CPython should not crash
+running multithreaded pure Python code, not necessarily that a multithreaded
+program will always produce deterministic results, even if the GIL-enabled
+build is deterministic. It is up to the author of a program, application, or
+library to ensure safe multithreaded usage when using the library in a
+supported manner.</p>
+<p>There are a few ways you can create thread safety issues in your own
+code. The most common ones are: using global state for configuration or
+other purposes, implementing a cache with a dict or other variable not meant
+for that purpose, or using functionality of a dependency that itself isn't
+thread-safe. You should also think about whether you would like to support
+multithreaded use of any mutable data structures exposed by your package. If
+your package does none of those things, you are very likely ready for
+free-threading already.</p>
+<p>What gets trickier is testing whether your package is thread-safe. For that
+you'll need multi-threaded tests, and that can be more involved - see <a href="testing/">our guide
+to adding multithreaded test coverage</a> to Python packages.</p>
+<ul>
+<li><a href="porting/">Porting Python Packages to Support Free-Threading</a></li>
+<li><a href="testing/">Improving Multithreaded Test Coverage</a></li>
+</ul>
+</details>
+<details class="success">
+<summary>I maintain a Python package with compiled extension modules</summary>
+<p>As usual with extensions, dealing with native code will take some work but
+we hope that this guide will provide you with a toolkit to get things
+working.</p>
+<p>We suggest reading through the the full porting guide, including the final
+section that focuses on considerations for native code.</p>
+<ul>
+<li><a href="porting/">Porting Python Packages to Support Free-Threading</a></li>
+<li><a href="testing/">Improving Multithreaded Test Coverage</a></li>
+<li><a href="porting-extensions/">Updating Native Extensions to Support Free-Threading</a></li>
+</ul>
+</details>
+<h2 id="advanced-topics-for-package-maintainers">Advanced topics for package maintainers</h2>
+<ul>
+<li><a href="ci/">Setting up Continuous Integration</a></li>
+<li><a href="debugging/">Debugging Thread Safety Issues</a></li>
+</ul>
+<h2 id="further-reading">Further reading</h2>
+<p>We've collected more resources on free-threaded Python and multithreaded
+programming here:</p>
+<ul>
 <li><a href="resources/">More Resources</a></li>
 </ul>
 <h2 id="about-this-site">About this site</h2>
@@ -573,7 +791,7 @@ are needed to interface with CPython from other languages.</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="February 3, 2025 20:23:05">February 3, 2025</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 14, 2025 19:08:35">March 14, 2025</span>
   </span>
 
     
