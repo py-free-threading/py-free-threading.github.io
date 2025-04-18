@@ -12,7 +12,7 @@
         <link rel="prev" href="../ci/">
       
       
-        <link rel="next" href="../resources/">
+        <link rel="next" href="../faq/">
       
       
       <link rel="icon" href="../assets/images/favicon.png">
@@ -546,30 +546,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#frequently-seen-errors-and-how-to-fix-them" class="md-nav__link">
-    <span class="md-ellipsis">
-      Frequently seen errors and how to fix them
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Frequently seen errors and how to fix them">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#cython-compilation-errors-unknown-type-name-__pyx_vectorcallfunc" class="md-nav__link">
-    <span class="md-ellipsis">
-      Cython compilation errors: unknown type name '__pyx_vectorcallfunc'
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#compiling-cpython-and-foundational-packages-with-threadsanitizer" class="md-nav__link">
     <span class="md-ellipsis">
       Compiling CPython and foundational packages with ThreadSanitizer
@@ -657,6 +633,28 @@
   
 </nav>
       
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../faq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Frequently seen errors and how to fix them
+    
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -787,30 +785,6 @@
   <a href="#detecting-issues-in-cpython" class="md-nav__link">
     <span class="md-ellipsis">
       Detecting issues in CPython
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#frequently-seen-errors-and-how-to-fix-them" class="md-nav__link">
-    <span class="md-ellipsis">
-      Frequently seen errors and how to fix them
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Frequently seen errors and how to fix them">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#cython-compilation-errors-unknown-type-name-__pyx_vectorcallfunc" class="md-nav__link">
-    <span class="md-ellipsis">
-      Cython compilation errors: unknown type name '__pyx_vectorcallfunc'
     </span>
   </a>
   
@@ -1119,34 +1093,6 @@ will ensure that the source files are kept as well, such files will be loaded
 by <code>gdb</code>/<code>lldb</code> at the moment of debugging. For more information regarding
 CPython installation sources, please visit the
 <a href="../installing_cpython/">Installing a free-threaded Python</a> page.</p>
-<h2 id="frequently-seen-errors-and-how-to-fix-them">Frequently seen errors and how to fix them</h2>
-<p>These are error messages that we see come up often when working with code or
-development workflows that have not been updated to accommodate the
-free-threaded build. We also provide suggested fixes. Please send in pull
-requests to <a href="https://github.com/quansight-labs/free-threaded-compatibility">the repository for this
-document</a> if you
-run into any confusing free-threading-specific errors that you suspect apply to
-other libraries and aren't covered here.</p>
-<h3 id="cython-compilation-errors-unknown-type-name-__pyx_vectorcallfunc">Cython compilation errors: <code>unknown type name '__pyx_vectorcallfunc'</code></h3>
-<p>This happens if you try to build a Cython extension for the free-threaded build
-using the current stable release of Cython (3.0.11 at the time of writing). The
-current stable release of Cython does not support the free-threaded build. You
-must either build Cython from the <code>master</code> branch <a href="https://github.com/cython/cython">on
-Github</a> or use the nightly wheel:</p>
-<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>-i<span class="w"> </span>https://pypi.anaconda.org/scientific-python-nightly-wheels/simple<span class="w"> </span>cython
-</code></pre></div>
-<p>See <a href="../porting/">the porting guide</a> for more detail about porting Cython code to
-work under free-threading.</p>
-<p>You may wonder why you are able to install a wheel for the current Cython
-release at all. This is because Cython ships a pure-python wheel tagged with
-<code>py2.py3-none-any</code>, which pip will install if it cannot find another wheel that
-is compatible. A future version of Cython will ship a wheel with compiled code
-that supports the free-threaded build.</p>
-<p>The current nightly wheel is a pure-python build, so it works on all
-architectures. The pure-python version of Cython is usually only marginally
-slower than a compiled version, so you should default to installing the wheel in
-CI instead of compiling Cython, which can take up to a few minutes on some CI
-runners.</p>
 <h2 id="compiling-cpython-and-foundational-packages-with-threadsanitizer">Compiling CPython and foundational packages with ThreadSanitizer</h2>
 <p><a href="https://github.com/google/sanitizers/wiki/ThreadSanitizerCppManual">Thread sanitizer</a> (or TSan) helps
 to detect C/C++ data races in concurrent systems. This tool can help to reveal free-threading
@@ -1351,7 +1297,7 @@ built into AddressSanitizer by setting <code>ASAN_OPTIONS="detect_leaks=0"</code
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 14, 2025 19:08:35">March 14, 2025</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 18, 2025 15:30:22">April 18, 2025</span>
   </span>
 
     

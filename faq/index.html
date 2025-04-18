@@ -6,28 +6,28 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="py-free-threading is a centralized collection of documentation and trackers around compatibility with free-threaded CPython for the Python open source ecosystem">
       
       
       
+        <link rel="prev" href="../debugging/">
       
       
-        <link rel="next" href="tracking/">
+        <link rel="next" href="../resources/">
       
       
-      <link rel="icon" href="assets/images/favicon.png">
+      <link rel="icon" href="../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.12">
     
     
       
-        <title>py-free-threading</title>
+        <title>Frequently seen errors and how to fix them - py-free-threading</title>
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.2afb09e1.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.2afb09e1.min.css">
       
         
-        <link rel="stylesheet" href="assets/stylesheets/palette.06af60db.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
       
       
 
@@ -46,7 +46,7 @@
       
     
     
-    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -72,7 +72,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#python-free-threading-guide" class="md-skip">
+        <a href="#frequently-seen-errors-and-how-to-fix-them" class="md-skip">
           Skip to content
         </a>
       
@@ -88,7 +88,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="." title="py-free-threading" class="md-header__button md-logo" aria-label="py-free-threading" data-md-component="logo">
+    <a href=".." title="py-free-threading" class="md-header__button md-logo" aria-label="py-free-threading" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -108,7 +108,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Python free-threading guide
+              Frequently seen errors and how to fix them
             
           </span>
         </div>
@@ -224,7 +224,7 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="." title="py-free-threading" class="md-nav__button md-logo" aria-label="py-free-threading" data-md-component="logo">
+    <a href=".." title="py-free-threading" class="md-nav__button md-logo" aria-label="py-free-threading" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -251,6 +251,204 @@
       
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Python free-threading guide
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../tracking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Compatibility Status Tracking
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installing_cpython/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Installing Free-Threaded Python
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../running-gil-disabled/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Running Python with the GIL Disabled
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../porting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Porting Python Packages to Support Free-Threading
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Validating thread safety with testing
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../porting-extensions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Updating Extension Modules
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ci/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Setting up CI
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../debugging/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Debugging thread safety issues
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
     
   
   
@@ -268,7 +466,7 @@
   
   
   <span class="md-ellipsis">
-    Python free-threading guide
+    Frequently seen errors and how to fix them
     
   </span>
   
@@ -276,12 +474,12 @@
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <a href="." class="md-nav__link md-nav__link--active">
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
   <span class="md-ellipsis">
-    Python free-threading guide
+    Frequently seen errors and how to fix them
     
   </span>
   
@@ -304,63 +502,27 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#installing-and-running-free-threaded-python" class="md-nav__link">
+  <a href="#cython-compilation-errors-unknown-type-name-__pyx_vectorcallfunc" class="md-nav__link">
     <span class="md-ellipsis">
-      Installing and Running Free-threaded Python
+      Cython compilation errors: unknown type name '__pyx_vectorcallfunc'
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#where-to-get-help" class="md-nav__link">
+  <a href="#pip-install-jupyter-fails" class="md-nav__link">
     <span class="md-ellipsis">
-      Where to get help
+      pip install jupyter fails
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#updating-code-to-run-on-free-threaded-python" class="md-nav__link">
+  <a href="#what-does-py_limited_api-is-currently-incompatible-with-py_gil_disabled-mean" class="md-nav__link">
     <span class="md-ellipsis">
-      Updating code to run on free-threaded Python
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#frequently-asked-questions" class="md-nav__link">
-    <span class="md-ellipsis">
-      Frequently asked questions
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#advanced-topics-for-package-maintainers" class="md-nav__link">
-    <span class="md-ellipsis">
-      Advanced topics for package maintainers
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#further-reading" class="md-nav__link">
-    <span class="md-ellipsis">
-      Further reading
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#about-this-site" class="md-nav__link">
-    <span class="md-ellipsis">
-      About this site
+      What does "Py_LIMITED_API is currently incompatible with Py_GIL_DISABLED" mean?
     </span>
   </a>
   
@@ -381,205 +543,7 @@
   
   
     <li class="md-nav__item">
-      <a href="tracking/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Compatibility Status Tracking
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="installing_cpython/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Installing Free-Threaded Python
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="running-gil-disabled/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Running Python with the GIL Disabled
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="porting/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Porting Python Packages to Support Free-Threading
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="testing/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Validating thread safety with testing
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="porting-extensions/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Updating Extension Modules
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="ci/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Setting up CI
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="debugging/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Debugging thread safety issues
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="faq/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    Frequently seen errors and how to fix them
-    
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="resources/" class="md-nav__link">
+      <a href="../resources/" class="md-nav__link">
         
   
   
@@ -601,7 +565,7 @@
   
   
     <li class="md-nav__item">
-      <a href="contributing/" class="md-nav__link">
+      <a href="../contributing/" class="md-nav__link">
         
   
   
@@ -643,63 +607,27 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#installing-and-running-free-threaded-python" class="md-nav__link">
+  <a href="#cython-compilation-errors-unknown-type-name-__pyx_vectorcallfunc" class="md-nav__link">
     <span class="md-ellipsis">
-      Installing and Running Free-threaded Python
+      Cython compilation errors: unknown type name '__pyx_vectorcallfunc'
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#where-to-get-help" class="md-nav__link">
+  <a href="#pip-install-jupyter-fails" class="md-nav__link">
     <span class="md-ellipsis">
-      Where to get help
+      pip install jupyter fails
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#updating-code-to-run-on-free-threaded-python" class="md-nav__link">
+  <a href="#what-does-py_limited_api-is-currently-incompatible-with-py_gil_disabled-mean" class="md-nav__link">
     <span class="md-ellipsis">
-      Updating code to run on free-threaded Python
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#frequently-asked-questions" class="md-nav__link">
-    <span class="md-ellipsis">
-      Frequently asked questions
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#advanced-topics-for-package-maintainers" class="md-nav__link">
-    <span class="md-ellipsis">
-      Advanced topics for package maintainers
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#further-reading" class="md-nav__link">
-    <span class="md-ellipsis">
-      Further reading
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#about-this-site" class="md-nav__link">
-    <span class="md-ellipsis">
-      About this site
+      What does "Py_LIMITED_API is currently incompatible with Py_GIL_DISABLED" mean?
     </span>
   </a>
   
@@ -724,158 +652,78 @@
   
 
 
-<h1 id="python-free-threading-guide">Python free-threading guide</h1>
-<p>Free-threaded CPython is coming! <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19.14 7.5A2.86 2.86 0 0 1 22 10.36v3.78A2.86 2.86 0 0 1 19.14 17H12c0 .39.32.96.71.96H17v1.68a2.86 2.86 0 0 1-2.86 2.86H9.86A2.86 2.86 0 0 1 7 19.64v-3.75a2.85 2.85 0 0 1 2.86-2.85h5.25a2.85 2.85 0 0 0 2.85-2.86V7.5zm-4.28 11.79c-.4 0-.72.3-.72.89s.32.71.72.71a.71.71 0 0 0 .71-.71c0-.59-.32-.89-.71-.89m-10-1.79A2.86 2.86 0 0 1 2 14.64v-3.78A2.86 2.86 0 0 1 4.86 8H12c0-.39-.32-.96-.71-.96H7V5.36A2.86 2.86 0 0 1 9.86 2.5h4.28A2.86 2.86 0 0 1 17 5.36v3.75a2.85 2.85 0 0 1-2.86 2.85H8.89a2.85 2.85 0 0 0-2.85 2.86v2.68zM9.14 5.71c.4 0 .72-.3.72-.89s-.32-.71-.72-.71c-.39 0-.71.12-.71.71s.32.89.71.89"/></svg></span> <img alt="🧵" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.1.0/assets/svg/1f9f5.svg" title=":thread:" /></p>
-<p>After the <a href="https://discuss.python.org/t/a-steering-council-notice-about-pep-703-making-the-global-interpreter-lock-optional-in-cpython/30474">acceptance by the Python Steering Council</a>
-of, and the <a href="https://discuss.python.org/t/pep-703-making-the-global-interpreter-lock-optional-in-cpython-acceptance/37075">gradual rollout strategy</a> for,
-<a href="https://peps.python.org/pep-0703/">PEP 703 - Making the Global Interpreter Lock Optional in CPython</a>,
-a lot of work is happening both in CPython itself and across the Python ecosystem.</p>
-<p>This website aims to serve as a centralized resource both for Python package
-maintainers and end users interested in supporting or experimenting with
-free-threaded Python. We are tracking the compatibility of a number of packages
-that include native code, you can take a look at our progress here:</p>
-<ul>
-<li><a href="tracking/">Compatibility Status Tracking</a></li>
-</ul>
-<p>This website also provide documentation and guidance for setting up a
-free-threaded Python development environment and getting code working under the
-free-threaded build.</p>
-<h2 id="installing-and-running-free-threaded-python">Installing and Running Free-threaded Python</h2>
-<p>The following sections describe how to install free-threaded Python and how
-to run with the GIL disabled and verify that is the case.</p>
-<ul>
-<li><a href="installing_cpython/">Installing Free-Threaded Python</a></li>
-<li><a href="running-gil-disabled/">Running Python with the GIL Disabled</a></li>
-</ul>
-<h2 id="where-to-get-help">Where to get help</h2>
-<p>You can join the Free-threaded Python Community Discord using this invite link:
-https://discord.gg/rqgHCDqdRr.</p>
-<p>You can also ask questions in the <a href="https://discuss.python.org/c/threading/38">Threading
-category</a> of the Python community
-Discourse forum.</p>
-<p>Please read and be mindful of community rules. Both communities enforce the
-Python Software Foundation Code of Conduct.</p>
-<h2 id="updating-code-to-run-on-free-threaded-python">Updating code to run on free-threaded Python</h2>
-<p>If you are interested in updating your code to work on free-threaded Python,
-what you need to do depends on your needs and goals. Please select the option
-that best describes you:</p>
-<details class="success">
-<summary>I am writing a Python script or application that uses Python libraries I don't maintain</summary>
-<p>You should start experimenting with free-threaded Python once the libraries
-you depend on advertise support for free-threading. See <a href="tracking/">the tracking
-table</a> for more details about the status of free-threaded
-support in Python libraries.</p>
-<p>If your dependencies advertise free-threaded support, good news! If you do
-not use the <code>threading</code> module and do not plan to, then you're done and you
-can feel safe declaring support for running your project on the
-free-threaded build.</p>
-<p>If you would like to use the <code>threading</code> module to improve the performance of
-your project, you should read the documentation of your dependencies and
-learn about their thread safety guarantees. This is particularly true of
-libraries that expose mutable objects, doubly so if you want to mutate a
-shared object from many threads.</p>
-<p>Pure Python code can exhibit thread safety issues, so you may also want to
-look at the first section of the porting guide, particularly on the thread
-safety of pure Python code:</p>
-<ul>
-<li><a href="porting/">Porting Python Packages to Support Free-Threading</a></li>
-</ul>
-</details>
-<details class="success">
-<summary>I maintain a pure Python app or tool written in pure Python with no public Python API</summary>
-<p>You should start experimenting with free-threaded Python once the libraries
-you depend on advertise support for free-threading. See <a href="tracking/">the tracking
-table</a> for more details about the status of free-threaded
-support in Python libraries.</p>
-<p>If your dependencies advertise free-threaded support, good news! If you do
-not use the <code>threading</code> module and do not plan to, then you're done and you
-can feel safe declaring support for running your project on the
-free-threaded build.</p>
-<p>If you make use of the <code>threading</code> module internally and already have
-multithreaded tests, consider experimenting with your existing tests with a
-very short <a href="https://docs.python.org/3/library/sys.html#sys.getswitchinterval">thread switch
-interval</a>. This
-can elicit thread safety issues on the GIL-enabled build. If you do not use
-<code>threading</code> or thread pools internally your tool or app should behave
-identically under free-threading.</p>
-<p>If you would like to use the <code>threading</code> module to improve the performance of
-your project, you should read the documentation of your dependencies and
-learn about their thread safety guarantees. This is particularly true of
-libraries that expose mutable objects, doubly so if you want to mutate a
-shared object from many threads.</p>
-<p>Pure Python code can exhibit thread safety issues, so you may also want to
-look at the first section of the porting guide, particularly on the thread
-safety of pure Python code:</p>
-<ul>
-<li><a href="porting/">Porting Python Packages to Support Free-Threading</a></li>
-</ul>
-</details>
-<details class="success">
-<summary>I maintain a pure Python package with a public Python API</summary>
-<p>Free-threading is implemented in CPython such that pure Python code is
-thread-safe, at least to the same extent as it is with the GIL enabled
-today. We use "thread-safe" here to mean that CPython should not crash
-running multithreaded pure Python code, not necessarily that a multithreaded
-program will always produce deterministic results, even if the GIL-enabled
-build is deterministic. It is up to the author of a program, application, or
-library to ensure safe multithreaded usage when using the library in a
-supported manner.</p>
-<p>There are a few ways you can create thread safety issues in your own
-code. The most common ones are: using global state for configuration or
-other purposes, implementing a cache with a dict or other variable not meant
-for that purpose, or using functionality of a dependency that itself isn't
-thread-safe. You should also think about whether you would like to support
-multithreaded use of any mutable data structures exposed by your package. If
-your package does none of those things, you are very likely ready for
-free-threading already.</p>
-<p>What gets trickier is testing whether your package is thread-safe. For that
-you'll need multi-threaded tests, and that can be more involved - see <a href="testing/">our guide
-to adding multithreaded test coverage</a> to Python packages.</p>
-<ul>
-<li><a href="porting/">Porting Python Packages to Support Free-Threading</a></li>
-<li><a href="testing/">Improving Multithreaded Test Coverage</a></li>
-</ul>
-</details>
-<details class="success">
-<summary>I maintain a Python package with compiled extension modules</summary>
-<p>As usual with extensions, dealing with native code will take some work but
-we hope that this guide will provide you with a toolkit to get things
-working.</p>
-<p>We suggest reading through the the full porting guide, including the final
-section that focuses on considerations for native code.</p>
-<ul>
-<li><a href="porting/">Porting Python Packages to Support Free-Threading</a></li>
-<li><a href="testing/">Improving Multithreaded Test Coverage</a></li>
-<li><a href="porting-extensions/">Updating Native Extensions to Support Free-Threading</a></li>
-</ul>
-</details>
-<h2 id="frequently-asked-questions">Frequently asked questions</h2>
-<ul>
-<li><a href="faq/">Frequently seen errors and how to fix them</a></li>
-</ul>
-<h2 id="advanced-topics-for-package-maintainers">Advanced topics for package maintainers</h2>
-<ul>
-<li><a href="ci/">Setting up Continuous Integration</a></li>
-<li><a href="debugging/">Debugging Thread Safety Issues</a></li>
-</ul>
-<h2 id="further-reading">Further reading</h2>
-<p>We've collected more resources on free-threaded Python and multithreaded
-programming here:</p>
-<ul>
-<li><a href="resources/">More Resources</a></li>
-</ul>
-<h2 id="about-this-site">About this site</h2>
-<p>Any contributions are very much welcome - please open issues or pull requests
-<a href="https://github.com/Quansight-Labs/free-threaded-compatibility">on this repo</a>
-for anything that seems in scope for this site or for tracking issues related
-to support for free-threaded Python across the ecosystem. See the
-<a href="contributing/">Contributing</a> page for more details.</p>
-<p>This site is maintained primarily by Quansight Labs, where a team is working
-together with the Python runtime team at Meta and stakeholders across the
-ecosystem to jumpstart work on converting the libraries that make up the
-scientific Python and AI/ML stacks to work with the free-threaded build of
-CPython 3.13. Additionally, that effort will look at libraries like PyO3 that
-are needed to interface with CPython from other languages.</p>
+<h1 id="frequently-seen-errors-and-how-to-fix-them">Frequently seen errors and how to fix them</h1>
+<p>These are error messages that we see come up often when working with code or
+development workflows that have not been updated to accommodate the
+free-threaded build. We also provide suggested fixes. Please send in pull
+requests to <a href="https://github.com/quansight-labs/free-threaded-compatibility">the repository for this
+document</a> if you
+run into any confusing free-threading-specific errors that you suspect apply to
+other libraries and aren't covered here.</p>
+<h2 id="cython-compilation-errors-unknown-type-name-__pyx_vectorcallfunc">Cython compilation errors: <code>unknown type name '__pyx_vectorcallfunc'</code></h2>
+<p>This happens if you try to build a Cython extension for the free-threaded build
+using the current stable release of Cython (3.0.11 at the time of writing). The
+current stable release of Cython does not support the free-threaded build. You
+must either install the Cython 3.1 beta by passing <code>--pre</code> to <code>pip</code>:</p>
+<div class="highlight"><pre><span></span><code>pip install cython --pre
+</code></pre></div>
+<p>use the nightly wheel:</p>
+<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>-i<span class="w"> </span>https://pypi.anaconda.org/scientific-python-nightly-wheels/simple<span class="w"> </span>cython
+</code></pre></div>
+<p>or build Cython from the <code>master</code> branch <a href="https://github.com/cython/cython">on
+Github</a>.</p>
+<p>See <a href="../porting/">the porting guide</a> for more detail about porting Cython code to
+work under free-threading.</p>
+<p>The beta and nightly wheel are pure-python builds, so they work on all
+architectures. The pure-python version of Cython is usually only marginally
+slower than a compiled version, so you should default to installing a
+pre-release wheel in CI instead of compiling Cython, which can take up to a few
+minutes on some CI runners.</p>
+<p>You may wonder why <code>pip install cython</code> succeeds on the current stable Cython
+release if free-threaded Python is not supported. This is because Cython ships a
+pure-python wheel tagged with <code>py2.py3-none-any</code>, which pip will install if it
+cannot find another wheel that is compatible. Since there isn't a free-threaded
+wheel, pip installs the pure Python wheel instead, and there is no opportunity
+to catch this case at install time in e.g. a <code>setup.py</code> file. The Cython 3.1
+release will fix this problem once and for all.</p>
+<h2 id="pip-install-jupyter-fails"><code>pip install jupyter</code> fails</h2>
+<p>This happens because some of the dependencies of the <code>jupyter</code> project on PyPI
+do not yet support the free-threaded build. In particular, <code>argon2-cffi</code> uses a
+C extension provided by the <code>argon2-cffi-bindings</code> project, which in turn uses
+CFFI to generate bindings for the <code>argon2</code> C password hashing library.</p>
+<p>Because CFFI does not yet ship a stable release that supports the free-threaded
+build, even if you have a compiler environment properly set up, the
+<code>argon2-cffi-bindings</code> build will fail.</p>
+<p>For now, we do not recommend trying to install jupyterlab into an environment
+managed by a free-threaded Python interpreter. Instead, we suggest installing a
+free-threaded Python kernel into a jupyterlab installation managed by a
+GIL-enabled python interpreter. See <a href="../installing_cpython/#installing-a-jupyter-kernel">our instructions</a> for
+installing a free-threaded Jupyter kernel for more details.</p>
+<p>That said, it <em>is</em> possible to install <code>jupyter</code> into a free-threaded Python
+environment and launch jupyterlab, <a href="https://github.com/jupyterlab/jupyterlab/issues/16915#issuecomment-2810114545">see this
+issue</a>
+for more details.</p>
+<h2 id="what-does-py_limited_api-is-currently-incompatible-with-py_gil_disabled-mean">What does "Py_LIMITED_API is currently incompatible with Py_GIL_DISABLED" mean?</h2>
+<p>You might see an error with this message generated by setuptools, but other
+tools might generate similar errors for the same reason.</p>
+<p>The ultimate problem is that CPython does not yet offer a <a href="https://docs.python.org/3/c-api/stable.html#stable-application-binary-interface">stable
+ABI</a>
+on the free-threaded build. See <a href="https://github.com/python/cpython/issues/111506">this CPython
+issue</a> for more details. This
+means it's not yet possible to build an extension that any CPython version can
+import and instead libraries have to distribute one wheel for each version of
+free-threaded CPython. A future version of CPython will likely support a new
+version of the stable ABI that works correctly with both the GIL-enabled and
+free-threaded builds.</p>
+<p>Until then, tools or libraries that <em>default</em> to using the stable ABI via the
+limited API will generate build errors on the free-threaded build. The fix is
+usually to disable the <code>Py_LIMITED_API</code> declaration that triggers use of the
+stable ABI on the free-threaded build by using the following incantation:</p>
+<div class="highlight"><pre><span></span><code>import sysconfig
+FREETHREADED_BUILD = bool(sysconfig.get_config_var(&quot;Py_GIL_DISABLED&quot;))
+</code></pre></div>
+<p>If you spell it this way, <code>FREETHREADED_BUILD</code> will be <code>False</code> on the
+GIL-enabled build and <code>True</code> for free-threaded builds.</p>
 
 
 
@@ -908,7 +756,7 @@ are needed to interface with CPython from other languages.</p>
     <span class="md-icon" title="Created">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="July 10, 2024 10:09:59">July 10, 2024</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 18, 2025 15:30:22">April 18, 2025</span>
   </span>
 
     
@@ -986,10 +834,10 @@ are needed to interface with CPython from other languages.</p>
     
     
       
-      <script id="__config" type="application/json">{"base": ".", "features": ["header.autohide"], "search": "assets/javascripts/workers/search.f8cc74c7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"base": "..", "features": ["header.autohide"], "search": "../assets/javascripts/workers/search.f8cc74c7.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="assets/javascripts/bundle.c8b220af.min.js"></script>
+      <script src="../assets/javascripts/bundle.c8b220af.min.js"></script>
       
     
   </body>
