@@ -1000,22 +1000,14 @@ argument to <code>create_extension_module</code>. Example:</p>
 </code></pre></div>
 </div>
 <div class="tabbed-block">
-<p>Cython code can be thread-unsafe and just like C and C++ code can exhibit
-undefined behavior due to data races.</p>
-<p>Code operating on Python objects should not exhibit any low-level data corruption
-or C undefined behavior due to Python-level semantics. If you find such a
-case, it may be a Cython or CPython bug and should be reported as such.</p>
-<p>That said, as opposed to data races, race conditions that produces random
-results from a multithreaded algorithm are not undefined behavior and are
-allowed in Python and therefore Cython as well. You will still need to add
-locking or synchronization where appropriate to ensure reproducible results
-when running a multithreaded algorithm on shared mutable data. See the
-<a href="../porting/#suggested-plan-of-attack">suggested plan of attack</a> below for
-more details about discovering and fixing thread safety issues for Python
-native extensions.</p>
-<p>Starting with Cython 3.1.0 (available via the nightly wheels, a PyPI
-pre-release or the <code>master</code> branch as of right now), extension modules
-written in Cython can do so using the
+<p>See <a href="https://cython.readthedocs.io/en/latest/src/userguide/freethreading.html">the Free threading
+section</a>
+in the Cython user guide for detailed recommendations. Keep in mind that
+support for free-threaded Python in Cython code is currently considered
+experimental, so suggestions are subject to change.</p>
+<p>Starting with Cython 3.1.0 (a PyPI prerelease, nightly wheels, or by
+installing directly from the <code>master</code> branch as of right now), extension
+modules written in Cython can declare free-threaded support using the
 <a href="https://cython.readthedocs.io/en/latest/src/userguide/source_files_and_compilation.html#compiler-directives"><code>freethreading_compatible</code></a>
 compiler directive.</p>
 <p>You can do this in one of
@@ -1391,15 +1383,21 @@ per-object locks.</p>
 about <code>Py_BEGIN_CRITICAL_SECTION</code>, please see the
 <a href="https://docs.python.org/3.13/c-api/init.html#python-critical-section-api">Python C API documentation on critical sections</a>.</p>
 <h2 id="cython-thread-safety">Cython thread safety</h2>
-<p>If your extension is written in Cython, you can generally assume that
-"Python-level" code that compiles to CPython C API operations on Python objects
-is thread-safe, but "C-level" code (e.g. code that will compile inside a
-<code>with nogil</code> block) may have thread safety issues. Note that not all code outside
-<code>with nogil</code> blocks is thread-safe. For example, a Python wrapper for a
-thread-unsafe C library is thread-unsafe if the GIL is disabled unless there is
-locking around uses of the thread-unsafe library. Another example: using
-thread-unsafe C-level constructs like a global variable is also thread-unsafe
-if the GIL is disabled.</p>
+<p>See <a href="https://cython.readthedocs.io/en/latest/src/userguide/freethreading.html">the free-threading
+section</a>
+in the Cython user guide for recommendations from the Cython developers. In
+particular, see the recommendations about <a href="https://cython.readthedocs.io/en/latest/src/userguide/freethreading.html#thread-safety">thread
+safety</a>
+and the <a href="https://cython.readthedocs.io/en/latest/src/userguide/freethreading.html#opinionated-suggestions">opinionated
+suggestions</a>
+for how to deal with thread safety in Cython extensions. At the time of writing,
+Cython does not automatically ensure any significant level of thread safety, so
+it is up to the author of a Cython extension to add locking or make use of
+critical sections as needed to ensure thread safety.</p>
+<p>It is normal for an extension to build without modification using Cython 3.1.0
+or newer, but keep in mind that building or running without crashing does not
+imply that code will also be thread-safe and deterministic when used in a
+multithreaded context.</p>
 <h2 id="cpython-c-api-usage">CPython C API usage</h2>
 <p>In the free-threaded build it is possible for the reference count of an object
 to change "underneath" a running thread when it is mutated by another
@@ -1490,7 +1488,7 @@ for compiling with the limited API.</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 14, 2025 19:08:35">March 14, 2025</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 23, 2025 14:51:19">April 23, 2025</span>
   </span>
 
     
