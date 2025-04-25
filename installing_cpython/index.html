@@ -367,24 +367,6 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#install-on-a-macos-laptop-or-desktop" class="md-nav__link">
-    <span class="md-ellipsis">
-      Install on a macOS laptop or desktop
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#advanced-installation-ci" class="md-nav__link">
-    <span class="md-ellipsis">
-      Advanced installation (CI)
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#linux-distribution-installers" class="md-nav__link">
     <span class="md-ellipsis">
       Linux distribution installers
@@ -710,24 +692,6 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#install-on-a-macos-laptop-or-desktop" class="md-nav__link">
-    <span class="md-ellipsis">
-      Install on a macOS laptop or desktop
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#advanced-installation-ci" class="md-nav__link">
-    <span class="md-ellipsis">
-      Advanced installation (CI)
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
   <a href="#linux-distribution-installers" class="md-nav__link">
     <span class="md-ellipsis">
       Linux distribution installers
@@ -889,11 +853,9 @@ in <code>AppData\Local\Programs\Python\Python313\python3.13t.exe</code>.
 See <a href="https://docs.python.org/3.13/using/windows.html#installing-without-ui">Installing Without UI</a>
 for more information.</p>
 </div>
-<div class="tabbed-block"></div>
-</div>
-</div>
-<h3 id="install-on-a-macos-laptop-or-desktop">Install on a macOS laptop or desktop</h3>
-<p>Th official Python documentation's section on <a href="https://docs.python.org/3.13/using/mac.html#installing-free-threaded-binaries">installing free-threaded binaries</a>
+<div class="tabbed-block">
+<p><strong>Install on a macOS laptop or desktop</strong></p>
+<p>The official Python documentation's section on <a href="https://docs.python.org/3.13/using/mac.html#installing-free-threaded-binaries">installing free-threaded binaries</a>
 explains installation as well as any limitations of the free-threaded version.
 For convenience, we summarize the installation steps here:</p>
 <ol>
@@ -910,7 +872,7 @@ For convenience, we summarize the installation steps here:</p>
 <p>On the "Customize Install on Macintosh HD" screen, check the " Free-threaded Python [experimental]" option, and click "install".</p>
 </li>
 </ol>
-<h3 id="advanced-installation-ci">Advanced installation (CI)</h3>
+<p><strong>Advanced installation (CI)</strong></p>
 <p>This process installs the free-threaded version of Python 3.13.3 using the command line for more complex cases, such as running CI.
 It follows a similar process decribed in the CPython documentation for <a href="https://docs.python.org/3/using/mac.html#installing-using-the-command-line">installing a binary using the command line</a>.</p>
 <p>While this process installs the free-threaded version of Python 3.13.3, you can install other versions by substituting the version number in the following steps.</p>
@@ -955,6 +917,9 @@ It follows a similar process decribed in the CPython documentation for <a href="
 </ol>
 <p>See also <a href="https://github.com/python/cpython/issues/120098">this Github issue</a>
 for more information.</p>
+</div>
+</div>
+</div>
 <h3 id="linux-distribution-installers">Linux distribution installers</h3>
 <div class="tabbed-set tabbed-alternate" data-tabs="2:3"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><input id="__tabbed_2_3" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Fedora</label><label for="__tabbed_2_2">Nixpkgs</label><label for="__tabbed_2_3">Ubuntu</label></div>
 <div class="tabbed-content">
@@ -986,7 +951,7 @@ sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w
 </div>
 </div>
 <h3 id="multi-platform-package-managers">Multi-platform Package Managers</h3>
-<div class="tabbed-set tabbed-alternate" data-tabs="3:3"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><input id="__tabbed_3_3" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">Conda-forge</label><label for="__tabbed_3_2">Anaconda Testing</label><label for="__tabbed_3_3">Homebrew</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="3:4"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><input id="__tabbed_3_3" name="__tabbed_3" type="radio" /><input id="__tabbed_3_4" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">Conda-forge</label><label for="__tabbed_3_2">Anaconda Testing</label><label for="__tabbed_3_3">Homebrew</label><label for="__tabbed_3_4">uv</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>mamba<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>nogil<span class="w"> </span>-c<span class="w"> </span>conda-forge<span class="w"> </span>python-freethreading
@@ -1010,6 +975,12 @@ conda-forge:</p>
 </code></pre></div>
 <p>This will install the interpreter at <code>$(brew --prefix)/bin/python3.13t</code>.</p>
 <p>On macOS, the Python framework built with the free-threading ABI can be found at <code>$(brew --prefix)/Frameworks/PythonT.framework</code>.</p>
+</div>
+<div class="tabbed-block">
+<p>If you have uv installed, you can create a virtual environment using
+free-threaded Python by specifying "3.13t" as the python version:</p>
+<div class="highlight"><pre><span></span><code>uv<span class="w"> </span>venv<span class="w"> </span>--python<span class="w"> </span><span class="m">3</span>.13t
+</code></pre></div>
 </div>
 </div>
 </div>
@@ -1077,7 +1048,7 @@ for more details.</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 23, 2025 14:02:52">April 23, 2025</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 25, 2025 18:00:28">April 25, 2025</span>
   </span>
 
     
