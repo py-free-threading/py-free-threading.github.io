@@ -511,6 +511,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#what-does-runtimewarning-the-global-interpreter-lock-gil-has-been-enabled-mean" class="md-nav__link">
+    <span class="md-ellipsis">
+      What does RuntimeWarning: The global interpreter lock (GIL) has been enabled mean?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pip-install-jupyter-fails" class="md-nav__link">
     <span class="md-ellipsis">
       pip install jupyter fails
@@ -616,6 +625,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#what-does-runtimewarning-the-global-interpreter-lock-gil-has-been-enabled-mean" class="md-nav__link">
+    <span class="md-ellipsis">
+      What does RuntimeWarning: The global interpreter lock (GIL) has been enabled mean?
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#pip-install-jupyter-fails" class="md-nav__link">
     <span class="md-ellipsis">
       pip install jupyter fails
@@ -686,6 +704,23 @@ cannot find another wheel that is compatible. Since there isn't a free-threaded
 wheel, pip installs the pure Python wheel instead, and there is no opportunity
 to catch this case at install time in e.g. a <code>setup.py</code> file. The Cython 3.1
 release will fix this problem once and for all.</p>
+<h2 id="what-does-runtimewarning-the-global-interpreter-lock-gil-has-been-enabled-mean">What does <code>RuntimeWarning: The global interpreter lock (GIL) has been enabled</code> mean?</h2>
+<p>This happens when python imports a module defined in a native extension that
+does not explicitly declare support for running without the GIL. By default,
+native extensions do not support running without the GIL because of the long
+history of extensions assuming the GIL locks concurrent access to extension
+internals. As a precaution, when the free-threaded Python build imports such an
+extension, it assumes that the GIL is <em>necessary</em> to run the extension, and
+enables the GIL at runtime.</p>
+<p>If you have control over the code in the native extension, then you should
+update the extension to support the free-threaded build. See <a href="../porting-extensions/">the guide
+section</a> on that topic. If you do not control the
+extension or simply want to test running with the GIL disabled despite the
+extension not explicitly supporting it, then you can set either the <code>PYTHON_GIL</code>
+environment variable or the <code>-X gil</code> command-like flag for the python
+interpreter to <code>0</code> (i.e. the GIL is disabled). This skips the runtime check for
+whether extensions support running with the GIL disabled. See the <a href="../running-gil-disabled/">section on
+running free-threaded Python</a> for more details.</p>
 <h2 id="pip-install-jupyter-fails"><code>pip install jupyter</code> fails</h2>
 <p>This happens because some of the dependencies of the <code>jupyter</code> project on PyPI
 do not yet support the free-threaded build. In particular, <code>argon2-cffi</code> uses a
@@ -746,7 +781,7 @@ GIL-enabled build and <code>True</code> for free-threaded builds.</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 18, 2025 15:30:22">April 18, 2025</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 28, 2025 19:54:23">April 28, 2025</span>
   </span>
 
     
