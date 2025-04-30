@@ -298,7 +298,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../installing_cpython/" class="md-nav__link">
+      <a href="../installing-cpython/" class="md-nav__link">
         
   
   
@@ -564,6 +564,66 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#compile-free-threaded-cpython-with-threadsanitizer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Compile free-threaded CPython with ThreadSanitizer
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#compile-numpy-with-threadsanitizer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Compile NumPy with ThreadSanitizer
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#running-python-under-threadsanitizer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Running Python under ThreadSanitizer
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Running Python under ThreadSanitizer">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#useful-threadsanitizer-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      Useful ThreadSanitizer options
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#running-pytest-tests-under-threadsanitizer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Running pytest tests under ThreadSanitizer
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-addresssanitizer-to-detect-thread-safety-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using AddressSanitizer to detect thread safety issues
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -749,6 +809,66 @@
   <a href="#cpython_sanity-docker-images" class="md-nav__link">
     <span class="md-ellipsis">
       cpython_sanity docker images
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#compile-free-threaded-cpython-with-threadsanitizer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Compile free-threaded CPython with ThreadSanitizer
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#compile-numpy-with-threadsanitizer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Compile NumPy with ThreadSanitizer
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#running-python-under-threadsanitizer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Running Python under ThreadSanitizer
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Running Python under ThreadSanitizer">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#useful-threadsanitizer-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      Useful ThreadSanitizer options
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#running-pytest-tests-under-threadsanitizer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Running pytest tests under ThreadSanitizer
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-addresssanitizer-to-detect-thread-safety-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using AddressSanitizer to detect thread safety issues
     </span>
   </a>
   
@@ -972,7 +1092,7 @@ is via <code>pyenv</code>:</p>
 will ensure that the source files are kept as well, such files will be loaded
 by <code>gdb</code>/<code>lldb</code> at the moment of debugging. For more information regarding
 CPython installation sources, please visit the
-<a href="../installing_cpython/">Installing a free-threaded Python</a> page.</p>
+<a href="../installing-cpython/">Installing a free-threaded Python</a> page.</p>
 <h2 id="compiling-cpython-and-foundational-packages-with-threadsanitizer">Compiling CPython and foundational packages with ThreadSanitizer</h2>
 <p><a href="https://github.com/google/sanitizers/wiki/ThreadSanitizerCppManual">Thread sanitizer</a> (or TSan) helps
 to detect C/C++ data races in concurrent systems. This tool can help to reveal free-threading
@@ -986,10 +1106,10 @@ SciPy, we have create a set of docker images that contain a pre-built Python
 interpreter and common dependencies that can be tricky to build.</p>
 <p>See <a href="https://github.com/nascheme/cpython_sanity">the <code>cpython_sanity</code>
 repository</a> for more information
-about how to use the docker images. Also see [NumPy PR</p>
-<h1 id="28808httpsgithubcomnumpynumpypull28808files-which-adjusted-numpy">28808](https://github.com/numpy/numpy/pull/28808/files), which adjusted NumPy</h1>
-<p>TSAN CI to use the <code>ghcr.io/nascheme/numpy-tsan:3.14t-dev</code> docker image instead
-of building Python from source, saving ten minutes of compute time per CI run.</p>
+about how to use the docker images. Also see <a href="https://github.com/numpy/numpy/pull/28808/files">NumPy PR #28808</a>,
+which adjusted NumPy TSAN CI to use the <code>ghcr.io/nascheme/numpy-tsan:3.14t-dev</code>
+docker image instead of building Python from source, saving ten minutes of
+compute time per CI run.</p>
 <h3 id="compile-free-threaded-cpython-with-threadsanitizer">Compile free-threaded CPython with ThreadSanitizer</h3>
 <ul>
 <li>Clone the latest stable branch (<code>3.13</code>):</li>
@@ -1181,7 +1301,7 @@ built into AddressSanitizer by setting <code>ASAN_OPTIONS="detect_leaks=0"</code
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 28, 2025 16:26:35">April 28, 2025</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 30, 2025 14:59:22">April 30, 2025</span>
   </span>
 
     
