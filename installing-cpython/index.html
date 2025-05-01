@@ -784,7 +784,7 @@
   
 
 
-<h1 id="installing-free-threaded-python">Installing Free-Threaded Python</h1>
+<h1 id="installing-free-threaded-python">Installing Free-Threaded Python<a class="headerlink" href="#installing-free-threaded-python" title="Permanent link">#</a></h1>
 <p>To install a free-threaded CPython interpreter, you can choose from the following options:</p>
 <ul>
 <li>use a pre-built binary</li>
@@ -796,7 +796,7 @@
 <p>Building from source is straightforward too. If you
 hit a bug that may involve CPython itself then you may want to build from
 source.</p>
-<h2 id="use-a-pre-built-binary">Use a pre-built binary</h2>
+<h2 id="use-a-pre-built-binary">Use a pre-built binary<a class="headerlink" href="#use-a-pre-built-binary" title="Permanent link">#</a></h2>
 <p>There are a growing number of options to install a free-threaded interpreter,
 including the python.org installers, Linux distro installers, and multi-platform package managers, like conda.</p>
 <div class="admonition note">
@@ -810,7 +810,7 @@ that isn't the case. Older <code>pip</code> versions will select incompatible wh
 <summary>As a packager, what should I name the package and interpreter?</summary>
 <p>Please see <a href="https://github.com/python/steering-council/issues/221#issuecomment-1841593283">this guidance from the Python Steering Council</a></p>
 </details>
-<h3 id="install-binaries-directly">Install binaries directly</h3>
+<h3 id="install-binaries-directly">Install binaries directly<a class="headerlink" href="#install-binaries-directly" title="Permanent link">#</a></h3>
 <p>The <a href="https://www.python.org/download/pre-releases/">python.org downloads page</a>
 provides macOS and Windows installers that have experimental support.</p>
 <p>Currently, you must customize the install - e.g., for Windows there is a
@@ -920,7 +920,7 @@ for more information.</p>
 </div>
 </div>
 </div>
-<h3 id="linux-distribution-installers">Linux distribution installers</h3>
+<h3 id="linux-distribution-installers">Linux distribution installers<a class="headerlink" href="#linux-distribution-installers" title="Permanent link">#</a></h3>
 <div class="tabbed-set tabbed-alternate" data-tabs="2:3"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><input id="__tabbed_2_3" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Fedora</label><label for="__tabbed_2_2">Nixpkgs</label><label for="__tabbed_2_3">Ubuntu</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
@@ -950,7 +950,7 @@ sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w
 </div>
 </div>
 </div>
-<h3 id="multi-platform-package-managers">Multi-platform Package Managers</h3>
+<h3 id="multi-platform-package-managers">Multi-platform Package Managers<a class="headerlink" href="#multi-platform-package-managers" title="Permanent link">#</a></h3>
 <div class="tabbed-set tabbed-alternate" data-tabs="3:4"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><input id="__tabbed_3_3" name="__tabbed_3" type="radio" /><input id="__tabbed_3_4" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">Conda-forge</label><label for="__tabbed_3_2">Anaconda Testing</label><label for="__tabbed_3_3">Homebrew</label><label for="__tabbed_3_4">uv</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
@@ -984,7 +984,7 @@ free-threaded Python by specifying "3.13t" as the python version:</p>
 </div>
 </div>
 </div>
-<h2 id="build-from-source">Build from source</h2>
+<h2 id="build-from-source">Build from source<a class="headerlink" href="#build-from-source" title="Permanent link">#</a></h2>
 <p>Currently we suggest building CPython from source using the latest version of
 the CPython <code>main</code> branch. See
 <a href="https://devguide.python.org/getting-started/setup-building/index.html">the build instructions</a>
@@ -999,7 +999,7 @@ build CPython using <a href="https://github.com/pyenv/pyenv">pyenv</a>. In order
 do that, you can use the following:</p>
 <div class="highlight"><pre><span></span><code>pyenv<span class="w"> </span>install<span class="w"> </span>--debug<span class="w"> </span>--keep<span class="w"> </span><span class="m">3</span>.13.1
 </code></pre></div>
-<h2 id="use-containers">Use containers</h2>
+<h2 id="use-containers">Use containers<a class="headerlink" href="#use-containers" title="Permanent link">#</a></h2>
 <p>The <a href="https://github.com/pypa/manylinux">manylinux containers</a> have free-threaded
 builds. You can use any of the actively supported images:</p>
 <ul>
@@ -1011,17 +1011,17 @@ builds. You can use any of the actively supported images:</p>
 <p>Replace <code>...</code> with your desired architecture, such as <code>x86_64</code> or <code>aarch64</code>.</p>
 <p>These images have <code>python3.13t</code> available, along with other commonly used tools
 that can target it like the latest <code>pip</code>, <code>pipx</code>, and <code>uv</code>.</p>
-<h2 id="installing-a-free-threaded-jupyter-kernel">Installing a free-threaded Jupyter kernel</h2>
+<h2 id="installing-a-free-threaded-jupyter-kernel">Installing a free-threaded Jupyter kernel<a class="headerlink" href="#installing-a-free-threaded-jupyter-kernel" title="Permanent link">#</a></h2>
 <p>While Jupyter <a href="https://github.com/jupyterlab/jupyterlab/issues/16915">does not currently support free-threaded
 Python</a>, you can run
 Jupyter with a regular build of Python and a free-threaded Jupyter kernel.</p>
-<h3 id="launch-using-regular-python-and-free-threaded-jupyter-kernel">Launch using regular Python and free-threaded Jupyter kernel</h3>
+<h3 id="launch-using-regular-python-and-free-threaded-jupyter-kernel">Launch using regular Python and free-threaded Jupyter kernel<a class="headerlink" href="#launch-using-regular-python-and-free-threaded-jupyter-kernel" title="Permanent link">#</a></h3>
 <p>Install the free-threaded Jupyter kernel to a location that is visible to both Python installations:</p>
 <div class="highlight"><pre><span></span><code>python3.13t<span class="w"> </span>-m<span class="w"> </span>ipykernel<span class="w"> </span>install<span class="w"> </span>--name<span class="w"> </span>python3.13t<span class="w"> </span>--user
 </code></pre></div>
 <p>You should be able to launch new jupyterlab or jupyter notebook
 sessions using the <code>python3.13t</code> kernel to experiment with free-threaded Python.</p>
-<h3 id="launch-using-free-threaded-python-and-free-threaded-jupyter-kernel">Launch using free-threaded Python and free-threaded Jupyter kernel</h3>
+<h3 id="launch-using-free-threaded-python-and-free-threaded-jupyter-kernel">Launch using free-threaded Python and free-threaded Jupyter kernel<a class="headerlink" href="#launch-using-free-threaded-python-and-free-threaded-jupyter-kernel" title="Permanent link">#</a></h3>
 <p>It is also possible to launch jupyterlab on the free-threaded build, <a href="https://github.com/jupyterlab/jupyterlab/issues/16915#issuecomment-2810114545">see this
 issue
 comment</a>

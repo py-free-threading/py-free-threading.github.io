@@ -898,7 +898,7 @@
   
 
 
-<h1 id="debugging-thread-safety-issues">Debugging thread safety issues</h1>
+<h1 id="debugging-thread-safety-issues">Debugging thread safety issues<a class="headerlink" href="#debugging-thread-safety-issues" title="Permanent link">#</a></h1>
 <p>Until now, the GIL has allowed developers to ignore C
 safety issues when writing parallel programs, since the GIL ensured that
 all thread execution was serialized, allowing for simultaneous access
@@ -921,7 +921,7 @@ results, it would not cause a fatal crash of the interpreter, as opposed
 to the last two cases.</p>
 <p>In order to discover, handle and debug concurrency issues at large, there are
 several strategies, which we will summarize next.</p>
-<h2 id="pytest-plugins-to-discover-concurrency-issues">pytest plugins to discover concurrency issues</h2>
+<h2 id="pytest-plugins-to-discover-concurrency-issues">pytest plugins to discover concurrency issues<a class="headerlink" href="#pytest-plugins-to-discover-concurrency-issues" title="Permanent link">#</a></h2>
 <p>As parallel testing has become a critical component to ensure compatibility
 with free-threaded CPython, several community-led pytest plugins have been
 implemented that attempt to smoke out issues by running all tests in a test
@@ -935,7 +935,7 @@ suite in a concurrent manner:</p>
 ability to integrate with the ecosystem constructs like markers, fixtures,
 skip and failure flags. For more information regarding the usage of these
 libraries please refer to the documentation of each project.</p>
-<h3 id="repeated-test-execution">Repeated test execution</h3>
+<h3 id="repeated-test-execution">Repeated test execution<a class="headerlink" href="#repeated-test-execution" title="Permanent link">#</a></h3>
 <p>Given the non-deterministic nature of parallel execution, tests for code that
 has a concurrency issue may still pass most of the time.
 In order to more reliably reproduce a test failure under concurrency, we
@@ -946,7 +946,7 @@ which enables the <code>--count</code> flag in the <code>pytest</code> command:<
 </code></pre></div>
 <p>We advise to set <code>count</code> to <code>100</code> (or even larger if needed), in order to
 ensure at least one concurrent clash event.</p>
-<h2 id="writing-explicitly-concurrent-test-cases">Writing explicitly concurrent test cases</h2>
+<h2 id="writing-explicitly-concurrent-test-cases">Writing explicitly concurrent test cases<a class="headerlink" href="#writing-explicitly-concurrent-test-cases" title="Permanent link">#</a></h2>
 <p>It may be desirable to have tests using, e.g., <code>threading</code> or
 <code>concurrent.futures</code> in your test suite in order to prevent adding
 additional test dependencies or to test a particular subset of tests for
@@ -1036,7 +1036,7 @@ is accessed by multiple threads. We can write a test for it using either
 
 </details>
 
-<h2 id="debugging-tests-that-depend-on-native-calls">Debugging tests that depend on native calls</h2>
+<h2 id="debugging-tests-that-depend-on-native-calls">Debugging tests that depend on native calls<a class="headerlink" href="#debugging-tests-that-depend-on-native-calls" title="Permanent link">#</a></h2>
 <p>If your code has native dependencies, either via C/C++ or Cython, <code>gdb</code>
 (or <code>lldb</code>) can be used as follows:</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># Setting PYTHON_GIL=0 ensures that the GIL is effectively disabled.</span>
@@ -1059,7 +1059,7 @@ frames<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup>.</p>
 <p>For more information about <code>gdb</code> and <code>lldb</code> commands, we encourage reading
 the <a href="https://lldb.llvm.org/use/map.html">GDB to LLDB command map</a> page in the
 official LLVM docs.</p>
-<h3 id="cython-debugging">Cython debugging</h3>
+<h3 id="cython-debugging">Cython debugging<a class="headerlink" href="#cython-debugging" title="Permanent link">#</a></h3>
 <p>Since Cython produces intermediate C/C++ sources that then are compiled into native
 code, stepping through may get difficult if done solely from the C source file.
 In order to get through such difficulty, Cython includes the <code>cygdb</code> extension,
@@ -1082,7 +1082,7 @@ commands. For example <code>cy run</code> will start the program with the Cython
 extensions enabled, <code>cy break</code> will define a breakpoint on a function with the
 Cython definition name, <code>cy next</code> will step over a Cython line, which is equivalent
 to several lines in the produced C code.</p>
-<h3 id="detecting-issues-in-cpython">Detecting issues in CPython</h3>
+<h3 id="detecting-issues-in-cpython">Detecting issues in CPython<a class="headerlink" href="#detecting-issues-in-cpython" title="Permanent link">#</a></h3>
 <p>If a debugging session suggests that an error/bug is incoming from CPython,
 we recommend installing a debug instance. The easiest way to accomplish this
 is via <code>pyenv</code>:</p>
@@ -1093,14 +1093,14 @@ will ensure that the source files are kept as well, such files will be loaded
 by <code>gdb</code>/<code>lldb</code> at the moment of debugging. For more information regarding
 CPython installation sources, please visit the
 <a href="../installing-cpython/">Installing a free-threaded Python</a> page.</p>
-<h2 id="compiling-cpython-and-foundational-packages-with-threadsanitizer">Compiling CPython and foundational packages with ThreadSanitizer</h2>
+<h2 id="compiling-cpython-and-foundational-packages-with-threadsanitizer">Compiling CPython and foundational packages with ThreadSanitizer<a class="headerlink" href="#compiling-cpython-and-foundational-packages-with-threadsanitizer" title="Permanent link">#</a></h2>
 <p><a href="https://github.com/google/sanitizers/wiki/ThreadSanitizerCppManual">Thread sanitizer</a> (or TSan) helps
 to detect C/C++ data races in concurrent systems. This tool can help to reveal free-threading
 related bugs in CPython and foundational packages (e.g. <code>numpy</code>).
 In this section we provide the commands to build a free-threading compatible
 CPython interpreter and packages with ThreadSanitizer and other hints to discover
 potential data races.</p>
-<h3 id="cpython_sanity-docker-images"><code>cpython_sanity</code> docker images</h3>
+<h3 id="cpython_sanity-docker-images"><code>cpython_sanity</code> docker images<a class="headerlink" href="#cpython_sanity-docker-images" title="Permanent link">#</a></h3>
 <p>To ease working with thread sanitizer in projects that use Python, NumPy, and
 SciPy, we have create a set of docker images that contain a pre-built Python
 interpreter and common dependencies that can be tricky to build.</p>
@@ -1110,7 +1110,7 @@ about how to use the docker images. Also see <a href="https://github.com/numpy/n
 which adjusted NumPy TSAN CI to use the <code>ghcr.io/nascheme/numpy-tsan:3.14t-dev</code>
 docker image instead of building Python from source, saving ten minutes of
 compute time per CI run.</p>
-<h3 id="compile-free-threaded-cpython-with-threadsanitizer">Compile free-threaded CPython with ThreadSanitizer</h3>
+<h3 id="compile-free-threaded-cpython-with-threadsanitizer">Compile free-threaded CPython with ThreadSanitizer<a class="headerlink" href="#compile-free-threaded-cpython-with-threadsanitizer" title="Permanent link">#</a></h3>
 <ul>
 <li>Clone the latest stable branch (<code>3.13</code>):</li>
 </ul>
@@ -1159,7 +1159,7 @@ be safely ignored by setting the <code>MallocNanoZone</code> environment variabl
 0. You should only set this in session you are running ThreadSanitizer
 under, as this setting will slow down other programs that allocate memory.</p>
 </div>
-<h3 id="compile-numpy-with-threadsanitizer">Compile NumPy with ThreadSanitizer</h3>
+<h3 id="compile-numpy-with-threadsanitizer">Compile NumPy with ThreadSanitizer<a class="headerlink" href="#compile-numpy-with-threadsanitizer" title="Permanent link">#</a></h3>
 <ul>
 <li>Get the source code (for example, the <code>main</code> branch)</li>
 </ul>
@@ -1181,8 +1181,8 @@ python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </sp
 <span class="c1"># or with debug info</span>
 <span class="c1"># CC=clang-18 CXX=clang++-18 python -m pip install -v . --no-build-isolation -Csetup-args=-Db_sanitize=thread -Csetup-args=-Dbuildtype=debugoptimized</span>
 </code></pre></div>
-<h2 id="running-python-under-threadsanitizer">Running Python under ThreadSanitizer</h2>
-<h3 id="useful-threadsanitizer-options">Useful ThreadSanitizer options</h3>
+<h2 id="running-python-under-threadsanitizer">Running Python under ThreadSanitizer<a class="headerlink" href="#running-python-under-threadsanitizer" title="Permanent link">#</a></h2>
+<h3 id="useful-threadsanitizer-options">Useful ThreadSanitizer options<a class="headerlink" href="#useful-threadsanitizer-options" title="Permanent link">#</a></h3>
 <ul>
 <li>By default ThreadSanitizer reports warnings. To stop execution on ThreadSanitizer errors, use:</li>
 </ul>
@@ -1203,7 +1203,7 @@ race:dnnl_sgemm
 
 <span class="nb">export</span><span class="w"> </span><span class="nv">TSAN_OPTIONS</span><span class="o">=</span><span class="s2">&quot;suppressions=</span><span class="nv">$PWD</span><span class="s2">/tsan-suppressions&quot;</span><span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>pytest<span class="w"> </span>test.py
 </code></pre></div>
-<h3 id="running-pytest-tests-under-threadsanitizer">Running pytest tests under ThreadSanitizer</h3>
+<h3 id="running-pytest-tests-under-threadsanitizer">Running pytest tests under ThreadSanitizer<a class="headerlink" href="#running-pytest-tests-under-threadsanitizer" title="Permanent link">#</a></h3>
 <p>By default, pytest <a href="https://docs.pytest.org/en/stable/how-to/capture-stdout-stderr.html">captures all output from
 tests</a>,
 this means that you might only see output like <code>ThreadSanitizer: reported 2 warnings</code>, but with no accompanying report with details about the warning.</p>
@@ -1248,7 +1248,7 @@ do that.</p>
 <p>Altogether, a pytest invocation using ThreadSanitizer might look like:</p>
 <div class="highlight"><pre><span></span><code>$ TSAN_OPTIONS=&#39;allocator_may_return_null=1 halt_on_error=1&#39; pytest -s
 </code></pre></div>
-<h3 id="using-addresssanitizer-to-detect-thread-safety-issues">Using AddressSanitizer to detect thread safety issues</h3>
+<h3 id="using-addresssanitizer-to-detect-thread-safety-issues">Using AddressSanitizer to detect thread safety issues<a class="headerlink" href="#using-addresssanitizer-to-detect-thread-safety-issues" title="Permanent link">#</a></h3>
 <p>Since ThreadSanitizer adds significant overhead to both the Python interpreter
 and any native code compiled under ThreadSanitizer, many projects will be unable
 to run their full test suite under ThreadSanitizer in CI.</p>

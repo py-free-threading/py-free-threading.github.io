@@ -814,9 +814,9 @@
   
 
 
-<h1 id="porting-python-packages-to-support-free-threading">Porting Python Packages to Support Free-Threading</h1>
+<h1 id="porting-python-packages-to-support-free-threading">Porting Python Packages to Support Free-Threading<a class="headerlink" href="#porting-python-packages-to-support-free-threading" title="Permanent link">#</a></h1>
 <p>This document discusses porting an existing Python package to support free-threading Python.</p>
-<h2 id="current-status-as-of-early-2025">Current status (as of early 2025)</h2>
+<h2 id="current-status-as-of-early-2025">Current status (as of early 2025)<a class="headerlink" href="#current-status-as-of-early-2025" title="Permanent link">#</a></h2>
 <p>Many Python packages, particularly packages relying on C
 extension modules, do not consider multithreaded use or make strong
 assumptions about the GIL providing sequential consistency in multithreaded
@@ -843,12 +843,12 @@ unlikely or impossible in the default configuration of the GIL-enabled build.</p
 free-threaded build, we suggest reading <a href="https://github.com/facebookincubator/ft_utils/blob/main/docs/ft_worked_examples.md">the <code>ft_utils</code>
 documentation</a>
 on this topic.</p>
-<h2 id="suggested-plan-of-attack">Suggested Plan of Attack</h2>
+<h2 id="suggested-plan-of-attack">Suggested Plan of Attack<a class="headerlink" href="#suggested-plan-of-attack" title="Permanent link">#</a></h2>
 <p>Below, we outline a plan of attack for updating a Python project to support the
 free-threaded build. Since the changes required in native extensions are more
 substantial, we have split off the guide for porting extension modules into
 <a href="../porting-extensions/">a subsequent section</a>.</p>
-<h3 id="thread-safety-of-pure-python-code">Thread Safety of Pure Python Code</h3>
+<h3 id="thread-safety-of-pure-python-code">Thread Safety of Pure Python Code<a class="headerlink" href="#thread-safety-of-pure-python-code" title="Permanent link">#</a></h3>
 <p>The CPython interpreter protects you from low-level memory unsafety due to <a href="https://en.wikipedia.org/wiki/Race_condition#Data_race">data
 races</a>. It does not
 protect you from introducing thread safety issues due to <a href="https://en.wikipedia.org/wiki/Race_condition">race
@@ -864,7 +864,7 @@ ensure state is synchronized if an object is shared between threads, you should 
 <p>Below we describe various approaches for improving the determinism of
 multithreaded pure Python code. The correct approach will depend on exactly what
 you are doing.</p>
-<h3 id="general-considerations-for-porting">General considerations for porting</h3>
+<h3 id="general-considerations-for-porting">General considerations for porting<a class="headerlink" href="#general-considerations-for-porting" title="Permanent link">#</a></h3>
 <p>Many projects assume the GIL serializes access to state shared between threads,
 introducing the possibility of data races in native extensions and race
 conditions that are impossible when the GIL is enabled.</p>
@@ -891,7 +891,7 @@ with the GIL disabled. Any non-critical pre-existing thread safety issues can be
 dealt with later once the free-threaded build is used more. The goal for your
 initial porting effort should be to enable further refinement and
 experimentation by fixing issues that prevent using the library at all.</p>
-<h2 id="multithreaded-python-programming">Multithreaded Python Programming</h2>
+<h2 id="multithreaded-python-programming">Multithreaded Python Programming<a class="headerlink" href="#multithreaded-python-programming" title="Permanent link">#</a></h2>
 <p>The Python standard library offers a rich API for multithreaded
 programming. This includes the <a href="https://docs.python.org/3/library/threading.html"><code>threading</code>
 module</a>, which offers
@@ -912,7 +912,7 @@ programs</a>. Many
 pure Python operations are not atomic and are susceptible to race conditions, or
 only appear to be thread-safe in the GIL-enabled build because of details of how
 CPython releases the GIL in a round-robin fasion to allow threads to run.</p>
-<h3 id="dealing-with-mutable-global-state">Dealing with mutable global state</h3>
+<h3 id="dealing-with-mutable-global-state">Dealing with mutable global state<a class="headerlink" href="#dealing-with-mutable-global-state" title="Permanent link">#</a></h3>
 <p>The most common source of thread safety issues in Python packages is use of
 global mutable state. Many projects use module-level or class-level caches to
 speed up execution but do not envision filling the cache simultaneously from
@@ -935,7 +935,7 @@ possible for at least two threads to see that <code>global_cache</code> doesn't 
 cached key and call <code>_do_expensive_calculation</code>. In some cases this is harmless,
 but depending on the nature of the cache, this could lead to unnecessary network
 access, resource leaks, or wasted unnecessary compute cost.</p>
-<h3 id="converting-global-state-to-thread-local-state">Converting global state to thread-local state</h3>
+<h3 id="converting-global-state-to-thread-local-state">Converting global state to thread-local state<a class="headerlink" href="#converting-global-state-to-thread-local-state" title="Permanent link">#</a></h3>
 <p>One way of dealing with issues like this is to convert a shared global cache
 into a thread-local cache. In this apprach, each thread will see its own private
 copy of the cache, making races between threads impossible. This approach makes
@@ -962,7 +962,7 @@ rewrite the above example to use a thread-local cache like so:</p>
 <p>This wouldn't help a case where each thread having a copy of the cache would be
 prohibitive, but it does fix possible issues with resource leaks issues due to
 races filling a cache.</p>
-<h3 id="making-mutable-global-caches-thread-safe-with-locking">Making mutable global caches thread-safe with locking</h3>
+<h3 id="making-mutable-global-caches-thread-safe-with-locking">Making mutable global caches thread-safe with locking<a class="headerlink" href="#making-mutable-global-caches-thread-safe-with-locking" title="Permanent link">#</a></h3>
 <p>If a thread-local cache doesn't make sense, then you can serialize access to the
 cache with a lock. A
 <a href="https://en.wikipedia.org/wiki/Lock_(computer_science)">lock</a> provides exclusive
@@ -1010,7 +1010,7 @@ that for you.</p>
 <a href="https://docs.python.org/3/library/threading.html#rlock-objects">threading.RLock</a>,
 which provides a reentrant lock allowing threads to recursively acquire the same
 lock.</p>
-<h2 id="dealing-with-thread-unsafe-objects">Dealing with thread-unsafe objects</h2>
+<h2 id="dealing-with-thread-unsafe-objects">Dealing with thread-unsafe objects<a class="headerlink" href="#dealing-with-thread-unsafe-objects" title="Permanent link">#</a></h2>
 <p>Mutability of objects is deeply embedded in the Python runtime and many tools freely
 assign to or mutate data stored in a python object.</p>
 <p>In the GIL-enabled build, in many cases, you can get away with mutating a shared
@@ -1080,7 +1080,7 @@ always output 1000.</p>
 <p>Of course this introduces a scaling bottleneck when <code>SafeCounter</code> instances are
 concurrently updated. It's possible to implement more optimized locking
 strategies, but doing so requires knowledge of the problem.</p>
-<h3 id="third-party-libraries">Third-party libraries</h3>
+<h3 id="third-party-libraries">Third-party libraries<a class="headerlink" href="#third-party-libraries" title="Permanent link">#</a></h3>
 <p>Both the <a href="https://github.com/facebookincubator/ft_utils"><code>ft_utils</code></a> and
 <a href="https://github.com/dpdani/cereggii"><code>cereggii</code></a> libraries offer data structures
 that add enhanced atomicity or improved multithreaded scaling compared with

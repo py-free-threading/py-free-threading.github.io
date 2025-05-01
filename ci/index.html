@@ -670,8 +670,8 @@
   
 
 
-<h1 id="setting-up-ci">Setting up CI</h1>
-<h2 id="ci-setup-via-setup-python">CI setup via <code>setup-python</code></h2>
+<h1 id="setting-up-ci">Setting up CI<a class="headerlink" href="#setting-up-ci" title="Permanent link">#</a></h1>
+<h2 id="ci-setup-via-setup-python">CI setup via <code>setup-python</code><a class="headerlink" href="#ci-setup-via-setup-python" title="Permanent link">#</a></h2>
 <p>The easiest way to get a free-threaded Python build on a CI runner is with the
 <a href="https://github.com/actions/setup-python"><code>setup-python</code></a> Github Action:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">jobs</span><span class="p">:</span>
@@ -683,7 +683,7 @@
 <span class="w">        </span><span class="nt">with</span><span class="p">:</span>
 <span class="w">          </span><span class="nt">python-version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3.13t</span>
 </code></pre></div>
-<h2 id="ci-setup-via-setup-uv">CI setup via <code>setup-uv</code></h2>
+<h2 id="ci-setup-via-setup-uv">CI setup via <code>setup-uv</code><a class="headerlink" href="#ci-setup-via-setup-uv" title="Permanent link">#</a></h2>
 <p>An alternative to <code>setup-python</code> is to use
 <a href="https://github.com/astral-sh/setup-uv"><code>setup-uv</code></a> Github Action:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">jobs</span><span class="p">:</span>
@@ -696,7 +696,7 @@
 <span class="w">          </span><span class="nt">python-version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3.13t</span>
 </code></pre></div>
 <p>You should replace the ellipses with versions for the actions.</p>
-<h2 id="windows-ci-setup-via-custom-powershell">Windows CI setup via custom PowerShell</h2>
+<h2 id="windows-ci-setup-via-custom-powershell">Windows CI setup via custom PowerShell<a class="headerlink" href="#windows-ci-setup-via-custom-powershell" title="Permanent link">#</a></h2>
 <p>For installing a free-threaded build of Python on a Windows CI runner
 (<code>runs-on: windows-latest</code>), you can download and install directly from
 <a href="https://www.python.org/ftp/python/">https://www.python.org/ftp/python/</a> as
@@ -718,7 +718,7 @@ Windows</a>.</p>
 <span class="w">          </span><span class="no">$python_dir = (Get-Item((Get-Package -Name python-freethreaded).Source)).DirectoryName</span>
 <span class="w">          </span><span class="no">$env:path = $python_dir + &quot;\tools;&quot; + $python_dir + &quot;\tools\Scripts;&quot; + $env:Path</span>
 </code></pre></div>
-<h2 id="building-free-threaded-wheels-with-cibuildwheel">Building free-threaded wheels with cibuildwheel</h2>
+<h2 id="building-free-threaded-wheels-with-cibuildwheel">Building free-threaded wheels with cibuildwheel<a class="headerlink" href="#building-free-threaded-wheels-with-cibuildwheel" title="Permanent link">#</a></h2>
 <p><a href="https://cibuildwheel.pypa.io/en/stable/">cibuildwheel</a> has support
 for building free-threaded wheels on all platforms. If your project releases
 nightly wheels, we suggest configuring <code>cibuildwheel</code> to build nightly

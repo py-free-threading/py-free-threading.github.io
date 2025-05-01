@@ -700,7 +700,7 @@
   
 
 
-<h1 id="validating-thread-safety-with-testing">Validating thread safety with testing</h1>
+<h1 id="validating-thread-safety-with-testing">Validating thread safety with testing<a class="headerlink" href="#validating-thread-safety-with-testing" title="Permanent link">#</a></h1>
 <p>Put priority on thread safety issues surfaced by real-world testing. Run the
 test suite for your project and fix any failures that occur only with the GIL
 disabled. Some issues may be due to changes in Python 3.13 that are not
@@ -821,13 +821,13 @@ either inside the closure or after the thread pool finishes running. The
 assertion might be merely that a crash doesn't happen, in which case no explicit
 asserts are necessary.</p>
 <p>Tests that fail due to thread safety issues are inherently
-<a href="https://testautomationpatterns.org/wiki/index.php/FLAKY_TESTS">flaky</a>. You
+<a href="https://testing.googleblog.com/2020/12/test-flakiness-one-of-main-challenges.html">flaky</a>. You
 should not be surprised to see tests that pass or fail randomly, or even fail a
 very small percentage of the time. When writing multithreaded tests your goal
 should be to maximize the chances of triggering a thread safety issue. You could
 pass <code>outer_iterations</code> to <code>run_threaded</code> to multiply the number of chances a
 thread triggers a thread safety issue in a single test.</p>
-<h2 id="fixing-thread-unsafe-tests">Fixing thread-unsafe tests</h2>
+<h2 id="fixing-thread-unsafe-tests">Fixing thread-unsafe tests<a class="headerlink" href="#fixing-thread-unsafe-tests" title="Permanent link">#</a></h2>
 <p>Many existing tests are written using global state. This is not a problem if the
 test only runs once, but if you would like to use your tests to check for
 possible thread safety issues by running existing tests on many threads, you
@@ -836,7 +836,7 @@ will likely need to update the tests to eliminate use of global state.</p>
 failures associated with these tests are also inherently flakey. If you see
 tests failing intermittently, you should not discount that you are using global
 state in a test, or even inadvertently using global state in <code>pytest</code> itself.</p>
-<h4 id="pytest-is-not-thread-safe"><code>pytest</code> is not thread-safe</h4>
+<h4 id="pytest-is-not-thread-safe"><code>pytest</code> is not thread-safe<a class="headerlink" href="#pytest-is-not-thread-safe" title="Permanent link">#</a></h4>
 <p>See <a href="https://docs.pytest.org/en/stable/explanation/flaky.html#thread-safety">the <code>pytest</code>
 docs</a>
 for more information about this. While tests can manage their own threads, you
@@ -857,7 +857,7 @@ should not assume that functionality provided by <code>pytest</code> is thread-s
 <p>Note that the <code>pytest</code> maintainers have explicitly ruled out making <code>pytest</code>
 thread-safe, please do not open issues asking to fix thread safety issues in
 <code>pytest</code> itself.</p>
-<h4 id="the-warnings-module-is-not-thread-safe">The <code>warnings</code> module is not thread-safe</h4>
+<h4 id="the-warnings-module-is-not-thread-safe">The <code>warnings</code> module is not thread-safe<a class="headerlink" href="#the-warnings-module-is-not-thread-safe" title="Permanent link">#</a></h4>
 <p>Many tests carefully ensure that warnings will be seen by the user in cases
 where the library author intends users to see them. These tests inevintably make
 use of the <a href="https://docs.python.org/3/library/warnings.html"><code>warnings</code>
@@ -873,7 +873,7 @@ timing.</p>
 infrastucture for tracking warnings to fix this issue once and for all. See <a href="https://github.com/python/cpython/issues/91505">the
 CPython issue</a> tracking this
 problem for more information.</p>
-<h4 id="file-system-thread-safety">File system thread safety</h4>
+<h4 id="file-system-thread-safety">File system thread safety<a class="headerlink" href="#file-system-thread-safety" title="Permanent link">#</a></h4>
 <p>Many tests make use of the file system, either via a temporary file, or by
 simply directly writing to the folder running the test. If the filename used by
 the test is a constant or it is ever shared between instances of the test, the
@@ -884,7 +884,7 @@ automatically handles generating file handles in a thread-safe manner. If for
 some reason this isn't practical, consider forcing the filenames used in tests
 to be unique, for example by appending a
 <a href="https://docs.python.org/3/library/uuid.html">UUID</a> to the filename.</p>
-<h4 id="hypothesis-is-not-thread-safe">Hypothesis is not thread-safe</h4>
+<h4 id="hypothesis-is-not-thread-safe">Hypothesis is not thread-safe<a class="headerlink" href="#hypothesis-is-not-thread-safe" title="Permanent link">#</a></h4>
 <p>The details of this are <a href="https://hypothesis.readthedocs.io/en/latest/details.html#thread-safety-policy">spelled
 out</a>
 in the Hypothesis documentation. Similar to Pytest, it should be safe to spawn
@@ -915,7 +915,7 @@ threads.</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 30, 2025 14:59:22">April 30, 2025</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 1, 2025 13:50:38">May 1, 2025</span>
   </span>
 
     
