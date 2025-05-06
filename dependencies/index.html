@@ -9,10 +9,10 @@
       
       
       
-        <link rel="prev" href="../faq/">
+        <link rel="prev" href="../porting-extensions/">
       
       
-        <link rel="next" href="../contributing/">
+        <link rel="next" href="../ci/">
       
       
       <link rel="icon" href="../assets/images/favicon.png">
@@ -20,7 +20,7 @@
     
     
       
-        <title>More Resources - py-free-threading</title>
+        <title>Handling dependencies that don’t support free-threading - py-free-threading</title>
       
     
     
@@ -72,7 +72,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#more-resources" class="md-skip">
+        <a href="#handling-dependencies-that-dont-support-free-threading" class="md-skip">
           Skip to content
         </a>
       
@@ -108,7 +108,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              More Resources
+              Handling dependencies that don’t support free-threading
             
           </span>
         </div>
@@ -405,10 +405,32 @@
       
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../dependencies/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Handling dependencies that don’t support free-threading
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -419,6 +441,50 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#runtime-dependencies-that-dont-support-free-threading" class="md-nav__link">
+    <span class="md-ellipsis">
+      Runtime dependencies that don't support free-threading
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Runtime dependencies that don&#39;t support free-threading">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#depending-on-pyyaml-use-pyyaml-ft" class="md-nav__link">
+    <span class="md-ellipsis">
+      Depending on PyYAML - use PyYAML-ft
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -493,19 +559,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../resources/" class="md-nav__link">
         
   
   
@@ -516,7 +573,6 @@
   
 
       </a>
-      
     </li>
   
 
@@ -563,6 +619,38 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#runtime-dependencies-that-dont-support-free-threading" class="md-nav__link">
+    <span class="md-ellipsis">
+      Runtime dependencies that don't support free-threading
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Runtime dependencies that don&#39;t support free-threading">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#depending-on-pyyaml-use-pyyaml-ft" class="md-nav__link">
+    <span class="md-ellipsis">
+      Depending on PyYAML - use PyYAML-ft
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -580,33 +668,28 @@
   
 
 
-<h1 id="more-resources">More Resources<a class="headerlink" href="#more-resources" title="Permanent link">#</a></h1>
-<p>Apart from this website, there's a wide list of resources on the
-free-threaded build and free-threading topics in general, including
-documentation, blog posts, conference talks, and others. We'll
-try to keep an up-to-date list here:</p>
-<ul>
-<li><a href="https://www.youtube.com/watch?v=9OOJcTp8dqE">Sam Gross's EuroPython talk</a></li>
-<li><a href="https://docs.google.com/document/d/18CXhDb1ygxg-YXNBJNzfzZsDFosB5e6BfnXLlejd9l0/edit?usp=sharing">PEP 703 design document</a></li>
-<li><a href="https://docs.python.org/3.13/howto/free-threading-extensions.html">C API Extension Support for Free Threading HOWTO on docs.python.org</a></li>
-<li><a href="https://facebookincubator.github.io/ft_utils/"><code>ft_utils</code> documentation</a></li>
-<li><a href="https://discuss.python.org/t/22606">PEP 703 initial discussion thread</a>, as
-    well as the <a href="https://discuss.python.org/t/26503">follow-up discussion thread</a></li>
-<li><a href="https://discuss.python.org/t/37075">PEP 703 acceptance announcement</a></li>
-<li><a href="https://labs.quansight.org/blog/free-threaded-python-rollout">Quansight Labs blog post about work on free-threading</a></li>
-<li><a href="https://til.simonwillison.net/python/trying-free-threaded-python">Simon Willison's post about trying out free-threaded Python on macOS</a></li>
-<li><a href="https://codspeed.io/blog/state-of-python-3-13-performance-free-threading">Codspeed's blog post about free-threading performance</a></li>
-<li><a href="https://developer.nvidia.com/blog/improved-data-loading-with-threads/">NVIDIA's blog post about threaded data loading</a></li>
-</ul>
-<p>There's also a lot of useful resources on CPython internals, that are not
-specific to the free-threaded build:</p>
-<ul>
-<li><a href="https://github.com/python/cpython/tree/main/InternalDocs">CPython internal docs</a></li>
-<li><a href="https://llllllllll.github.io/c-extension-tutorial/">Dated tutorial on writing C extension modules</a></li>
-<li><a href="https://tenthousandmeters.com/tag/python-behind-the-scenes/">Python behind the scenes series</a></li>
-<li><a href="https://www.youtube.com/watch?v=uL_kmagVKFQ">Łukasz Langa's PyCon Thailand talk on the Python 3.13 release</a></li>
-<li><a href="https://www.youtube.com/watch?v=Mp5wKOL4L2Q">Anthony Shaw's PyCon US talk on free-threading and other parallelism concepts</a></li>
-</ul>
+<h1 id="handling-dependencies-that-dont-support-free-threading">Handling dependencies that don’t support free-threading<a class="headerlink" href="#handling-dependencies-that-dont-support-free-threading" title="Permanent link">#</a></h1>
+<h2 id="runtime-dependencies-that-dont-support-free-threading">Runtime dependencies that don't support free-threading<a class="headerlink" href="#runtime-dependencies-that-dont-support-free-threading" title="Permanent link">#</a></h2>
+<h3 id="depending-on-pyyaml-use-pyyaml-ft">Depending on PyYAML - use PyYAML-ft<a class="headerlink" href="#depending-on-pyyaml-use-pyyaml-ft" title="Permanent link">#</a></h3>
+<p>If your library depends on <a href="https::/github.com/yaml/pyyaml">PyYAML</a>, you will need
+to take extra care to use it with free-threaded Python. PyYAML currently does not
+support free-threading and has some thread-safety issues. Its maintainers <a href="https://github.com/yaml/pyyaml/pull/830#issuecomment-2342475334">have
+decided to not port PyYAML</a>
+before free-threading and Cython support for it have been more extensively tested.</p>
+<p>That's why we've created a fork of PyYAML with support for free-threading called
+<a href="https://github.com/Quansight-Labs/pyyaml-ft">PyYAML-ft</a>. PyYAML users can
+switch to this fork if they want to test their code with the free-threaded build.</p>
+<p>Currently, PyYAML-ft only supports Python 3.13 and 3.13t (i.e. the free-threaded
+build of 3.13). To switch to it, you can add the following to your <code>requirements.txt</code>:</p>
+<div class="highlight"><pre><span></span><code>PyYAML; python_version &lt; &#39;3.13&#39;
+PyYAML-ft; python_version &gt;= &#39;3.13&#39;
+</code></pre></div>
+<p>If you define your dependencies in <code>pyproject.toml</code>, then you can do the following:</p>
+<div class="highlight"><pre><span></span><code><span class="n">dependencies</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
+<span class="w">  </span><span class="s2">&quot;PyYAML; python_version&lt;&#39;3.13&#39;&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="s2">&quot;PyYAML-ft; python_version&gt;=&#39;3.13&#39;&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+</code></pre></div>
 
 
 
@@ -629,7 +712,7 @@ specific to the free-threaded build:</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 19, 2025 07:44:16">March 19, 2025</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 6, 2025 15:03:18">May 6, 2025</span>
   </span>
 
     
@@ -639,7 +722,7 @@ specific to the free-threaded build:</p>
     <span class="md-icon" title="Created">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="November 1, 2024 16:55:52">November 1, 2024</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 6, 2025 15:03:18">May 6, 2025</span>
   </span>
 
     
