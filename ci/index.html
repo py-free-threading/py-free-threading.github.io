@@ -745,16 +745,6 @@ Windows</a>.</p>
 for building free-threaded wheels on all platforms. If your project releases
 nightly wheels, we suggest configuring <code>cibuildwheel</code> to build nightly
 free-threaded wheels.</p>
-<p>If your project depends on Cython or the NumPy C API, you will need to install a
-Cython nightly wheel in the build, as the newest stable release of Cython cannot
-generate code that will compile under the free-threaded build. Cython 3.1.0 and
-NumPy 2.1.0 will be or are the first stable releases to support free-threaded
-python. See <a href="../tracking/">the project tracker</a> for more detailed information
-about projects you may depend on.</p>
-<p>You can install nightly wheels for both Cython and NumPy using the following
-install command:</p>
-<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>-i<span class="w"> </span>https://pypi.anaconda.org/scientific-python-nightly-wheels/simple<span class="w"> </span>cython<span class="w"> </span>numpy
-</code></pre></div>
 <p>To ensure wheels are built correctly under cibuildwheel, you will need to
 specify the following variables in the environment for the cibuildwheel action:</p>
 <div class="highlight"><pre><span></span><code><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Build wheels</span>
@@ -762,26 +752,8 @@ specify the following variables in the environment for the cibuildwheel action:<
 <span class="w">    </span><span class="nt">env</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">CIBW_ENABLE</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cpython-freethreading</span>
 <span class="w">      </span><span class="nt">CIBW_BUILD</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cp313t-${{ matrix.buildplat }}</span>
-<span class="w">      </span><span class="c1"># TODO:</span>
-<span class="w">      </span><span class="c1"># remove when a released cython can build free-threaded extensions</span>
-<span class="w">      </span><span class="nt">CIBW_BUILD_FRONTEND</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;pip;</span><span class="nv"> </span><span class="s">args:</span><span class="nv"> </span><span class="s">--no-build-isolation&#39;</span>
 </code></pre></div>
 <p>As above, replace the ellipses with a <code>cibuildwheel</code> version.</p>
-<p>If for some reason disabling build isolation is unworkable, you can also tell
-pip about the nightly wheel index and it will use it in an isolated build. To
-do this, set:</p>
-<div class="highlight"><pre><span></span><code><span class="nt">CIBW_BUILD_FRONTEND</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;pip;</span><span class="nv"> </span><span class="s">args:</span><span class="nv"> </span><span class="s">--pre</span><span class="nv"> </span><span class="s">--extra-index-url</span><span class="nv"> </span><span class="s">&quot;https://pypi.anaconda.org/scientific-python-nightly-wheels/simple&quot;&#39;</span>
-</code></pre></div>
-<p>Many projects use <code>build</code> instead of <code>pip</code> for the build frontend. See <a href="https://cibuildwheel.pypa.io/en/stable/options/#build-frontend">the
-cibuildwheel</a>
-docs for more information about how to pass arguments to <code>build</code> and <code>pip</code>. See
-<a href="https://github.com/pypa/build/issues/651#issuecomment-2243025713">this
-comment</a> on
-the <code>build</code> issue tracker if you need to use <code>build</code> and cannot disable build
-isolation.</p>
-<p>Note that nightly wheels may not be available on all platforms yet. Windows
-wheels, in particular, are not currently available for NumPy or projects that
-depend on NumPy (e.g., SciPy).</p>
 <p>You will also likely need to manually pass <code>-Xgil=0</code> or set <code>PYTHON_GIL=0</code> in
 your shell environment while running tests to ensure the GIL is actually
 disabled during tests, at least until you can register that your extension
@@ -824,7 +796,7 @@ free-threading.</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 7, 2025 14:41:11">April 7, 2025</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 9, 2025 19:22:13">May 9, 2025</span>
   </span>
 
     

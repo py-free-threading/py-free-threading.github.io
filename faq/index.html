@@ -702,30 +702,8 @@ run into any confusing free-threading-specific errors that you suspect apply to
 other libraries and aren't covered here.</p>
 <h2 id="cython-compilation-errors-unknown-type-name-__pyx_vectorcallfunc">Cython compilation errors: <code>unknown type name '__pyx_vectorcallfunc'</code><a class="headerlink" href="#cython-compilation-errors-unknown-type-name-__pyx_vectorcallfunc" title="Permanent link">#</a></h2>
 <p>This happens if you try to build a Cython extension for the free-threaded build
-using the current stable release of Cython (3.0.11 at the time of writing). The
-current stable release of Cython does not support the free-threaded build. You
-must either install the Cython 3.1 beta by passing <code>--pre</code> to <code>pip</code>:</p>
-<div class="highlight"><pre><span></span><code>pip install cython --pre
-</code></pre></div>
-<p>use the nightly wheel:</p>
-<div class="highlight"><pre><span></span><code>pip<span class="w"> </span>install<span class="w"> </span>-i<span class="w"> </span>https://pypi.anaconda.org/scientific-python-nightly-wheels/simple<span class="w"> </span>cython
-</code></pre></div>
-<p>or build Cython from the <code>master</code> branch <a href="https://github.com/cython/cython">on
-Github</a>.</p>
-<p>See <a href="../porting/">the porting guide</a> for more detail about porting Cython code to
-work under free-threading.</p>
-<p>The beta and nightly wheel are pure-python builds, so they work on all
-architectures. The pure-python version of Cython is usually only marginally
-slower than a compiled version, so you should default to installing a
-pre-release wheel in CI instead of compiling Cython, which can take up to a few
-minutes on some CI runners.</p>
-<p>You may wonder why <code>pip install cython</code> succeeds on the current stable Cython
-release if free-threaded Python is not supported. This is because Cython ships a
-pure-python wheel tagged with <code>py2.py3-none-any</code>, which pip will install if it
-cannot find another wheel that is compatible. Since there isn't a free-threaded
-wheel, pip installs the pure Python wheel instead, and there is no opportunity
-to catch this case at install time in e.g. a <code>setup.py</code> file. The Cython 3.1
-release will fix this problem once and for all.</p>
+using a release of Cython that does not support it (\&lt;3.1.0). See <a href="../porting/">the porting guide</a>
+for more details about porting Cython code to work under free-threading.</p>
 <h2 id="what-does-runtimewarning-the-global-interpreter-lock-gil-has-been-enabled-mean">What does <code>RuntimeWarning: The global interpreter lock (GIL) has been enabled</code> mean?<a class="headerlink" href="#what-does-runtimewarning-the-global-interpreter-lock-gil-has-been-enabled-mean" title="Permanent link">#</a></h2>
 <p>This happens when python imports a module defined in a native extension that
 does not explicitly declare support for running without the GIL. By default,
@@ -803,7 +781,7 @@ GIL-enabled build and <code>True</code> for free-threaded builds.</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 30, 2025 14:59:22">April 30, 2025</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 9, 2025 19:22:13">May 9, 2025</span>
   </span>
 
     
