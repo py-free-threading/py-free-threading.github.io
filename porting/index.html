@@ -16,7 +16,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.13">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.14">
     
     
       
@@ -411,6 +411,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#define-and-document-thread-safety-guarantees" class="md-nav__link">
+    <span class="md-ellipsis">
+      Define and document thread safety guarantees
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#thread-safety-of-pure-python-code" class="md-nav__link">
     <span class="md-ellipsis">
       Thread Safety of Pure Python Code
@@ -465,6 +474,15 @@
   <a href="#making-mutable-global-caches-thread-safe-with-locking" class="md-nav__link">
     <span class="md-ellipsis">
       Making mutable global caches thread-safe with locking
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#raising-errors-under-shared-concurrent-use" class="md-nav__link">
+    <span class="md-ellipsis">
+      Raising errors under shared concurrent use.
     </span>
   </a>
   
@@ -738,6 +756,15 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#define-and-document-thread-safety-guarantees" class="md-nav__link">
+    <span class="md-ellipsis">
+      Define and document thread safety guarantees
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#thread-safety-of-pure-python-code" class="md-nav__link">
     <span class="md-ellipsis">
       Thread Safety of Pure Python Code
@@ -792,6 +819,15 @@
   <a href="#making-mutable-global-caches-thread-safe-with-locking" class="md-nav__link">
     <span class="md-ellipsis">
       Making mutable global caches thread-safe with locking
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#raising-errors-under-shared-concurrent-use" class="md-nav__link">
+    <span class="md-ellipsis">
+      Raising errors under shared concurrent use.
     </span>
   </a>
   
@@ -888,6 +924,38 @@ on this topic.</p>
 free-threaded build. Since the changes required in native extensions are more
 substantial, we have split off the guide for porting extension modules into
 <a href="../porting-extensions/">a subsequent section</a>.</p>
+<h3 id="define-and-document-thread-safety-guarantees">Define and document thread safety guarantees<a class="headerlink" href="#define-and-document-thread-safety-guarantees" title="Permanent link">#</a></h3>
+<p>Consider adding a section to your documentation clearly documenting the thread
+safety guarantees of your library. Note any use of global state as well as
+whether the mutable data structures exposed by your library support sequentially
+consistent shared concurrent use. You should document any locks that you expect
+might impact multithreaded scaling for realistic workflows. Encourage user
+feedback, particularly for reports of thread-unsafe behavior in code that is
+documented to be thread-safe, as well as reports of poor multithreaded scaling
+in code that you expect to scale well.</p>
+<p>You can indicate the level of support for free-threading in your library by
+adding a <a href="https://pypi.org/classifiers/">trove classifier</a> to the metadata of
+your package. The currently supported trove classifiers for this purpose are:</p>
+<ul>
+<li><code>Programming Language :: Python :: Free Threading :: 1 - Unstable</code></li>
+<li><code>Programming Language :: Python :: Free Threading :: 2 - Beta</code></li>
+<li><code>Programming Language :: Python :: Free Threading :: 3 - Stable</code></li>
+<li><code>Programming Language :: Python :: Free Threading :: 4 - Resilient</code></li>
+</ul>
+<p>The numeric level of support in the classifier corresponds to the level of support. To give some guidance as to what that means:</p>
+<ol>
+<li>For experimentation and feedback only.</li>
+<li>Free threaded usage is supported, but documentation of constraints and limitations may be incomplete.</li>
+<li>Supported for production use, multithreaded use is tested, and thread safety issues are clearly documented.</li>
+<li>Fully supported and fully thread safe.</li>
+</ol>
+<p>You can see how supporting the free-threaded build is not all all-or-nothing
+thing. It is a perfectly valid choice to, for example, only support running on
+the free-threaded build in effectively single-threaded contexts and not support
+shared use of objects. It is then up to the users of your library to add locking
+where appropriate or needed. The advantage of this choice is that it does not
+force all consumers of your library to pay any cost associated with ensuring
+thread safety.</p>
 <h3 id="thread-safety-of-pure-python-code">Thread Safety of Pure Python Code<a class="headerlink" href="#thread-safety-of-pure-python-code" title="Permanent link">#</a></h3>
 <p>The CPython interpreter protects you from low-level memory unsafety due to <a href="https://en.wikipedia.org/wiki/Race_condition#Data_race">data
 races</a>. It does not
@@ -896,11 +964,6 @@ conditions</a>. It is possible to
 write algorithms that depend on the precise timing of threads completing
 work. It is up to you as a user of multithreaded parallelism to ensure that
 simultaneous reads and writes to the same Python variable are impossible.</p>
-<p>If you're maintaining a library, we suggest documenting what multithreaded
-workflows are supported and to document to what extent the library guards against
-races. If a variable is protected by a lock, you should document that, as it may
-impact multithreaded scaling. Similarly, if a mutable data structure does not
-ensure state is synchronized if an object is shared between threads, you should also document that explicitly.</p>
 <p>Below we describe various approaches for improving the determinism of
 multithreaded pure Python code. The correct approach will depend on exactly what
 you are doing.</p>
@@ -1050,6 +1113,30 @@ that for you.</p>
 <a href="https://docs.python.org/3/library/threading.html#rlock-objects">threading.RLock</a>,
 which provides a reentrant lock allowing threads to recursively acquire the same
 lock.</p>
+<h3 id="raising-errors-under-shared-concurrent-use">Raising errors under shared concurrent use.<a class="headerlink" href="#raising-errors-under-shared-concurrent-use" title="Permanent link">#</a></h3>
+<p>Sometimes it's a programming error to share an object between threads. An
+example might be a wrapper for a low-level C compression library that does not
+support sharing compression contexts between threads. You could make it so users
+see an error at runtime when they try to share a compression context like this:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+
+
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">CompressionContext</span><span class="p">:</span>
+    <span class="n">lock</span><span class="p">:</span> <span class="n">threading</span><span class="o">.</span><span class="n">Lock</span>
+    <span class="n">state</span><span class="p">:</span> <span class="n">_LowLevelCompressionContext</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">compress</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">(</span><span class="n">blocking</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Concurrent use detected!&quot;</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">compress</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+</code></pre></div>
+<p>This does require paying the cost of acquiring and releasing a mutex, but
+because no thread ever blocks on acquiring the lock, this thread cannot
+introduce hidden multithreaded scaling issues.</p>
 <h2 id="dealing-with-thread-unsafe-objects">Dealing with thread-unsafe objects<a class="headerlink" href="#dealing-with-thread-unsafe-objects" title="Permanent link">#</a></h2>
 <p>Mutability of objects is deeply embedded in the Python runtime and many tools freely
 assign to or mutate data stored in a python object.</p>
@@ -1151,7 +1238,7 @@ be able to switch to a fork that does. Find more details in
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 11, 2025 10:31:55">May 11, 2025</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 13, 2025 19:37:47">May 13, 2025</span>
   </span>
 
     
