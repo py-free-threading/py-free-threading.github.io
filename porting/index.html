@@ -1089,30 +1089,38 @@ like this:</p>
     <span class="k">if</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">global_cache</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">global_cache</span><span class="p">[</span><span class="n">arg</span><span class="p">]</span>
 
-    <span class="n">cache_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
-    <span class="k">if</span> <span class="n">arg</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">global_cache</span><span class="p">:</span>
-        <span class="n">global_cache</span><span class="p">[</span><span class="n">arg</span><span class="p">]</span> <span class="o">=</span> <span class="n">_do_expensive_calculation</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
-    <span class="n">cache_lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+    <span class="k">with</span> <span class="n">cache_lock</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">arg</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">global_cache</span><span class="p">:</span>
+            <span class="n">global_cache</span><span class="p">[</span><span class="n">arg</span><span class="p">]</span> <span class="o">=</span> <span class="n">_do_expensive_calculation</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">global_cache</span><span class="p">[</span><span class="n">arg</span><span class="p">]</span>
 </code></pre></div>
 <p>Note that after acquiring the lock, we first check if the requested key
 has been filled by another thread, to prevent unnecessary calls to
 <code>_do_expensive_calculation</code> if another thread filled the cache while the thread
-currently holding the lock was blocked on acquiring the lock. Also note that
+currently holding the lock was blocked on acquiring the lock. Also note that we
+avoid using
 <a href="https://docs.python.org/3/library/threading.html#threading.Lock.acquire"><code>Lock.acquire</code></a>
-<em>must</em> be followed by a call to
-<a href="https://docs.python.org/3/library/threading.html#threading.Lock.release"><code>Lock.release</code></a>,
-calling <code>Lock.acquire()</code> recursively on the same lock leads to deadlocks. Also,
+and <a href="https://docs.python.org/3/library/threading.html#threading.Lock.release"><code>Lock.release</code></a>
+and instead we use the lock as a context manager. The difference is subtle: the context
+manager calls <code>Lock.release</code> in a <code>try</code> ... <code>finally</code> clause, so if
+<code>_do_expensive_calculation</code> were to raise an exception, this ensures that the lock won't
+stay locked forever.</p>
+<p>Note that acquiring the same lock recursively leads to deadlocks. Also,
 in general, it is possible to create a deadlock in any program with more than
 one lock. Care must be taken to ensure that operations done while the lock is
 held cannot lead to recursive calls or lead to a situation where a thread owning
 the lock is blocked on acquiring a different mutex. You do not need to worry
 about deadlocking with the GIL in pure Python code, the interpreter will handle
-that for you.</p>
-<p>There is also
+that for you.
+There is also
 <a href="https://docs.python.org/3/library/threading.html#rlock-objects">threading.RLock</a>,
 which provides a reentrant lock allowing threads to recursively acquire the same
 lock.</p>
+<p>Finally, note how the above code will ensure that only a single call to
+<code>_do_expensive_calculation</code> will run at any given time, regardless of <code>arg</code>.
+This may not be desirable; one could want to allow calling the function in
+parallel for different arguments. This however would require a substantially more
+complex locking pattern.</p>
 <h3 id="raising-errors-under-shared-concurrent-use">Raising errors under shared concurrent use.<a class="headerlink" href="#raising-errors-under-shared-concurrent-use" title="Permanent link">#</a></h3>
 <p>Sometimes it's a programming error to share an object between threads. An
 example might be a wrapper for a low-level C compression library that does not
@@ -1196,11 +1204,10 @@ script randomly vary.</p>
         <span class="bp">self</span><span class="o">.</span><span class="n">lock</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">increment</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span>
-        <span class="n">current_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
-        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.0001</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">current_value</span> <span class="o">+</span> <span class="mi">1</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">lock</span><span class="p">:</span>
+            <span class="n">current_value</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">value</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.0001</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">current_value</span> <span class="o">+</span> <span class="mi">1</span>
 </code></pre></div>
 <p>If you replace <code>RaceyCounter</code> with <code>SafeCounter</code> in the script above, it will
 always output 1000.</p>
@@ -1238,7 +1245,7 @@ be able to switch to a fork that does. Find more details in
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 22, 2025 14:18:20">May 22, 2025</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 22, 2025 15:42:34">May 22, 2025</span>
   </span>
 
     
