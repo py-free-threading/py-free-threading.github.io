@@ -9,10 +9,10 @@
       
       
       
-        <link rel="prev" href="../debugging/">
+        <link rel="prev" href="../running-gil-disabled/">
       
       
-        <link rel="next" href="../resources/">
+        <link rel="next" href="mandelbrot/">
       
       
       <link rel="icon" href="../assets/images/favicon.png">
@@ -20,7 +20,7 @@
     
     
       
-        <title>Frequently seen errors and how to fix them - Python Free-Threading Guide</title>
+        <title>Examples Demonstrating Free-Threaded Python - Python Free-Threading Guide</title>
       
     
     
@@ -72,7 +72,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#frequently-seen-errors-and-how-to-fix-them" class="md-skip">
+        <a href="#examples-demonstrating-free-threaded-python" class="md-skip">
           Skip to content
         </a>
       
@@ -108,7 +108,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Frequently seen errors and how to fix them
+              Examples Demonstrating Free-Threaded Python
             
           </span>
         </div>
@@ -339,6 +339,8 @@
       
   
   
+    
+  
   
   
     
@@ -358,15 +360,15 @@
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="../examples/" class="md-nav__link ">
+            <a href="./" class="md-nav__link md-nav__link--active">
               
   
   
@@ -379,13 +381,13 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
+              <label class="md-nav__link md-nav__link--active" for="__nav_5" id="__nav_5_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
             Usage Examples
@@ -401,7 +403,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../examples/mandelbrot/" class="md-nav__link">
+      <a href="mandelbrot/" class="md-nav__link">
         
   
   
@@ -424,7 +426,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../examples/monte-carlo/" class="md-nav__link">
+      <a href="monte-carlo/" class="md-nav__link">
         
   
   
@@ -447,7 +449,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../examples/asyncio/" class="md-nav__link">
+      <a href="asyncio/" class="md-nav__link">
         
   
   
@@ -718,32 +720,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    Frequently seen errors and how to fix them
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../faq/" class="md-nav__link">
         
   
   
@@ -754,62 +734,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#cython-compilation-errors-unknown-type-name-__pyx_vectorcallfunc" class="md-nav__link">
-    <span class="md-ellipsis">
-      Cython compilation errors: unknown type name '__pyx_vectorcallfunc'
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#what-does-runtimewarning-the-global-interpreter-lock-gil-has-been-enabled-mean" class="md-nav__link">
-    <span class="md-ellipsis">
-      What does RuntimeWarning: The global interpreter lock (GIL) has been enabled mean?
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#pip-install-jupyter-fails" class="md-nav__link">
-    <span class="md-ellipsis">
-      pip install jupyter fails
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#what-does-py_limited_api-is-currently-incompatible-with-py_gil_disabled-mean" class="md-nav__link">
-    <span class="md-ellipsis">
-      What does "Py_LIMITED_API is currently incompatible with Py_GIL_DISABLED" mean?
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -878,50 +802,6 @@
     
   
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#cython-compilation-errors-unknown-type-name-__pyx_vectorcallfunc" class="md-nav__link">
-    <span class="md-ellipsis">
-      Cython compilation errors: unknown type name '__pyx_vectorcallfunc'
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#what-does-runtimewarning-the-global-interpreter-lock-gil-has-been-enabled-mean" class="md-nav__link">
-    <span class="md-ellipsis">
-      What does RuntimeWarning: The global interpreter lock (GIL) has been enabled mean?
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#pip-install-jupyter-fails" class="md-nav__link">
-    <span class="md-ellipsis">
-      pip install jupyter fails
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#what-does-py_limited_api-is-currently-incompatible-with-py_gil_disabled-mean" class="md-nav__link">
-    <span class="md-ellipsis">
-      What does "Py_LIMITED_API is currently incompatible with Py_GIL_DISABLED" mean?
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
 </nav>
                   </div>
                 </div>
@@ -939,77 +819,18 @@
   
 
 
-<h1 id="frequently-seen-errors-and-how-to-fix-them">Frequently seen errors and how to fix them<a class="headerlink" href="#frequently-seen-errors-and-how-to-fix-them" title="Permanent link">#</a></h1>
-<p>These are error messages that we see come up often when working with code or
-development workflows that have not been updated to accommodate the
-free-threaded build. We also provide suggested fixes. Please send in pull
-requests to <a href="https://github.com/quansight-labs/free-threaded-compatibility">the repository for this
-document</a> if you
-run into any confusing free-threading-specific errors that you suspect apply to
-other libraries and aren't covered here.</p>
-<h2 id="cython-compilation-errors-unknown-type-name-__pyx_vectorcallfunc">Cython compilation errors: <code>unknown type name '__pyx_vectorcallfunc'</code><a class="headerlink" href="#cython-compilation-errors-unknown-type-name-__pyx_vectorcallfunc" title="Permanent link">#</a></h2>
-<p>This happens if you try to build a Cython extension for the free-threaded build
-using a release of Cython that does not support it (\&lt;3.1.0). This might happen
-if a package pins an older version of Cython. You should check the build
-dependencies of the package and try relaxing any Cython pin or otherwise
-establish why the latest Cython release is not being installed at build time.</p>
-<p>See <a href="../porting/">the porting guide</a>
-for more details about porting Cython code to work under free-threading.</p>
-<h2 id="what-does-runtimewarning-the-global-interpreter-lock-gil-has-been-enabled-mean">What does <code>RuntimeWarning: The global interpreter lock (GIL) has been enabled</code> mean?<a class="headerlink" href="#what-does-runtimewarning-the-global-interpreter-lock-gil-has-been-enabled-mean" title="Permanent link">#</a></h2>
-<p>This happens when python imports a module defined in a native extension that
-does not explicitly declare support for running without the GIL. By default,
-native extensions do not support running without the GIL because of the long
-history of extensions assuming the GIL locks concurrent access to extension
-internals. As a precaution, when the free-threaded Python build imports such an
-extension, it assumes that the GIL is <em>necessary</em> to run the extension, and
-enables the GIL at runtime.</p>
-<p>If you have control over the code in the native extension, then you should
-update the extension to support the free-threaded build. See <a href="../porting-extensions/">the guide
-section</a> on that topic. If you do not control the
-extension or simply want to test running with the GIL disabled despite the
-extension not explicitly supporting it, then you can set either the <code>PYTHON_GIL</code>
-environment variable or the <code>-X gil</code> command-like flag for the python
-interpreter to <code>0</code> (i.e. the GIL is disabled). This skips the runtime check for
-whether extensions support running with the GIL disabled. See the <a href="../running-gil-disabled/">section on
-running free-threaded Python</a> for more details.</p>
-<h2 id="pip-install-jupyter-fails"><code>pip install jupyter</code> fails<a class="headerlink" href="#pip-install-jupyter-fails" title="Permanent link">#</a></h2>
-<p>This happens because some of the dependencies of the <code>jupyter</code> project on PyPI
-do not yet support the free-threaded build. In particular, <code>argon2-cffi</code> uses a
-C extension provided by the <code>argon2-cffi-bindings</code> project, which in turn uses
-CFFI to generate bindings for the <code>argon2</code> C password hashing library.</p>
-<p>Because CFFI does not yet ship a stable release that supports the free-threaded
-build, even if you have a compiler environment properly set up, the
-<code>argon2-cffi-bindings</code> build will fail.</p>
-<p>For now, we do not recommend trying to install jupyterlab into an environment
-managed by a free-threaded Python interpreter. Instead, we suggest installing a
-free-threaded Python kernel into a jupyterlab installation managed by a
-GIL-enabled python interpreter. See <a href="../installing-cpython/#installing-a-free-threaded-jupyter-kernel">our instructions</a>
-for installing a free-threaded Jupyter kernel for more details.</p>
-<p>That said, it <em>is</em> possible to install <code>jupyter</code> into a free-threaded Python
-environment and launch jupyterlab, <a href="https://github.com/jupyterlab/jupyterlab/issues/16915#issuecomment-2810114545">see this
-issue</a>
-for more details.</p>
-<h2 id="what-does-py_limited_api-is-currently-incompatible-with-py_gil_disabled-mean">What does "Py_LIMITED_API is currently incompatible with Py_GIL_DISABLED" mean?<a class="headerlink" href="#what-does-py_limited_api-is-currently-incompatible-with-py_gil_disabled-mean" title="Permanent link">#</a></h2>
-<p>You might see an error with this message generated by setuptools, but other
-tools might generate similar errors for the same reason.</p>
-<p>The ultimate problem is that CPython does not yet offer a <a href="https://docs.python.org/3/c-api/stable.html#stable-application-binary-interface">stable
-ABI</a>
-on the free-threaded build. See <a href="https://github.com/python/cpython/issues/111506">this CPython
-issue</a> for more details. This
-means it's not yet possible to build an extension that any CPython version can
-import and instead libraries have to distribute one wheel for each version of
-free-threaded CPython. A future version of CPython will likely support a new
-version of the stable ABI that works correctly with both the GIL-enabled and
-free-threaded builds.</p>
-<p>Until then, tools or libraries that <em>default</em> to using the stable ABI via the
-limited API will generate build errors on the free-threaded build. The fix is
-usually to disable the <code>Py_LIMITED_API</code> declaration that triggers use of the
-stable ABI on the free-threaded build by using the following incantation:</p>
-<div class="highlight"><pre><span></span><code>import sysconfig
-FREETHREADED_BUILD = bool(sysconfig.get_config_var(&quot;Py_GIL_DISABLED&quot;))
-</code></pre></div>
-<p>If you spell it this way, <code>FREETHREADED_BUILD</code> will be <code>False</code> on the
-GIL-enabled build and <code>True</code> for free-threaded builds.</p>
+<h1 id="examples-demonstrating-free-threaded-python">Examples Demonstrating Free-Threaded Python<a class="headerlink" href="#examples-demonstrating-free-threaded-python" title="Permanent link">#</a></h1>
+<p>This page gathers examples showing how to use free-threaded Python to speed up
+code using the Python <code>threading</code> module. In all cases, the free-threaded build outperforms the GIL-enabled build since the GIL-enabled build does not
+scale well due to lock contention.</p>
+<ul>
+<li><a href="mandelbrot/">Mandelbrot Set Visualization</a></li>
+<li><a href="monte-carlo/">Monte Carlo Simulation</a></li>
+<li><a href="asyncio/">Web Scraping with asyncio</a></li>
+</ul>
+<p>We'd love to have more examples! See <a href="../contributing/">the contribution guide</a>
+if you're interested in adding more use-cases that show off the free-threaded
+build.</p>
 
 
 
@@ -1032,7 +853,7 @@ GIL-enabled build and <code>True</code> for free-threaded builds.</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 21, 2025 09:02:31 UTC">May 21, 2025</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="June 18, 2025 15:26:28 UTC">June 18, 2025</span>
   </span>
 
     
@@ -1042,7 +863,7 @@ GIL-enabled build and <code>True</code> for free-threaded builds.</p>
     <span class="md-icon" title="Created">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 18, 2025 15:30:22 UTC">April 18, 2025</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="June 18, 2025 15:26:28 UTC">June 18, 2025</span>
   </span>
 
     
