@@ -9,10 +9,10 @@
       
       
       
-        <link rel="prev" href="../installing-cpython/">
+        <link rel="prev" href="../debugging/">
       
       
-        <link rel="next" href="../examples/">
+        <link rel="next" href="../faq/">
       
       
       <link rel="icon" href="../assets/images/favicon.png">
@@ -20,7 +20,7 @@
     
     
       
-        <title>Running Python with the GIL Disabled - Python Free-Threading Guide</title>
+        <title>Multithreaded Profiling with samply - Python Free-Threading Guide</title>
       
     
     
@@ -72,7 +72,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#running-python-with-the-gil-disabled" class="md-skip">
+        <a href="#multithreaded-profiling-with-samply" class="md-skip">
           Skip to content
         </a>
       
@@ -108,7 +108,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Running Python with the GIL Disabled
+              Multithreaded Profiling with samply
             
           </span>
         </div>
@@ -317,32 +317,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    Running Python with the GIL Disabled
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../running-gil-disabled/" class="md-nav__link">
         
   
   
@@ -353,77 +331,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#check-if-the-gil-is-disabled" class="md-nav__link">
-    <span class="md-ellipsis">
-      Check if the GIL is disabled
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Check if the GIL is disabled">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#from-the-command-line" class="md-nav__link">
-    <span class="md-ellipsis">
-      From the command line
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#at-runtime" class="md-nav__link">
-    <span class="md-ellipsis">
-      At runtime
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#force-the-gil-to-be-disabled" class="md-nav__link">
-    <span class="md-ellipsis">
-      Force the GIL to be disabled
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#check-if-using-a-free-threaded-build" class="md-nav__link">
-    <span class="md-ellipsis">
-      Check if using a free-threaded build
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -714,8 +621,10 @@
       
   
   
+    
   
   
+  
     
     
       
@@ -729,11 +638,11 @@
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
         
           
           <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
@@ -749,7 +658,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_7">
             <span class="md-nav__icon md-icon"></span>
             Testing, Debugging, and Profiling
@@ -806,10 +715,32 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../profiling/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Multithreaded Profiling with samply
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -820,6 +751,44 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#python-stack-frames-on-linux" class="md-nav__link">
+    <span class="md-ellipsis">
+      Python stack frames on Linux
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#uploading-profiler-data-to-profilerfirefoxcom" class="md-nav__link">
+    <span class="md-ellipsis">
+      Uploading profiler data to profiler.firefox.com
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -925,51 +894,18 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#check-if-the-gil-is-disabled" class="md-nav__link">
+  <a href="#python-stack-frames-on-linux" class="md-nav__link">
     <span class="md-ellipsis">
-      Check if the GIL is disabled
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Check if the GIL is disabled">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#from-the-command-line" class="md-nav__link">
-    <span class="md-ellipsis">
-      From the command line
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#at-runtime" class="md-nav__link">
-    <span class="md-ellipsis">
-      At runtime
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#force-the-gil-to-be-disabled" class="md-nav__link">
-    <span class="md-ellipsis">
-      Force the GIL to be disabled
+      Python stack frames on Linux
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#check-if-using-a-free-threaded-build" class="md-nav__link">
+  <a href="#uploading-profiler-data-to-profilerfirefoxcom" class="md-nav__link">
     <span class="md-ellipsis">
-      Check if using a free-threaded build
+      Uploading profiler data to profiler.firefox.com
     </span>
   </a>
   
@@ -994,62 +930,66 @@
   
 
 
-<h1 id="running-python-with-the-gil-disabled">Running Python with the GIL Disabled<a class="headerlink" href="#running-python-with-the-gil-disabled" title="Permanent link">#</a></h1>
-<div class="admonition info">
-<p class="admonition-title">Info</p>
-<p>Most of the content on this page is also covered in the Python 3.13
-<a href="https://docs.python.org/3.13/whatsnew/3.13.html#free-threaded-cpython">release notes</a>.</p>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The free-threaded Python executable will always have a <code>python3.13t</code> alias
-(for Python 3.13); whether <code>python</code>, <code>python3</code> and/or <code>python3.13</code> point at
-the free-threaded executable depends on the installation method used
-(see <a href="../installing-cpython/">the install guide</a> for more details).</p>
-<p>For example, the Python 3.13 Windows installer from python.org
-installs the free-threaded binary as <code>python3.13t.exe</code> (with a "t" suffix
-to indicate it is "t"hreaded), whereas the standard GIL-enabled Python
-binary is simply named <code>python.exe</code> (as usual). If you cannot find the
-free-threaded binary, that means the free-threaded option was not selected
-during installation.</p>
-</div>
-<h2 id="check-if-the-gil-is-disabled">Check if the GIL is disabled<a class="headerlink" href="#check-if-the-gil-is-disabled" title="Permanent link">#</a></h2>
-<h3 id="from-the-command-line">From the command line<a class="headerlink" href="#from-the-command-line" title="Permanent link">#</a></h3>
-<p>You can verify if your build of CPython itself has the GIL disabled with the
-following incantation:</p>
-<div class="highlight"><pre><span></span><code>python<span class="w"> </span>-VV
+<h1 id="multithreaded-profiling-with-samply">Multithreaded Profiling with samply<a class="headerlink" href="#multithreaded-profiling-with-samply" title="Permanent link">#</a></h1>
+<p>Currently, we recommend using <a href="https://github.com/mstange/samply">samply</a>, a
+low-level sampling profiler, to identify performance bottlenecks. You can
+download binaries from GitHub or build and install locally using a Rust
+toolchain. See the samply GitHub page for more details.</p>
+<p>While you can also use <code>perf</code> or <code>dtrace</code> to do similar work, samply provides a
+uniform multi-platform interface for this work. You use samply from the
+command-line. For example, to record a trace of the execution of a Python
+script, you could do:</p>
+<div class="highlight"><pre><span></span><code>samply<span class="w"> </span>record<span class="w"> </span>python<span class="w"> </span>test.py
 </code></pre></div>
-<p>If you are using Python 3.13b1 or newer, you should see a message like:</p>
-<div class="highlight"><pre><span></span><code>Python<span class="w"> </span><span class="m">3</span>.13.1<span class="w"> </span>experimental<span class="w"> </span>free-threading<span class="w"> </span>build<span class="w"> </span><span class="o">(</span>main,<span class="w"> </span>Dec<span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="m">2024</span>,<span class="w"> </span><span class="m">14</span>:07:41<span class="o">)</span><span class="w"> </span><span class="o">[</span>Clang<span class="w"> </span><span class="m">16</span>.0.0<span class="w"> </span><span class="o">(</span>clang-1600.0.26.4<span class="o">)]</span>
+<p>Note that the <code>python</code> here must resolve to a real Python executable.</p>
+<p>You can also attach to a running process if you have a PID:</p>
+<div class="highlight"><pre><span></span><code>samply record --pid $PROCESS_PID
 </code></pre></div>
-<h3 id="at-runtime">At runtime<a class="headerlink" href="#at-runtime" title="Permanent link">#</a></h3>
-<p>To verify whether the GIL is disabled at runtime or not, you can use this in
-your code:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
-
-<span class="n">sys</span><span class="o">.</span><span class="n">_is_gil_enabled</span><span class="p">()</span>
+<p>Both of these commands instrument the Python interpreter to record the call
+stack at regular intervals. Samply then collates this information in a standard
+format and opens it in a local version of <a href="https://profiler.firefox.com">the Firefox
+profiler</a>.</p>
+<p>Once the script is finished - either by exiting or by being interrupted with
+Ctrl-C - samply will print out a report and open a web browser pointing at the
+profile browser.</p>
+<p>Briefly, the interface is broken up into two pieces: a timeline in which
+the CPU utilization appears as a graph and a set of panels that allow diving
+into the callstack at individual instants in the timeline or aggregated over
+selections in the timeline. It's particularly useful to look at the <a href="https://profiler.firefox.com/docs/#/./guide-ui-tour-panels?id=the-flame-graph">flame
+graph</a>
+and <a href="https://profiler.firefox.com/docs/#/./guide-ui-tour-panels?id=the-stack-chart">stack
+chart</a>
+panels. The former allows identifying calls that are particularly expensive
+while the latter allows visualization of how the call stack changes with time.</p>
+<p>See <a href="https://profiler.firefox.com/docs/#/">the Firefox profiler documentation</a> for more details
+about how to use the interface.</p>
+<p>Note that by default, you will only see information about native
+frames. Generally, the call stack will include frames from inside the CPython
+interpreter, which will eventually call into a native extension outside the
+interpreter, if there is one. If you are analyzing the performance of code that
+is pure-Python or goes back and forth between C and Python, you may want to set
+up a Linux development environment and follow the instructions below to set up
+profiling both native and Python frames in the same profile output.</p>
+<h2 id="python-stack-frames-on-linux">Python stack frames on Linux<a class="headerlink" href="#python-stack-frames-on-linux" title="Permanent link">#</a></h2>
+<p>If you have access to a Linux machine and a Python development environment, then
+you can turn on Python's <a href="https://docs.python.org/3/howto/perf_profiling.html">support for generating perf
+events</a> by running Python
+with the <code>-X perf</code> command-line option:</p>
+<div class="highlight"><pre><span></span><code>samply<span class="w"> </span>record<span class="w"> </span>python<span class="w"> </span>-X<span class="w"> </span>perf<span class="w"> </span>test.py
 </code></pre></div>
-<p>This command will return <code>True</code> on the free-threaded build when the GIL is re-enabled at
-runtime, and should return <code>False</code> before importing any packages. Note that
-<code>sys._is_gil_enabled()</code> is only available on Python 3.13 and newer, you will
-see an <code>AttributeError</code> on older Python versions.</p>
-<h2 id="force-the-gil-to-be-disabled">Force the GIL to be disabled<a class="headerlink" href="#force-the-gil-to-be-disabled" title="Permanent link">#</a></h2>
-<p>To force Python to keep the GIL disabled even after importing a module
-that does not support running without it, use the <code>PYTHON_GIL</code> environment
-variable or the <code>-X gil</code> command line option:</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># these commands are equivalent</span>
-<span class="nv">PYTHON_GIL</span><span class="o">=</span><span class="m">0</span><span class="w"> </span>python
-
-python<span class="w"> </span>-Xgil<span class="o">=</span><span class="m">0</span>
-</code></pre></div>
-<h2 id="check-if-using-a-free-threaded-build">Check if using a free-threaded build<a class="headerlink" href="#check-if-using-a-free-threaded-build" title="Permanent link">#</a></h2>
-<p>To check whether the Python interpreter you're using is a free-threaded build,
-irrespective of whether the GIL was re-enabled at runtime or not, you can use
-this within your code:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">sysconfig</span>
-
-<span class="n">is_freethreaded</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">sysconfig</span><span class="o">.</span><span class="n">get_config_var</span><span class="p">(</span><span class="s2">&quot;Py_GIL_DISABLED&quot;</span><span class="p">))</span>
-</code></pre></div>
+<p>The resulting profile will include annotations with information about the Python
+frames. In the profile browser, Python frames show up in light blue and native
+frames show up in yellow.</p>
+<h2 id="uploading-profiler-data-to-profilerfirefoxcom">Uploading profiler data to profiler.firefox.com<a class="headerlink" href="#uploading-profiler-data-to-profilerfirefoxcom" title="Permanent link">#</a></h2>
+<p>The neat thing about using the Firefox profiler as the UI for samply is it means
+sharing profiling information over the internet is as easy as clicking a button
+in the UI.</p>
+<p>By default, samply runs the firefox profiler locally and does not share data it
+collects. You can optionally click the upload button in the top-right corner of
+the profiler interface to upload the profile data and generate a permalink. This
+uploads the data to profiler.firefox.com and others can view the exact same
+profiler interface as the one you see locally. This can be a powerful tool to
+get help if you don't understand what you are looking at.</p>
 
 
 
@@ -1072,7 +1012,7 @@ this within your code:</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 30, 2025 14:59:22 UTC">April 30, 2025</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="July 11, 2025 21:05:09 UTC">July 11, 2025</span>
   </span>
 
     
@@ -1082,7 +1022,7 @@ this within your code:</p>
     <span class="md-icon" title="Created">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="July 10, 2024 10:09:59 UTC">July 10, 2024</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="July 11, 2025 21:05:09 UTC">July 11, 2025</span>
   </span>
 
     
