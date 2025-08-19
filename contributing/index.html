@@ -14,7 +14,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.16">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.17">
     
     
       
@@ -630,6 +630,8 @@
       
         
       
+        
+      
     
     
     
@@ -697,6 +699,29 @@
   
   <span class="md-ellipsis">
     Debugging thread safety issues
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../thread_sanitizer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Using Thread Sanitizer to validate and test thread safety
     
   </span>
   
@@ -1040,8 +1065,8 @@ The standard TODOs for adding free-threading support are:
 
 <span class="k">- [ ]</span> Audit Python bindings and declare them free-threading compatible (xref https://py-free-threading.github.io/porting/#updating-extension-modules).
 <span class="k">- [ ]</span> Run the test suite with <span class="sb">`pytest-run-parallel`</span> to find potential issues, and fix them.
-<span class="k">- [ ]</span> Run the test suite under ThreadSanitizer. <span class="ge">_If possible, depends on how many dependencies there are and if they run under TSan._</span>
-<span class="k">- [ ]</span> Add <span class="sb">`cp313t-*`</span> to CI to build free-threading wheels.
+<span class="k">- [ ]</span> Run the test suite under [<span class="nt">Thread Sanitizer</span>](<span class="na">thread_sanitizer.md</span>). <span class="ge">_If possible, depends on how many dependencies there are and if they run under TSan._</span>
+<span class="k">- [ ]</span> Add <span class="sb">`cp313t-*`</span> and <span class="sb">`cp314t-*`</span> to CI to build free-threading wheels.
 
 For more details, please see the
 [<span class="nt">suggested plan of attack in the py-free-threading guide</span>](<span class="na">https://py-free-threading.github.io/porting/#suggested-plan-of-attack</span>).
@@ -1075,7 +1100,7 @@ me to hold off for any reason.
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="June 18, 2025 15:26:28 UTC">June 18, 2025</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="August 19, 2025 13:12:47 UTC">August 19, 2025</span>
   </span>
 
     
@@ -1163,10 +1188,10 @@ me to hold off for any reason.
     
     
       
-      <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "header.autohide", "navigation.indexes"], "search": "../assets/javascripts/workers/search.d50fe291.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "header.autohide", "navigation.indexes"], "search": "../assets/javascripts/workers/search.973d3a69.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.50899def.min.js"></script>
+      <script src="../assets/javascripts/bundle.92b07e13.min.js"></script>
       
     
   </body>

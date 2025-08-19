@@ -9,10 +9,10 @@
       
       
       
-        <link rel="prev" href="../installing-cpython/">
+        <link rel="prev" href="../debugging/">
       
       
-        <link rel="next" href="../examples/">
+        <link rel="next" href="../profiling/">
       
       
       <link rel="icon" href="../assets/images/favicon.png">
@@ -20,7 +20,7 @@
     
     
       
-        <title>Running Python with the GIL Disabled - Python Free-Threading Guide</title>
+        <title>Using Thread Sanitizer to validate and test thread safety - Python Free-Threading Guide</title>
       
     
     
@@ -72,7 +72,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#running-python-with-the-gil-disabled" class="md-skip">
+        <a href="#using-thread-sanitizer-to-validate-and-test-thread-safety" class="md-skip">
           Skip to content
         </a>
       
@@ -108,7 +108,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Running Python with the GIL Disabled
+              Using Thread Sanitizer to validate and test thread safety
             
           </span>
         </div>
@@ -317,32 +317,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    Running Python with the GIL Disabled
-    
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../running-gil-disabled/" class="md-nav__link">
         
   
   
@@ -353,77 +331,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#check-if-the-gil-is-disabled" class="md-nav__link">
-    <span class="md-ellipsis">
-      Check if the GIL is disabled
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Check if the GIL is disabled">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#from-the-command-line" class="md-nav__link">
-    <span class="md-ellipsis">
-      From the command line
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#at-runtime" class="md-nav__link">
-    <span class="md-ellipsis">
-      At runtime
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#force-the-gil-to-be-disabled" class="md-nav__link">
-    <span class="md-ellipsis">
-      Force the GIL to be disabled
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#check-if-using-a-free-threaded-build" class="md-nav__link">
-    <span class="md-ellipsis">
-      Check if using a free-threaded build
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -714,8 +621,10 @@
       
   
   
+    
   
   
+  
     
     
       
@@ -731,11 +640,11 @@
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
         
           
           <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
@@ -751,7 +660,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_7">
             <span class="md-nav__icon md-icon"></span>
             Testing, Debugging, and Profiling
@@ -808,10 +717,32 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../thread_sanitizer/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Using Thread Sanitizer to validate and test thread safety
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -822,6 +753,134 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#compiling-cpython-and-foundational-packages-with-thread-sanitizer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Compiling CPython and foundational packages with Thread Sanitizer
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Compiling CPython and foundational packages with Thread Sanitizer">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cpython_sanity-docker-images" class="md-nav__link">
+    <span class="md-ellipsis">
+      cpython_sanity docker images
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#compile-free-threaded-cpython-with-tsan" class="md-nav__link">
+    <span class="md-ellipsis">
+      Compile free-threaded CPython with TSan
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#compile-numpy-with-tsan" class="md-nav__link">
+    <span class="md-ellipsis">
+      Compile NumPy with TSan
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tsan-suppressions" class="md-nav__link">
+    <span class="md-ellipsis">
+      TSan suppressions
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="TSan suppressions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-suppressions-files-from-other-projects" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using suppressions files from other projects
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reporting-tsan-issues-in-your-dependencies" class="md-nav__link">
+    <span class="md-ellipsis">
+      Reporting TSan issues in your dependencies
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#running-python-under-tsan" class="md-nav__link">
+    <span class="md-ellipsis">
+      Running Python under TSan
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Running Python under TSan">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#useful-tsan-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      Useful TSan options
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#running-pytest-tests-under-tsan" class="md-nav__link">
+    <span class="md-ellipsis">
+      Running pytest tests under TSan
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -950,28 +1009,37 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#check-if-the-gil-is-disabled" class="md-nav__link">
+  <a href="#compiling-cpython-and-foundational-packages-with-thread-sanitizer" class="md-nav__link">
     <span class="md-ellipsis">
-      Check if the GIL is disabled
+      Compiling CPython and foundational packages with Thread Sanitizer
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Check if the GIL is disabled">
+    <nav class="md-nav" aria-label="Compiling CPython and foundational packages with Thread Sanitizer">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#from-the-command-line" class="md-nav__link">
+  <a href="#cpython_sanity-docker-images" class="md-nav__link">
     <span class="md-ellipsis">
-      From the command line
+      cpython_sanity docker images
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#at-runtime" class="md-nav__link">
+  <a href="#compile-free-threaded-cpython-with-tsan" class="md-nav__link">
     <span class="md-ellipsis">
-      At runtime
+      Compile free-threaded CPython with TSan
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#compile-numpy-with-tsan" class="md-nav__link">
+    <span class="md-ellipsis">
+      Compile NumPy with TSan
     </span>
   </a>
   
@@ -983,20 +1051,68 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#force-the-gil-to-be-disabled" class="md-nav__link">
+  <a href="#tsan-suppressions" class="md-nav__link">
     <span class="md-ellipsis">
-      Force the GIL to be disabled
+      TSan suppressions
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="TSan suppressions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-suppressions-files-from-other-projects" class="md-nav__link">
+    <span class="md-ellipsis">
+      Using suppressions files from other projects
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#check-if-using-a-free-threaded-build" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#reporting-tsan-issues-in-your-dependencies" class="md-nav__link">
     <span class="md-ellipsis">
-      Check if using a free-threaded build
+      Reporting TSan issues in your dependencies
     </span>
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#running-python-under-tsan" class="md-nav__link">
+    <span class="md-ellipsis">
+      Running Python under TSan
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Running Python under TSan">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#useful-tsan-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      Useful TSan options
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#running-pytest-tests-under-tsan" class="md-nav__link">
+    <span class="md-ellipsis">
+      Running pytest tests under TSan
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1019,61 +1135,201 @@
   
 
 
-<h1 id="running-python-with-the-gil-disabled">Running Python with the GIL Disabled<a class="headerlink" href="#running-python-with-the-gil-disabled" title="Permanent link">#</a></h1>
-<div class="admonition info">
-<p class="admonition-title">Info</p>
-<p>Most of the content on this page is also covered in the Python 3.13
-<a href="https://docs.python.org/3.13/whatsnew/3.13.html#free-threaded-cpython">release notes</a>.</p>
-</div>
+<h1 id="using-thread-sanitizer-to-validate-and-test-thread-safety">Using Thread Sanitizer to validate and test thread safety<a class="headerlink" href="#using-thread-sanitizer-to-validate-and-test-thread-safety" title="Permanent link">#</a></h1>
+<p><a href="https://clang.llvm.org/docs/ThreadSanitizer.html">Thread sanitizer</a> (or TSan)
+is part of the compiler sanitizer suite, originally developed at Google and now
+integrated with the LLVM and GCC compilers. The sanitizers instrument compiled
+code with additional runtime checks for common sources of <a href="https://en.wikipedia.org/wiki/Undefined_behavior">undefined
+behavior</a>.</p>
+<p>Thread Sanitizer specializes in finding data races, a form of undefined behavior
+that are possible in low-level multithreaded code. While Rust has compile-time
+guarantees to prevent most data races, C and C++ do not prevent data races from
+occurring and in practice many C and C++ extensions exhibit data races while
+adding support for the free-threaded build.</p>
+<h2 id="compiling-cpython-and-foundational-packages-with-thread-sanitizer">Compiling CPython and foundational packages with Thread Sanitizer<a class="headerlink" href="#compiling-cpython-and-foundational-packages-with-thread-sanitizer" title="Permanent link">#</a></h2>
+<p>In this section we provide the commands to build a free-threading compatible
+CPython interpreter and packages with TSan and other hints to discover potential
+data races.</p>
+<h3 id="cpython_sanity-docker-images"><code>cpython_sanity</code> docker images<a class="headerlink" href="#cpython_sanity-docker-images" title="Permanent link">#</a></h3>
+<p>To ease working with thread sanitizer in projects that use Python, NumPy, and
+SciPy, we have created a set of docker images that contain a pre-built Python
+interpreter and common dependencies with thread sanitizer which can be
+tricky to build.</p>
+<p>See <a href="https://github.com/nascheme/cpython_sanity">the <code>cpython_sanity</code>
+repository</a> for more information
+about how to use the docker images. Also see <a href="https://github.com/numpy/numpy/pull/28808/files">NumPy PR #28808</a>,
+which adjusted NumPy TSan CI to use the <code>ghcr.io/nascheme/numpy-tsan:3.14t-dev</code>
+docker image instead of building Python from source, saving ten minutes of
+compute time per CI run.</p>
+<h3 id="compile-free-threaded-cpython-with-tsan">Compile free-threaded CPython with TSan<a class="headerlink" href="#compile-free-threaded-cpython-with-tsan" title="Permanent link">#</a></h3>
+<ul>
+<li>Clone the latest stable branch (<code>3.14</code>):</li>
+</ul>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/python/cpython.git<span class="w"> </span>-b<span class="w"> </span><span class="m">3</span>.14
+</code></pre></div>
+<ul>
+<li>Configure and build the interpreter. Below instructions are for Linux
+    (Windows and macOS may require some changes). We skip the instructions on how
+    to install the Clang compiler.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>cpython
+<span class="nv">CC</span><span class="o">=</span>/path/to/clang<span class="w"> </span><span class="nv">CXX</span><span class="o">=</span>/path/to/clang++<span class="w"> </span>./configure<span class="w"> </span>--disable-gil<span class="w"> </span>--with-thread-sanitizer<span class="w"> </span>--prefix<span class="w"> </span><span class="nv">$PWD</span>/cpython-tsan
+make<span class="w"> </span>-j<span class="w"> </span><span class="m">8</span>
+make<span class="w"> </span>install
+</code></pre></div>
+<ul>
+<li>To use the built Python interpreter:</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="c1"># Create a virtual environment:</span>
+<span class="nv">$PWD</span>/cpython-tsan/bin/python3.14t<span class="w"> </span>-m<span class="w"> </span>venv<span class="w"> </span>~/tsanvenv
+
+<span class="c1"># Then activate it:</span>
+<span class="nb">source</span><span class="w"> </span>~/tsanvenv/bin/activate
+
+<span class="c1"># Exit the `cpython` folder (preparation for the next step below)</span>
+<span class="nb">cd</span><span class="w"> </span>..
+</code></pre></div>
+<p>If you use pyenv, you can also enable a thread sanitizer build with <code>pyenv install</code> like so:</p>
+<div class="highlight"><pre><span></span><code><span class="nv">CC</span><span class="o">=</span>/path/to/clang<span class="w"> </span><span class="nv">CXX</span><span class="o">=</span>/path/to/clang++<span class="w"> </span><span class="nv">CONFIGURE_OPTS</span><span class="o">=</span><span class="s2">&quot;--with-thread-sanitizer&quot;</span><span class="w"> </span>pyenv<span class="w"> </span>install<span class="w"> </span><span class="m">3</span>.14t-dev
+</code></pre></div>
+<p>And then activate the build with e.g. <code>pyenv local 3.14t-dev</code>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>The free-threaded Python executable will always have a <code>python3.13t</code> alias
-(for Python 3.13); whether <code>python</code>, <code>python3</code> and/or <code>python3.13</code> point at
-the free-threaded executable depends on the installation method used
-(see <a href="../installing-cpython/">the install guide</a> for more details).</p>
-<p>For example, the Python 3.13 Windows installer from python.org
-installs the free-threaded binary as <code>python3.13t.exe</code> (with a "t" suffix
-to indicate it is "t"hreaded), whereas the standard GIL-enabled Python
-binary is simply named <code>python.exe</code> (as usual). If you cannot find the
-free-threaded binary, that means the free-threaded option was not selected
-during installation.</p>
+<p>On MacOS, you may see messages like this when you start Python:</p>
+<div class="highlight"><pre><span></span><code>python(7027,0x1f6dfc240) malloc: nano zone abandoned due to inability to reserve vm space.
+</code></pre></div>
+<p>This message is being emitted by the MacOS malloc implementation. As
+<a href="https://stackoverflow.com/questions/64126942/malloc-nano-zone-abandoned-due-to-inability-to-preallocate-reserved-vm-space">explained
+here</a>,
+this happens for any program compiled with TSan on MacOS and can
+be safely ignored by setting the <code>MallocNanoZone</code> environment variable to
+0. You should only set this in the session you are running TSan
+under, as this setting will slow down other programs that allocate memory.</p>
 </div>
-<h2 id="check-if-the-gil-is-disabled">Check if the GIL is disabled<a class="headerlink" href="#check-if-the-gil-is-disabled" title="Permanent link">#</a></h2>
-<h3 id="from-the-command-line">From the command line<a class="headerlink" href="#from-the-command-line" title="Permanent link">#</a></h3>
-<p>You can verify if your build of CPython itself has the GIL disabled with the
-following incantation:</p>
-<div class="highlight"><pre><span></span><code>python<span class="w"> </span>-VV
+<h3 id="compile-numpy-with-tsan">Compile NumPy with TSan<a class="headerlink" href="#compile-numpy-with-tsan" title="Permanent link">#</a></h3>
+<ul>
+<li>Get the source code (for example, the <code>main</code> branch)</li>
+</ul>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>--recursive<span class="w"> </span>https://github.com/numpy/numpy.git
 </code></pre></div>
-<p>If you are using Python 3.13b1 or newer, you should see a message like:</p>
-<div class="highlight"><pre><span></span><code>Python<span class="w"> </span><span class="m">3</span>.13.1<span class="w"> </span>experimental<span class="w"> </span>free-threading<span class="w"> </span>build<span class="w"> </span><span class="o">(</span>main,<span class="w"> </span>Dec<span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="m">2024</span>,<span class="w"> </span><span class="m">14</span>:07:41<span class="o">)</span><span class="w"> </span><span class="o">[</span>Clang<span class="w"> </span><span class="m">16</span>.0.0<span class="w"> </span><span class="o">(</span>clang-1600.0.26.4<span class="o">)]</span>
+<ul>
+<li>Install the build requirements:</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>numpy
+python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>requirements/build_requirements.txt
 </code></pre></div>
-<h3 id="at-runtime">At runtime<a class="headerlink" href="#at-runtime" title="Permanent link">#</a></h3>
-<p>To verify whether the GIL is disabled at runtime or not, you can use this in
-your code:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
-
-<span class="n">sys</span><span class="o">.</span><span class="n">_is_gil_enabled</span><span class="p">()</span>
+<ul>
+<li>Build the package</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="nv">CC</span><span class="o">=</span>/path/to/clang<span class="w"> </span><span class="nv">CXX</span><span class="o">=</span>/path/to/clang++<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-v<span class="w"> </span>.<span class="w"> </span>--no-build-isolation<span class="w"> </span>-Csetup-args<span class="o">=</span>-Db_sanitize<span class="o">=</span>thread
+<span class="c1"># or with debug info</span>
+<span class="c1"># CC=/path/to/clang CXX=/path/to/clang++ python -m pip install -v . --no-build-isolation -Csetup-args=-Db_sanitize=thread -Csetup-args=-Dbuildtype=debugoptimized</span>
 </code></pre></div>
-<p>This command will return <code>True</code> on the free-threaded build when the GIL is re-enabled at
-runtime, and should return <code>False</code> before importing any packages. Note that
-<code>sys._is_gil_enabled()</code> is only available on Python 3.13 and newer, you will
-see an <code>AttributeError</code> on older Python versions.</p>
-<h2 id="force-the-gil-to-be-disabled">Force the GIL to be disabled<a class="headerlink" href="#force-the-gil-to-be-disabled" title="Permanent link">#</a></h2>
-<p>To force Python to keep the GIL disabled even after importing a module
-that does not support running without it, use the <code>PYTHON_GIL</code> environment
-variable or the <code>-X gil</code> command line option:</p>
-<div class="highlight"><pre><span></span><code><span class="c1"># these commands are equivalent</span>
-<span class="nv">PYTHON_GIL</span><span class="o">=</span><span class="m">0</span><span class="w"> </span>python
-
-python<span class="w"> </span>-Xgil<span class="o">=</span><span class="m">0</span>
+<h2 id="tsan-suppressions">TSan suppressions<a class="headerlink" href="#tsan-suppressions" title="Permanent link">#</a></h2>
+<p>While TSan is incredibly useful, it can also be difficult to securely fix all
+races detected by TSan. Some races are also more impactful than others. To avoid
+drowning out new issues with existing issues found under TSan testing, it's
+common practice to create a <a href="https://github.com/google/sanitizers/wiki/ThreadSanitizerSuppressions">suppressions
+file</a> for
+known issues and point TSan at the suppressions when you run it.</p>
+<p>Here's an example suppression file from the TSan docs:</p>
+<div class="highlight"><pre><span></span><code>race:llvm::RuntimeDyldELF::registerEHFrames
+race:partial_vectorcall_fallback
+race:dnnl_sgemm
 </code></pre></div>
-<h2 id="check-if-using-a-free-threaded-build">Check if using a free-threaded build<a class="headerlink" href="#check-if-using-a-free-threaded-build" title="Permanent link">#</a></h2>
-<p>To check whether the Python interpreter you're using is a free-threaded build,
-irrespective of whether the GIL was re-enabled at runtime or not, you can use
-this within your code:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">sysconfig</span>
-
-<span class="n">is_freethreaded</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">(</span><span class="n">sysconfig</span><span class="o">.</span><span class="n">get_config_var</span><span class="p">(</span><span class="s2">&quot;Py_GIL_DISABLED&quot;</span><span class="p">))</span>
+<p>This suppressions file tells TSan to not any races it detects in the functions
+<code>llvm::RuntimeDyldELF::registerEHFrames</code>, <code>partial_vectorcall_fallback</code>, and
+<code>dnnl_sgemm</code>.</p>
+<p>You can tell TSan to use your suppressions file by setting <code>suppressions</code> in
+<code>TSAN_OPTIONS</code>:</p>
+<div class="highlight"><pre><span></span><code>TSAN_OPTIONS=&quot;suppressions=$PWD/tsan-suppressions&quot; python my_test.py
+</code></pre></div>
+<p>This would use a suppressions file name <code>tsan-suppressions</code> located in the
+current directory.</p>
+<h3 id="using-suppressions-files-from-other-projects">Using suppressions files from other projects<a class="headerlink" href="#using-suppressions-files-from-other-projects" title="Permanent link">#</a></h3>
+<p>Depending on what you are doing, you may see races coming from code outside of your project, including from CPython itself.</p>
+<p>There are known races in CPython that are tracked in a suppressions file used
+for TSan testing in the CPython CI. You can see the version of this file in the
+the 3.14 branch of CPython
+<a href="https://github.com/python/cpython/blob/3.14/Tools/tsan/suppressions_free_threading.txt">here</a>. This
+file might be a good place to start for your own testing, particularly if you
+see races inside of CPython that are listed in CPython's suppressions file.</p>
+<p>In addition to CPython, we are aware of the following projects that run tests in CI with TSan and use suppressions:</p>
+<ul>
+<li>NumPy (<a href="https://github.com/numpy/numpy/blob/main/tools/ci/tsan_suppressions.txt">TSan Suppressions</a>)</li>
+<li>CFFI (<a href="https://github.com/python-cffi/cffi/blob/b4bbe7940d3f76027534db1aecbae9b61c35221a/suppressions_free_threading.txt">TSan Suppressions</a>)</li>
+</ul>
+<p>If you are aware of other suppression files used for TSan testing of Python
+projects, please add them here.</p>
+<h3 id="reporting-tsan-issues-in-your-dependencies">Reporting TSan issues in your dependencies<a class="headerlink" href="#reporting-tsan-issues-in-your-dependencies" title="Permanent link">#</a></h3>
+<p>It is possible, or even likely in cases where TSan testing has not been used
+before, that you will see races coming code in your dependencies. If you've
+found a race in a project that already does TSan testing, then just go ahead and
+make a bug report including the TSan race report and steps to reproduce the race.</p>
+<p>If your dependency does not yet regularly test with TSan, consider adding
+additional context and link to this guide to help the project understand what
+they need to do to reproduce your report and to understand how important a
+bugfix is.</p>
+<h2 id="running-python-under-tsan">Running Python under TSan<a class="headerlink" href="#running-python-under-tsan" title="Permanent link">#</a></h2>
+<p>If you have successfully compiled CPython and your project and any dependencies
+with native extensions using TSan instrumentation, you should be able to run a
+test script or your unit tests as normal. You will likely want to customize your
+TSan testing with some options. We explain how to do that below.</p>
+<h3 id="useful-tsan-options">Useful TSan options<a class="headerlink" href="#useful-tsan-options" title="Permanent link">#</a></h3>
+<ul>
+<li>By default, TSan reports warnings. To stop execution on the first TSan report,
+    use:</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="nv">TSAN_OPTIONS</span><span class="o">=</span><span class="nv">halt_on_error</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>pytest<span class="w"> </span>test.py
+</code></pre></div>
+<p>See <a href="https://github.com/google/sanitizers/wiki/ThreadSanitizerFlags">the TSan documentation</a> for a full listing of options accepted by TSan.</p>
+<h3 id="running-pytest-tests-under-tsan">Running pytest tests under TSan<a class="headerlink" href="#running-pytest-tests-under-tsan" title="Permanent link">#</a></h3>
+<p>By default, pytest <a href="https://docs.pytest.org/en/stable/how-to/capture-stdout-stderr.html">captures all output from
+tests</a>,
+this means that you might only see output like <code>ThreadSanitizer: reported 2 warnings</code>, but with no accompanying report with details about the warning.</p>
+<p>To ensure that pytest doesn't capture any output from TSan, you can
+pass <code>-s</code> (short for <code>--show-capture</code>) to your pytest invocation.</p>
+<p>You can also set <code>log_path=/path/to/log_file</code> in TSAN_OPTIONS, and logs
+fill be written to <code>/path/to/log_file.pid</code>, where <code>pid</code> is the process ID
+instead of being directed to stderr, which is the default.</p>
+<p>Some authors of this guide have observed hangs running pytest with
+<code>halt_on_error=1</code>. If you observe hangs, try setting <code>halt_on_error=0</code> in
+TSAN_OPTIONS.</p>
+<p>The <a href="https://github.com/pytest-dev/pytest-xdist">pytest-xdist</a> plugin can also
+sometimes be problematic if a test runner happens to crash during
+execution. While <code>pytest-xdist</code> does have some support for detecting a crashed
+worker, it is not foolproof and the authors of this guide have observed hangs on
+CI due to pytest-xdist not properly handling a worker failing due to a TSan
+error.</p>
+<p>The <code>pytest-xdist</code> plugin also <a href="https://github.com/pytest-dev/pytest-xdist/issues/82">makes it impossible to obtain stdout from
+a test runner</a>, so there
+is no way to see TSan output if there is an issue. This can lead to hangs on CI
+machines with no accompanying error report to explain the nature of the
+hang. For that reason we suggest uninstalling <code>pytest-xdist</code> from your
+environment to ensure it isn't used. If you need to use <code>pytest-xdist</code> to make
+the tests complete in a reasonable amount of time, we suggest using
+<a href="https://pypi.org/project/pytest-timeout/"><code>pytest-timeout</code></a> to ensure hung
+tests eventually exit, particularly on CI.</p>
+<p>TSan includes a check to ensure allocators never fail. This can lead to runtime
+crashes if a test happens to try allocating a very large block of memory
+specifically to ensure such an allocation does fail correctly. Set
+<code>allocator_may_return_null=1</code> in <code>TSAN_OPTIONS</code> to avoid this.</p>
+<p>If a TSan warning is detected, the exit code of the running process will be set
+to a nonzero value (66, by default). If for some reason that is problematic in
+your test suite then you can set <code>exitcode=0</code> in <code>TSAN_OPTIONS</code> to make TSan
+quit "successfully" if a warning is detected. For example, you might set this if
+a subprocess returning a nonzero exit code unexpectedly breaks a test.</p>
+<p>You might also find that running your test suite is very slow under
+TSan. Consider skipping tests that do not use threads, for example by only
+testing files that import <code>threading</code> or
+<code>concurrent.futures.ThreadPoolExecutor</code>. See <a href="https://github.com/numpy/numpy/blob/da268d45aab791023c8d953db6f4597019f770cb/.github/workflows/compiler_sanitizers.yml#L128">this NumPy CI
+workflow</a>
+that runs pytest on a subset of NumPy's tests. This will miss tests that spawn
+threads in native code (e.g. with OpenMP or other threading primitives) or use
+Python packages that spawn threads, but is a good option if your library doesn't
+do that.</p>
+<p>Altogether, a pytest invocation using TSan might look like:</p>
+<div class="highlight"><pre><span></span><code>$ TSAN_OPTIONS=&#39;allocator_may_return_null=1 halt_on_error=1&#39; pytest -s
 </code></pre></div>
 
 
@@ -1097,7 +1353,7 @@ this within your code:</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 30, 2025 14:59:22 UTC">April 30, 2025</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="August 19, 2025 13:12:47 UTC">August 19, 2025</span>
   </span>
 
     
@@ -1107,7 +1363,7 @@ this within your code:</p>
     <span class="md-icon" title="Created">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="July 10, 2024 10:09:59 UTC">July 10, 2024</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="August 19, 2025 13:12:47 UTC">August 19, 2025</span>
   </span>
 
     
