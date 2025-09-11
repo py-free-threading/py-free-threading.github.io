@@ -720,62 +720,11 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#cython-thread-safety" class="md-nav__link">
+  <a href="#lock-free-concurrent-programming-with-atomics" class="md-nav__link">
     <span class="md-ellipsis">
-      Cython thread safety
+      Lock-free concurrent programming with atomics
     </span>
   </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#cpython-c-api-usage" class="md-nav__link">
-    <span class="md-ellipsis">
-      CPython C API usage
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="CPython C API usage">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#unsafe-apis-returning-borrowed-references" class="md-nav__link">
-    <span class="md-ellipsis">
-      Unsafe APIs returning borrowed references
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#adopt-pythoncapi-compat-to-use-new-c-api-functions" class="md-nav__link">
-    <span class="md-ellipsis">
-      Adopt pythoncapi-compat to use new C API functions
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#some-low-level-apis-dont-enforce-locking" class="md-nav__link">
-    <span class="md-ellipsis">
-      Some low-level APIs don't enforce locking
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#limited-api-support" class="md-nav__link">
-    <span class="md-ellipsis">
-      Limited API support
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1201,62 +1150,11 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#cython-thread-safety" class="md-nav__link">
+  <a href="#lock-free-concurrent-programming-with-atomics" class="md-nav__link">
     <span class="md-ellipsis">
-      Cython thread safety
+      Lock-free concurrent programming with atomics
     </span>
   </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#cpython-c-api-usage" class="md-nav__link">
-    <span class="md-ellipsis">
-      CPython C API usage
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="CPython C API usage">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#unsafe-apis-returning-borrowed-references" class="md-nav__link">
-    <span class="md-ellipsis">
-      Unsafe APIs returning borrowed references
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#adopt-pythoncapi-compat-to-use-new-c-api-functions" class="md-nav__link">
-    <span class="md-ellipsis">
-      Adopt pythoncapi-compat to use new C API functions
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#some-low-level-apis-dont-enforce-locking" class="md-nav__link">
-    <span class="md-ellipsis">
-      Some low-level APIs don't enforce locking
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#limited-api-support" class="md-nav__link">
-    <span class="md-ellipsis">
-      Limited API support
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -1810,6 +1708,44 @@ per-object locks.</p>
 <p>A variant for locking two objects at once is also available. For more information
 about <code>Py_BEGIN_CRITICAL_SECTION</code>, please see the
 <a href="https://docs.python.org/3.13/c-api/init.html#python-critical-section-api">Python C API documentation on critical sections</a>.</p>
+<h2 id="lock-free-concurrent-programming-with-atomics">Lock-free concurrent programming with atomics<a class="headerlink" href="#lock-free-concurrent-programming-with-atomics" title="Permanent link">#</a></h2>
+<p>While a mutex offers a convenient API that ensures safe access, mutexes are also
+blocking operations that might lead to contention if many threads compete to
+acquire the mutex. Modern CPUs, operating systems, and programming languages
+support a <a href="https://en.wikipedia.org/wiki/Memory_model_(programming)">memory
+model</a> that allows
+programmers to reason about multithreaded access to resources at the hardware
+level. Correctly-written programs can ensure sequentially consistent access and
+mutation for data that is simultaneously accessed by many threads. While the
+possibility of doing such a thing is appealing, it is also technically fraught
+and easy to write incorrect code using atomics, even in a memory-safe language
+like Rust.</p>
+<p>The author of this guide recommends <a href="https://marabos.nl/atomics/">"Rust Atomics and
+Locks"</a> by Mara Bos as an introduction to lock-free
+concurrent programming. While the book does use examples written in Rust, Rust
+also shares the same memory model used in modern revisions of the C and C++
+standard library. Rust also has a convenient API for working with atomics that
+can be obscured by the more tricky APIs the C and C++ standard libraries
+expose. <a href="http://www.cplusplusconcurrencyinaction.com/">"C++ Concurrency in
+Action"</a> may also be a resource
+for those who are more familiar with C or C++ syntax.</p>
+<p>The C++ and Rust standard libraries both have widely-supported built-in support for
+atomics. If your extension is written in C++ or Rust we encourage you to use the
+standard library.</p>
+<p>If you are updating an existing C library and would like to use atomic
+operations, then we recommend using C standard library atomics. Recent versions
+of both GCC and LLVM support C17 atomics. MSVC does not officially support C
+atomics yet, but it is possible to enable experimental support for atomics using
+the <code>/experimental:c11atomics</code> compiler flag in recent versions.</p>
+<p>We also strongly recommend testing code that makes use of atomics under <a href="../thread_sanitizer/">Thread
+Sanitizer</a> on more than one CPU architecture, particularly
+CPU architectures that support weak ordering, like ARM CPUs. Certain kinds of
+thread safety issues can only happen on ARM CPUs due to slightly different memory
+semantics. Thread Sanitizer also has runtime options that can help determine
+whether a bug is happening due to incorrect use of atomic operations.</p>
+<p>For a worked example of how to enable atomics in a real-world project, see [PR</p>
+<h1 id="2020httpsgithubcomnedbatcoveragepypull2020files-in-the">2020](https://github.com/nedbat/coveragepy/pull/2020/files) in the<a class="headerlink" href="#2020httpsgithubcomnedbatcoveragepypull2020files-in-the" title="Permanent link">#</a></h1>
+<p><code>coveragepy</code> project, which enabled a lock-free boolean using atomic operations.</p>
 <h2 id="cython-thread-safety">Cython thread safety<a class="headerlink" href="#cython-thread-safety" title="Permanent link">#</a></h2>
 <p>See <a href="https://cython.readthedocs.io/en/latest/src/userguide/freethreading.html">the free-threading
 section</a>
@@ -1919,7 +1855,7 @@ free-threading</a>.</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="August 1, 2025 14:47:30 UTC">August 1, 2025</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 11, 2025 15:55:10 UTC">September 11, 2025</span>
   </span>
 
     
