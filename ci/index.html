@@ -992,6 +992,8 @@
 
 
 <h1 id="setting-up-ci">Setting up CI<a class="headerlink" href="#setting-up-ci" title="Permanent link">#</a></h1>
+<p>While you may extend the following instruction to also setup CI on 3.13t, we
+recommend focusing on 3.14+.</p>
 <h2 id="ci-setup-via-setup-python">CI setup via <code>setup-python</code><a class="headerlink" href="#ci-setup-via-setup-python" title="Permanent link">#</a></h2>
 <p>The easiest way to get a free-threaded Python build on a CI runner is with the
 <a href="https://github.com/actions/setup-python"><code>setup-python</code></a> Github Action:</p>
@@ -1002,7 +1004,7 @@
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@...</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/setup-python@...</span>
 <span class="w">        </span><span class="nt">with</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">python-version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3.13t</span>
+<span class="w">          </span><span class="nt">python-version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3.14t</span>
 </code></pre></div>
 <h2 id="ci-setup-via-setup-uv">CI setup via <code>setup-uv</code><a class="headerlink" href="#ci-setup-via-setup-uv" title="Permanent link">#</a></h2>
 <p>An alternative to <code>setup-python</code> is to use
@@ -1014,7 +1016,7 @@
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@...</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">astral-sh/setup-uv@...</span>
 <span class="w">        </span><span class="nt">with</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">python-version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3.13t</span>
+<span class="w">          </span><span class="nt">python-version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3.14t</span>
 </code></pre></div>
 <p>You should replace the ellipses with versions for the actions.</p>
 <h2 id="windows-ci-setup-via-custom-powershell">Windows CI setup via custom PowerShell<a class="headerlink" href="#windows-ci-setup-via-custom-powershell" title="Permanent link">#</a></h2>
@@ -1023,7 +1025,7 @@
 <a href="https://www.python.org/ftp/python/">https://www.python.org/ftp/python/</a> as
 shown in the following PowerShell snippet (noting that the free-threaded
 binary is named <code>python{version}t.exe</code>, where the "t" is for free-"t"hreaded).
-For more tips see the <a href="https://docs.python.org/3.13/using/windows.html#installing-without-ui">docs on silent installation and options on
+For more tips see the <a href="https://docs.python.org/3/using/windows.html#installing-without-ui">docs on silent installation and options on
 Windows</a>.</p>
 <div class="highlight"><pre><span></span><code><span class="nt">jobs</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">free-threaded</span><span class="p">:</span>
@@ -1040,7 +1042,7 @@ Windows</a>.</p>
 <span class="w">          </span><span class="no">$env:path = $python_dir + &quot;\tools;&quot; + $python_dir + &quot;\tools\Scripts;&quot; + $env:Path</span>
 </code></pre></div>
 <h2 id="building-free-threaded-wheels-with-cibuildwheel">Building free-threaded wheels with cibuildwheel<a class="headerlink" href="#building-free-threaded-wheels-with-cibuildwheel" title="Permanent link">#</a></h2>
-<p><a href="https://cibuildwheel.pypa.io/en/stable/">cibuildwheel</a> has support
+<p><a href="https://cibuildwheel.pypa.io/en/stable/">cibuildwheel</a> 3.1+ has support
 for building free-threaded wheels on all platforms. If your project releases
 nightly wheels, we suggest configuring <code>cibuildwheel</code> to build nightly
 free-threaded wheels.</p>
@@ -1049,8 +1051,9 @@ specify the following variables in the environment for the cibuildwheel action:<
 <div class="highlight"><pre><span></span><code><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Build wheels</span>
 <span class="w">    </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pypa/cibuildwheel@...</span>
 <span class="w">    </span><span class="nt">env</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">CIBW_ENABLE</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cpython-freethreading</span>
-<span class="w">      </span><span class="nt">CIBW_BUILD</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cp313t-${{ matrix.buildplat }}</span>
+<span class="w">      </span><span class="c1"># enable cpython-freethreading necessary only for 3.13t</span>
+<span class="w">      </span><span class="c1"># CIBW_ENABLE: cpython-freethreading</span>
+<span class="w">      </span><span class="nt">CIBW_BUILD</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cp314t-${{ matrix.buildplat }}</span>
 </code></pre></div>
 <p>As above, replace the ellipses with a <code>cibuildwheel</code> version.</p>
 <p>You will also likely need to manually pass <code>-Xgil=0</code> or set <code>PYTHON_GIL=0</code> in
@@ -1062,11 +1065,11 @@ information about declaring support for free-threaded python in your extension.<
 <div class="admonition info">
 <p class="admonition-title">Info</p>
 <p>If a dependency of your package does not support free-threading or has not
-yet done a release which includes <code>cp313t</code> wheels, this can be tricky to
+yet done a release which includes <code>cp314t</code> wheels, this can be tricky to
 work around because an environment marker for free-threading does not exist
 (see <a href="https://discuss.python.org/t/environment-marker-for-free-threading/60007">this Discourse thread</a>).
 Hence it is not possible to special-case free-threading with static metadata
-in <code>pyproject.toml</code>. It's fine to still upload <code>cp313t</code> wheels for your
+in <code>pyproject.toml</code>. It's fine to still upload <code>cp314t</code> wheels for your
 package to PyPI; the user may then be responsible for getting the
 dependency installed (e.g., from a nightly wheel or building the
 dependency's <code>main</code> branch from source) if the last release of the
@@ -1095,7 +1098,7 @@ free-threading.</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 9, 2025 19:22:13 UTC">May 9, 2025</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="October 8, 2025 12:21:50 UTC">October 8, 2025</span>
   </span>
 
     

@@ -1118,13 +1118,6 @@ source.</p>
 <h2 id="use-a-pre-built-binary">Use a pre-built binary<a class="headerlink" href="#use-a-pre-built-binary" title="Permanent link">#</a></h2>
 <p>There are a growing number of options to install a free-threaded interpreter,
 including the python.org installers, Linux distro installers, and multi-platform package managers, like conda.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>When using these options, please check your <code>pip</code> version after the install succeeds. To check the version, run <code>python3.13t -m pip -V</code>.</p>
-<p>You should have a recent <code>pip</code> version (<code>&gt;=24.1</code>). Upgrade it if
-that isn't the case. Older <code>pip</code> versions will select incompatible wheels with the
-<code>cp313</code> tag (binary-incompatible) rather than the <code>cp313t</code> tag (compatible).</p>
-</div>
 <details class="question">
 <summary>As a packager, what should I name the package and interpreter?</summary>
 <p>Please see <a href="https://github.com/python/steering-council/issues/221#issuecomment-1841593283">this guidance from the Python Steering Council</a></p>
@@ -1134,9 +1127,9 @@ that isn't the case. Older <code>pip</code> versions will select incompatible wh
 provides macOS and Windows installers that have experimental support.</p>
 <p>Currently, you must customize the install - e.g., for Windows there is a
 <em>Download free-threaded binaries</em> checkbox under "Advanced Options". See also
-the <a href="https://docs.python.org/3.13/using/windows.html#installing-free-threaded-binaries">Using Python on
+the <a href="https://docs.python.org/3/using/windows.html#installing-free-threaded-binaries">Using Python on
 Windows</a>
-section of the Python 3.13 docs.</p>
+section of the Python 3.13+ docs.</p>
 <p>Automating the process of downloading the official installers
 and installing the free-threaded binaries is also possible:</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Windows</label><label for="__tabbed_1_2">macOS</label></div>
@@ -1144,14 +1137,18 @@ and installing the free-threaded binaries is also possible:</p>
 <div class="tabbed-block">
 <p>Due to limitations of the Windows Python.org installer, using free-threaded Python
 installed from the Python.org installer may lead to trouble. In particular, if you
-install both a free-threaded and gil-enabled build of Python 3.13 using the Python.org
+install both a free-threaded and gil-enabled build of Python 3.13+ using the Python.org
 installer, both installs will share a <code>site-packages</code> folder. This can very quickly
 lead to broken environments if packages for both versions are simultaneously installed.</p>
 <p>For that reason, we suggest using the <code>nuget</code> installer, which provides a
 separate <code>python-freethreaded</code> package that does not share an installation
 with the <code>python</code> package.</p>
-<div class="highlight"><pre><span></span><code><span class="nv">$url</span> <span class="p">=</span> <span class="s1">&#39;https://www.nuget.org/api/v2/package/python-freethreaded/3.13.1&#39;</span>
-<span class="nb">Invoke-WebRequest</span> <span class="n">-Uri</span> <span class="nv">$url</span> <span class="n">-OutFile</span> <span class="s1">&#39;python-freethreaded.3.13.1.nupkg&#39;</span>
+<p>!!! note:</p>
+<pre><code>Update the various places in below script to reflect your desired
+python version.
+</code></pre>
+<div class="highlight"><pre><span></span><code><span class="nv">$url</span> <span class="p">=</span> <span class="s1">&#39;https://www.nuget.org/api/v2/package/python-freethreaded/3.14.0&#39;</span>
+<span class="nb">Invoke-WebRequest</span> <span class="n">-Uri</span> <span class="nv">$url</span> <span class="n">-OutFile</span> <span class="s1">&#39;python-freethreaded.3.14.0.nupkg&#39;</span>
 <span class="nb">Install-Package</span> <span class="n">python-freethreaded</span> <span class="n">-Scope</span> <span class="n">CurrentUser</span> <span class="n">-Source</span> <span class="nv">$pwd</span>
 <span class="nv">$python_dir</span> <span class="p">=</span> <span class="p">(</span><span class="nb">Get-Item</span><span class="p">((</span><span class="nb">Get-Package</span> <span class="n">-Name</span> <span class="n">python-freethreaded</span><span class="p">).</span><span class="n">Source</span><span class="p">)).</span><span class="n">DirectoryName</span>
 <span class="nv">$env:path</span> <span class="p">=</span> <span class="nv">$python_dir</span> <span class="p">+</span> <span class="s2">&quot;\tools;&quot;</span> <span class="p">+</span> <span class="nv">$python_dir</span> <span class="p">+</span> <span class="s2">&quot;\tools\Scripts;&quot;</span> <span class="p">+</span> <span class="nv">$env:Path</span>
@@ -1161,20 +1158,20 @@ will also need to permanently add the nuget package location to your Path to
 use it after closing the current session.</p>
 <p>If for some reason you <em>need</em> to use the Python.org installer, despite the problems
 described above, you can install it like so:</p>
-<div class="highlight"><pre><span></span><code><span class="nv">$url</span> <span class="p">=</span> <span class="s1">&#39;https://www.python.org/ftp/python/3.13.1/python-3.13.1-amd64.exe&#39;</span>
-<span class="nb">Invoke-WebRequest</span> <span class="n">-Uri</span> <span class="nv">$url</span> <span class="n">-OutFile</span> <span class="s1">&#39;python-3.13.1-amd64.exe&#39;</span>
-<span class="p">.\</span><span class="n">python</span><span class="p">-</span><span class="n">3</span><span class="p">.</span><span class="n">13</span><span class="p">.</span><span class="n">1-amd64</span><span class="p">.</span><span class="n">exe</span> <span class="p">/</span><span class="n">quiet</span> <span class="n">Include_freethreaded</span><span class="p">=</span><span class="n">1</span>
+<div class="highlight"><pre><span></span><code><span class="nv">$url</span> <span class="p">=</span> <span class="s1">&#39;https://www.python.org/ftp/python/3.14.0/python-3.14.0-amd64.exe&#39;</span>
+<span class="nb">Invoke-WebRequest</span> <span class="n">-Uri</span> <span class="nv">$url</span> <span class="n">-OutFile</span> <span class="s1">&#39;python-3.14.0-amd64.exe&#39;</span>
+<span class="p">.\</span><span class="n">python</span><span class="p">-</span><span class="n">3</span><span class="p">.</span><span class="n">14</span><span class="p">.</span><span class="n">0-amd64</span><span class="p">.</span><span class="n">exe</span> <span class="p">/</span><span class="n">quiet</span> <span class="n">Include_freethreaded</span><span class="p">=</span><span class="n">1</span>
 </code></pre></div>
 <p>If you are running this script without administrator privileges,
 a UAC prompt will trigger when you try to run the installer.
 The resulting Python installation will be available afterwards
-in <code>AppData\Local\Programs\Python\Python313\python3.13t.exe</code>.
-See <a href="https://docs.python.org/3.13/using/windows.html#installing-without-ui">Installing Without UI</a>
+in <code>AppData\Local\Programs\Python\Python314\python3.14t.exe</code>.
+See <a href="https://docs.python.org/3/using/windows.html#installing-without-ui">Installing Without UI</a>
 for more information.</p>
 </div>
 <div class="tabbed-block">
 <p><strong>Install on a macOS laptop or desktop</strong></p>
-<p>The official Python documentation's section on <a href="https://docs.python.org/3.13/using/mac.html#installing-free-threaded-binaries">installing free-threaded binaries</a>
+<p>The official Python documentation's section on <a href="https://docs.python.org/3/using/mac.html#installing-free-threaded-binaries">installing free-threaded binaries</a>
 explains installation as well as any limitations of the free-threaded version.
 For convenience, we summarize the installation steps here:</p>
 <ol>
@@ -1192,17 +1189,17 @@ For convenience, we summarize the installation steps here:</p>
 </li>
 </ol>
 <p><strong>Advanced installation (CI)</strong></p>
-<p>This process installs the free-threaded version of Python 3.13.3 using the command line for more complex cases, such as running CI.
+<p>This process installs the free-threaded version of Python 3.14.0 using the command line for more complex cases, such as running CI.
 It follows a similar process described in the CPython documentation for <a href="https://docs.python.org/3/using/mac.html#installing-using-the-command-line">installing a binary using the command line</a>.</p>
-<p>While this process installs the free-threaded version of Python 3.13.3, you can install other versions by substituting the version number in the following steps.</p>
+<p>While this process installs the free-threaded version of Python 3.14.0, you can install other versions by substituting the version number in the following steps.</p>
 <ol>
 <li>
 <p>Download the installer package from python.org.</p>
-<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-O<span class="w"> </span>https://www.python.org/ftp/python/3.13.3/python-3.13.3-macos11.pkg
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-O<span class="w"> </span>https://www.python.org/ftp/python/3.14.0/python-3.14.0-macos11.pkg
 </code></pre></div>
 </li>
 <li>
-<p>Create a <code>choicechanges.plist</code> file to customize the install to enable the PythonTFramework-3.13 package and accept the other defaults (install all other packages).</p>
+<p>Create a <code>choicechanges.plist</code> file to customize the install to enable the PythonTFramework-3.14 package and accept the other defaults (install all other packages).</p>
 <div class="highlight"><pre><span></span><code>cat<span class="w"> </span>&gt;<span class="w"> </span>./choicechanges.plist<span class="w"> </span><span class="s">&lt;&lt;EOF</span>
 <span class="s">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
 <span class="s">&lt;!DOCTYPE plist PUBLIC &quot;-//Apple//DTD PLIST 1.0//EN&quot; &quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;&gt;</span>
@@ -1214,7 +1211,7 @@ It follows a similar process described in the CPython documentation for <a href=
 <span class="s">                &lt;key&gt;choiceAttribute&lt;/key&gt;</span>
 <span class="s">                &lt;string&gt;selected&lt;/string&gt;</span>
 <span class="s">                &lt;key&gt;choiceIdentifier&lt;/key&gt;</span>
-<span class="s">                &lt;string&gt;org.python.Python.PythonTFramework-3.13&lt;/string&gt;</span>
+<span class="s">                &lt;string&gt;org.python.Python.PythonTFramework-3.14&lt;/string&gt;</span>
 <span class="s">        &lt;/dict&gt;</span>
 <span class="s">&lt;/array&gt;</span>
 <span class="s">&lt;/plist&gt;</span>
@@ -1223,14 +1220,14 @@ It follows a similar process described in the CPython documentation for <a href=
 </li>
 <li>
 <p>Run the installer.</p>
-<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>installer<span class="w"> </span>-pkg<span class="w"> </span>./python-3.13.3-macos11.pkg<span class="w"> </span><span class="se">\</span>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>installer<span class="w"> </span>-pkg<span class="w"> </span>./python-3.14.0-macos11.pkg<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>-applyChoiceChangesXML<span class="w"> </span>./choicechanges.plist<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>-target<span class="w"> </span>/
 </code></pre></div>
 </li>
 <li>
 <p>Remove the package installer.</p>
-<div class="highlight"><pre><span></span><code>rm<span class="w"> </span>-f<span class="w"> </span>python-3.13.3-macos11.pkg
+<div class="highlight"><pre><span></span><code>rm<span class="w"> </span>-f<span class="w"> </span>python-3.14.0-macos11.pkg
 </code></pre></div>
 </li>
 </ol>
@@ -1244,27 +1241,27 @@ for more information.</p>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <p>Fedora ships a packaged version, which you can install with:</p>
-<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>dnf<span class="w"> </span>install<span class="w"> </span>python3.13-freethreading
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>dnf<span class="w"> </span>install<span class="w"> </span>python3.14-freethreading
 </code></pre></div>
-<p>This will install the interpreter at <code>/usr/bin/python3.13t</code>.</p>
+<p>This will install the interpreter at <code>/usr/bin/python3.14t</code>.</p>
 </div>
 <div class="tabbed-block">
-<p>Nixpkgs provides cached builds under the <a href="https://search.nixos.org/packages?channel=unstable&amp;show=python313FreeThreading&amp;type=packages"><code>python313FreeThreading</code></a>
+<p>Nixpkgs provides cached builds under the <a href="https://search.nixos.org/packages?channel=unstable&amp;show=python314FreeThreading&amp;type=packages"><code>python314FreeThreading</code></a>
 attribute from NixOS 24.05 and newer.</p>
 <p>With <code>flakes</code> enabled the following command will drop you in an ephemeral shell:</p>
-<div class="highlight"><pre><span></span><code>nix<span class="w"> </span>shell<span class="w"> </span>nixpkgs#python313FreeThreading
+<div class="highlight"><pre><span></span><code>nix<span class="w"> </span>shell<span class="w"> </span>nixpkgs#python314FreeThreading
 </code></pre></div>
 <p>Without <code>flakes</code>, make sure to update your nixpkgs channel first:</p>
 <div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>nix-channel<span class="w"> </span>--update
-nix-shell<span class="w"> </span>-p<span class="w"> </span>python313FreeThreading
+nix-shell<span class="w"> </span>-p<span class="w"> </span>python314FreeThreading
 </code></pre></div>
 </div>
 <div class="tabbed-block">
 <p>For Ubuntu you can use the <a href="https://launchpad.net/%7Edeadsnakes/+archive/ubuntu/ppa/+packages">deadsnakes PPA</a>
-by adding it to your repositories and then installing <code>python3.13-nogil</code>:</p>
+by adding it to your repositories and then installing <code>python3.14-nogil</code>:</p>
 <div class="highlight"><pre><span></span><code>sudo<span class="w"> </span>add-apt-repository<span class="w"> </span>ppa:deadsnakes
 sudo<span class="w"> </span>apt-get<span class="w"> </span>update
-sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>python3.13-nogil
+sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>python3.14-nogil
 </code></pre></div>
 </div>
 </div>
@@ -1284,21 +1281,22 @@ sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w
 builds of many common packages, like NumPy, Cython, Pandas, etc. These
 packages use the <code>python_abi</code> metapackage and should be compatible with
 conda-forge:</p>
-<div class="highlight"><pre><span></span><code>conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>nogil<span class="w"> </span>--override-channels<span class="w"> </span>-c<span class="w"> </span>ad-testing/label/py313<span class="w"> </span>-c<span class="w"> </span>https://repo.anaconda.com/pkgs/main<span class="w"> </span>python-freethreading
+<div class="highlight"><pre><span></span><code>conda<span class="w"> </span>create<span class="w"> </span>-n<span class="w"> </span>nogil<span class="w"> </span>--override-channels<span class="w"> </span>-c<span class="w"> </span>ad-testing/label/py314<span class="w"> </span>-c<span class="w"> </span>https://repo.anaconda.com/pkgs/main<span class="w"> </span>python-freethreading
 </code></pre></div>
-<p><a href="https://anaconda.org/ad-testing/repo?label=py313_nogil&amp;type=any">Full list of Anaconda test packages built with free-threading ABI.</a></p>
+<p>[Full list of Anaconda test packages built with <a href="https://anaconda.org/ad-testing/repo?label=py313_nogil&amp;type=any">python 3.13 free-threading ABI</a>,
+<a href="https://anaconda.org/ad-testing/repo?label=py314_nogil&amp;type=any">with python 3.14 free-threading ABI (empty as of Oct 8th 2025).</a></p>
 </div>
 <div class="tabbed-block">
 <p>On macOS and Linux, you can use Homebrew:</p>
 <div class="highlight"><pre><span></span><code>brew<span class="w"> </span>install<span class="w"> </span>python-freethreading
 </code></pre></div>
-<p>This will install the interpreter at <code>$(brew --prefix)/bin/python3.13t</code>.</p>
+<p>This will install the interpreter at <code>$(brew --prefix)/bin/python3.14t</code>.</p>
 <p>On macOS, the Python framework built with the free-threading ABI can be found at <code>$(brew --prefix)/Frameworks/PythonT.framework</code>.</p>
 </div>
 <div class="tabbed-block">
 <p>If you have uv installed, you can create a virtual environment using
-free-threaded Python by specifying "3.13t" as the python version:</p>
-<div class="highlight"><pre><span></span><code>uv<span class="w"> </span>venv<span class="w"> </span>--python<span class="w"> </span><span class="m">3</span>.13t
+free-threaded Python by specifying "3.14t" as the python version:</p>
+<div class="highlight"><pre><span></span><code>uv<span class="w"> </span>venv<span class="w"> </span>--python<span class="w"> </span><span class="m">3</span>.14t
 </code></pre></div>
 </div>
 </div>
@@ -1316,7 +1314,7 @@ before building. To build the free-threaded version of CPython, pass
 <p>If you will be switching Python versions often, it may make sense to
 build CPython using <a href="https://github.com/pyenv/pyenv">pyenv</a>. In order to
 do that, you can use the following:</p>
-<div class="highlight"><pre><span></span><code>pyenv<span class="w"> </span>install<span class="w"> </span>--debug<span class="w"> </span>--keep<span class="w"> </span><span class="m">3</span>.13.1
+<div class="highlight"><pre><span></span><code>pyenv<span class="w"> </span>install<span class="w"> </span>--debug<span class="w"> </span>--keep<span class="w"> </span><span class="m">3</span>.14
 </code></pre></div>
 <h2 id="use-containers">Use containers<a class="headerlink" href="#use-containers" title="Permanent link">#</a></h2>
 <p>The <a href="https://github.com/pypa/manylinux">manylinux containers</a> have free-threaded
@@ -1328,7 +1326,7 @@ builds. You can use any of the actively supported images:</p>
 <li><code>quay.io/pypa/manylinux2014_...</code></li>
 </ul>
 <p>Replace <code>...</code> with your desired architecture, such as <code>x86_64</code> or <code>aarch64</code>.</p>
-<p>These images have <code>python3.13t</code> available, along with other commonly used tools
+<p>These images have <code>python3.14t</code> available, along with other commonly used tools
 that can target it like the latest <code>pip</code>, <code>pipx</code>, and <code>uv</code>.</p>
 <h2 id="installing-a-free-threaded-jupyter-kernel">Installing a free-threaded Jupyter kernel<a class="headerlink" href="#installing-a-free-threaded-jupyter-kernel" title="Permanent link">#</a></h2>
 <p>While Jupyter <a href="https://github.com/jupyterlab/jupyterlab/issues/16915">does not currently support free-threaded
@@ -1336,10 +1334,10 @@ Python</a>, you can run
 Jupyter with a regular build of Python and a free-threaded Jupyter kernel.</p>
 <h3 id="launch-using-regular-python-and-free-threaded-jupyter-kernel">Launch using regular Python and free-threaded Jupyter kernel<a class="headerlink" href="#launch-using-regular-python-and-free-threaded-jupyter-kernel" title="Permanent link">#</a></h3>
 <p>Install the free-threaded Jupyter kernel to a location that is visible to both Python installations:</p>
-<div class="highlight"><pre><span></span><code>python3.13t<span class="w"> </span>-m<span class="w"> </span>ipykernel<span class="w"> </span>install<span class="w"> </span>--name<span class="w"> </span>python3.13t<span class="w"> </span>--user
+<div class="highlight"><pre><span></span><code>python3.14t<span class="w"> </span>-m<span class="w"> </span>ipykernel<span class="w"> </span>install<span class="w"> </span>--name<span class="w"> </span>python3.14t<span class="w"> </span>--user
 </code></pre></div>
 <p>You should be able to launch new jupyterlab or jupyter notebook
-sessions using the <code>python3.13t</code> kernel to experiment with free-threaded Python.</p>
+sessions using the <code>python3.14t</code> kernel to experiment with free-threaded Python.</p>
 <h3 id="launch-using-free-threaded-python-and-free-threaded-jupyter-kernel">Launch using free-threaded Python and free-threaded Jupyter kernel<a class="headerlink" href="#launch-using-free-threaded-python-and-free-threaded-jupyter-kernel" title="Permanent link">#</a></h3>
 <p>It is also possible to launch jupyterlab on the free-threaded build, <a href="https://github.com/jupyterlab/jupyterlab/issues/16915#issuecomment-2810114545">see this
 issue
@@ -1367,7 +1365,7 @@ for more details.</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 20, 2025 18:56:55 UTC">May 20, 2025</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="October 8, 2025 12:21:50 UTC">October 8, 2025</span>
   </span>
 
     
