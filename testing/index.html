@@ -724,6 +724,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#configure-timeouts-to-avoid-hanging-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure timeouts to avoid hanging tests
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#fixing-thread-unsafe-tests" class="md-nav__link">
     <span class="md-ellipsis">
       Fixing thread-unsafe tests
@@ -943,6 +952,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#configure-timeouts-to-avoid-hanging-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      Configure timeouts to avoid hanging tests
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#fixing-thread-unsafe-tests" class="md-nav__link">
     <span class="md-ellipsis">
       Fixing thread-unsafe tests
@@ -1058,18 +1076,6 @@ functionality for running <code>unittest</code>-based tests in parallel.</p>
 <p>These plugins are useful for discovering issues related to use of global state,
 but cannot discover issues from multithreaded use of data structures defined by
 your library.</p>
-<p>With free-threading and pytest-run-parallel deadlocks and hangs are more likely.
-You can make use of <a href="https://pypi.org/project/pytest-timeout/">pytest-timeout</a>
-until pytest <a href="https://github.com/pytest-dev/pytest/pull/13679">supports it
-natively</a>. GitHub action and other Continuous Integration systems often also supports timeouts:
-<a href="https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#jobsjob_idtimeout-minutes">timeout-minutes</a></p>
-<div class="highlight"><pre><span></span><code>jobs:
-  test_freethreading:
-    timeout-minutes: 10
-    steps:
-      - uses: actions/checkout@...
-      ...
-</code></pre></div>
 <p>If you would like to create your own testing utilities, the
 <a href="https://docs.python.org/3/library/concurrent.futures.html#concurrent.futures.ThreadPoolExecutor"><code>concurrent.futures.ThreadPoolExecutor</code></a>
 class is a lightweight way to create multithreaded tests where many threads
@@ -1142,6 +1148,35 @@ very small percentage of the time. When writing multithreaded tests your goal
 should be to maximize the chances of triggering a thread safety issue. You could
 pass <code>outer_iterations</code> to <code>run_threaded</code> to multiply the number of chances a
 thread triggers a thread safety issue in a single test.</p>
+<h2 id="configure-timeouts-to-avoid-hanging-tests">Configure timeouts to avoid hanging tests<a class="headerlink" href="#configure-timeouts-to-avoid-hanging-tests" title="Permanent link">#</a></h2>
+<p>With free-threading and pytest-run-parallel deadlocks and hangs are more likely.
+You can make use of <a href="https://pypi.org/project/pytest-timeout/">pytest-timeout</a>
+to set a timeout in your test job. If the plugin is installed, you can pass
+<code>--timeout &lt;number of seconds&gt;</code> as an argument to the <code>pytest</code> CLI, causing
+<code>pytest</code> to exit after a configurable timeout.</p>
+<p>You can also use the built-in
+<a href="https://docs.pytest.org/en/latest/reference/reference.html#confval-faulthandler_timeout"><code>faulthandler_timeout</code></a>
+and
+<a href="https://docs.pytest.org/en/latest/reference/reference.html#confval-faulthandler_exit_on_timeout"><code>faulthandler_exit_on_timeout</code></a>
+pytest options. An example pytest <code>pyproject.toml</code> configuration might look like:</p>
+<div class="highlight"><pre><span></span><code><span class="k">[pytest]</span>
+<span class="n">faulthandler_timeout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">600</span>
+<span class="n">faulthandler_exit_on_timeout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span>
+</code></pre></div>
+<p>This will cause faulthandler to exit the interpreter and dump stack traces for
+all threads if any test lasts longer 10 minutes. Note that
+<code>faulthandler_exit_on_timeout</code> is a newly added feature in Pytest 8.5.0, which
+is not yet available on PyPI at time of writing in late 2025.</p>
+<p>GitHub actions and other Continuous Integration systems often also <a href="https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#jobsjob_idtimeout-minutes">support
+timeouts</a>. Here
+is an example using GitHub actions:</p>
+<div class="highlight"><pre><span></span><code>jobs:
+  test_freethreading:
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@...
+      ...
+</code></pre></div>
 <h2 id="fixing-thread-unsafe-tests">Fixing thread-unsafe tests<a class="headerlink" href="#fixing-thread-unsafe-tests" title="Permanent link">#</a></h2>
 <p>Many existing tests are written using global state. This is not a problem if the
 test only runs once, but if you would like to use your tests to check for
@@ -1151,7 +1186,7 @@ will likely need to update the tests to eliminate use of global state.</p>
 failures associated with these tests are also inherently flakey. If you see
 tests failing intermittently, you should not discount that you are using global
 state in a test, or even inadvertently using global state in <code>pytest</code> itself.</p>
-<h4 id="pytest-is-not-thread-safe"><code>pytest</code> is not thread-safe<a class="headerlink" href="#pytest-is-not-thread-safe" title="Permanent link">#</a></h4>
+<h3 id="pytest-is-not-thread-safe"><code>pytest</code> is not thread-safe<a class="headerlink" href="#pytest-is-not-thread-safe" title="Permanent link">#</a></h3>
 <p>See <a href="https://docs.pytest.org/en/stable/explanation/flaky.html#thread-safety">the <code>pytest</code>
 docs</a>
 for more information about this. While tests can manage their own threads, you
@@ -1173,7 +1208,7 @@ should not assume that functionality provided by <code>pytest</code> is thread-s
 <p>Note that the <code>pytest</code> maintainers have explicitly ruled out making <code>pytest</code>
 thread-safe, please do not open issues asking to fix thread safety issues in
 <code>pytest</code> itself.</p>
-<h4 id="the-warnings-module-is-not-thread-safe-before-python-314">The <code>warnings</code> module is not thread-safe before Python 3.14<a class="headerlink" href="#the-warnings-module-is-not-thread-safe-before-python-314" title="Permanent link">#</a></h4>
+<h3 id="the-warnings-module-is-not-thread-safe-before-python-314">The <code>warnings</code> module is not thread-safe before Python 3.14<a class="headerlink" href="#the-warnings-module-is-not-thread-safe-before-python-314" title="Permanent link">#</a></h3>
 <p>Many tests carefully ensure that warnings will be seen by the user in cases
 where the library author intends users to see them. These tests inevintably make
 use of the <a href="https://docs.python.org/3/library/warnings.html"><code>warnings</code>
@@ -1197,7 +1232,7 @@ and
 Python configuration options as well as the discussion in the <a href="https://docs.python.org/3/whatsnew/3.14.html#concurrent-safe-warnings-control">"what's new"
 entry for Python
 3.14</a>.</p>
-<h4 id="file-system-thread-safety">File system thread safety<a class="headerlink" href="#file-system-thread-safety" title="Permanent link">#</a></h4>
+<h3 id="file-system-thread-safety">File system thread safety<a class="headerlink" href="#file-system-thread-safety" title="Permanent link">#</a></h3>
 <p>Many tests make use of the file system, either via a temporary file, or by
 simply directly writing to the folder running the test. If the filename used by
 the test is a constant or it is ever shared between instances of the test, the
@@ -1230,7 +1265,7 @@ to be unique, for example by appending a
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="October 22, 2025 08:01:40 UTC">October 22, 2025</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="November 6, 2025 13:38:25 UTC">November 6, 2025</span>
   </span>
 
     
