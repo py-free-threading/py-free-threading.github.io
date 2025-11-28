@@ -6,31 +6,29 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="The free-threading guide is a centralized collection of documentation and trackers around compatibility with free-threaded CPython for the Python open source ecosystem">
       
       
       
+        <link rel="prev" href="../contributing/">
       
-      
-        <link rel="next" href="tracking/">
       
       
         
       
       
-      <link rel="icon" href="assets/images/favicon.png">
+      <link rel="icon" href="../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
     
     
       
-        <title>Python Free-Threading Guide</title>
+        <title>Monthly Free-threading Documentation Meeting - Python Free-Threading Guide</title>
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.618322db.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.618322db.min.css">
       
         
-        <link rel="stylesheet" href="assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -49,7 +47,7 @@
       
     
     
-    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -74,7 +72,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#python-free-threading-guide" class="md-skip">
+        <a href="#monthly-free-threading-documentation-meeting" class="md-skip">
           Skip to content
         </a>
       
@@ -90,7 +88,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="." title="Python Free-Threading Guide" class="md-header__button md-logo" aria-label="Python Free-Threading Guide" data-md-component="logo">
+    <a href=".." title="Python Free-Threading Guide" class="md-header__button md-logo" aria-label="Python Free-Threading Guide" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -110,7 +108,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Index
+              Monthly Free-threading Documentation Meeting
             
           </span>
         </div>
@@ -226,7 +224,7 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="." title="Python Free-Threading Guide" class="md-nav__button md-logo" aria-label="Python Free-Threading Guide" data-md-component="logo">
+    <a href=".." title="Python Free-Threading Guide" class="md-nav__button md-logo" aria-label="Python Free-Threading Guide" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -253,37 +251,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Index
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="." class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
         
   
   
@@ -299,147 +270,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#purpose-of-this-site" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Purpose of this site
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#status-of-free-threaded-python" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Status of Free-Threaded Python
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#install-free-threaded-python" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Install free-threaded Python
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#why-is-free-threaded-python-exciting" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Why is free-threaded Python exciting?
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#run-your-code-on-free-threaded-python" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Run your code on free-threaded Python
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#frequently-asked-questions-about-errors" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Frequently asked questions about errors
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#advanced-topics-for-package-maintainers" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Advanced topics for package maintainers
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#further-reading" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Further reading
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#news-and-getting-help" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        News and getting help
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#contributing" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Contributing
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#about-this-site" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        About this site
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -451,7 +281,7 @@
   
   
     <li class="md-nav__item">
-      <a href="tracking/" class="md-nav__link">
+      <a href="../tracking/" class="md-nav__link">
         
   
   
@@ -478,7 +308,7 @@
   
   
     <li class="md-nav__item">
-      <a href="installing-cpython/" class="md-nav__link">
+      <a href="../installing-cpython/" class="md-nav__link">
         
   
   
@@ -505,7 +335,7 @@
   
   
     <li class="md-nav__item">
-      <a href="running-gil-disabled/" class="md-nav__link">
+      <a href="../running-gil-disabled/" class="md-nav__link">
         
   
   
@@ -556,7 +386,7 @@
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="examples/" class="md-nav__link ">
+            <a href="../examples/" class="md-nav__link ">
               
   
   
@@ -600,7 +430,7 @@
   
   
     <li class="md-nav__item">
-      <a href="examples/mandelbrot/" class="md-nav__link">
+      <a href="../examples/mandelbrot/" class="md-nav__link">
         
   
   
@@ -628,7 +458,7 @@
   
   
     <li class="md-nav__item">
-      <a href="examples/monte-carlo/" class="md-nav__link">
+      <a href="../examples/monte-carlo/" class="md-nav__link">
         
   
   
@@ -656,7 +486,7 @@
   
   
     <li class="md-nav__item">
-      <a href="examples/asyncio/" class="md-nav__link">
+      <a href="../examples/asyncio/" class="md-nav__link">
         
   
   
@@ -748,7 +578,7 @@
   
   
     <li class="md-nav__item">
-      <a href="porting/" class="md-nav__link">
+      <a href="../porting/" class="md-nav__link">
         
   
   
@@ -776,7 +606,7 @@
   
   
     <li class="md-nav__item">
-      <a href="porting-extensions/" class="md-nav__link">
+      <a href="../porting-extensions/" class="md-nav__link">
         
   
   
@@ -804,7 +634,7 @@
   
   
     <li class="md-nav__item">
-      <a href="dependencies/" class="md-nav__link">
+      <a href="../dependencies/" class="md-nav__link">
         
   
   
@@ -832,7 +662,7 @@
   
   
     <li class="md-nav__item">
-      <a href="ci/" class="md-nav__link">
+      <a href="../ci/" class="md-nav__link">
         
   
   
@@ -924,7 +754,7 @@
   
   
     <li class="md-nav__item">
-      <a href="testing/" class="md-nav__link">
+      <a href="../testing/" class="md-nav__link">
         
   
   
@@ -952,7 +782,7 @@
   
   
     <li class="md-nav__item">
-      <a href="debugging/" class="md-nav__link">
+      <a href="../debugging/" class="md-nav__link">
         
   
   
@@ -980,7 +810,7 @@
   
   
     <li class="md-nav__item">
-      <a href="thread_sanitizer/" class="md-nav__link">
+      <a href="../thread_sanitizer/" class="md-nav__link">
         
   
   
@@ -1008,7 +838,7 @@
   
   
     <li class="md-nav__item">
-      <a href="profiling/" class="md-nav__link">
+      <a href="../profiling/" class="md-nav__link">
         
   
   
@@ -1043,7 +873,7 @@
   
   
     <li class="md-nav__item">
-      <a href="faq/" class="md-nav__link">
+      <a href="../faq/" class="md-nav__link">
         
   
   
@@ -1070,7 +900,7 @@
   
   
     <li class="md-nav__item">
-      <a href="resources/" class="md-nav__link">
+      <a href="../resources/" class="md-nav__link">
         
   
   
@@ -1097,7 +927,7 @@
   
   
     <li class="md-nav__item">
-      <a href="contributing/" class="md-nav__link">
+      <a href="../contributing/" class="md-nav__link">
         
   
   
@@ -1121,10 +951,37 @@
       
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="docs-meeting/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Monthly Free-threading Documentation Meeting
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1140,6 +997,59 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#meeting-details" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Meeting Details
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#add-to-your-calendar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Add to Your Calendar
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#questions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Questions?
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1171,10 +1081,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#purpose-of-this-site" class="md-nav__link">
+  <a href="#meeting-details" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Purpose of this site
+        Meeting Details
       
     </span>
   </a>
@@ -1182,10 +1092,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#status-of-free-threaded-python" class="md-nav__link">
+  <a href="#add-to-your-calendar" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Status of Free-Threaded Python
+        Add to Your Calendar
       
     </span>
   </a>
@@ -1193,98 +1103,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#install-free-threaded-python" class="md-nav__link">
+  <a href="#questions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Install free-threaded Python
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#why-is-free-threaded-python-exciting" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Why is free-threaded Python exciting?
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#run-your-code-on-free-threaded-python" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Run your code on free-threaded Python
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#frequently-asked-questions-about-errors" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Frequently asked questions about errors
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#advanced-topics-for-package-maintainers" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Advanced topics for package maintainers
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#further-reading" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Further reading
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#news-and-getting-help" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        News and getting help
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#contributing" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Contributing
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#about-this-site" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        About this site
+        Questions?
       
     </span>
   </a>
@@ -1311,183 +1133,26 @@
   
 
 
-<h1 id="python-free-threading-guide">Python Free-Threading Guide<a class="headerlink" href="#python-free-threading-guide" title="Permanent link">#</a></h1>
-<p>Free-threaded CPython is here! <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19.14 7.5A2.86 2.86 0 0 1 22 10.36v3.78A2.86 2.86 0 0 1 19.14 17H12c0 .39.32.96.71.96H17v1.68a2.86 2.86 0 0 1-2.86 2.86H9.86A2.86 2.86 0 0 1 7 19.64v-3.75a2.85 2.85 0 0 1 2.86-2.85h5.25a2.85 2.85 0 0 0 2.85-2.86V7.5zm-4.28 11.79c-.4 0-.72.3-.72.89s.32.71.72.71a.71.71 0 0 0 .71-.71c0-.59-.32-.89-.71-.89m-10-1.79A2.86 2.86 0 0 1 2 14.64v-3.78A2.86 2.86 0 0 1 4.86 8H12c0-.39-.32-.96-.71-.96H7V5.36A2.86 2.86 0 0 1 9.86 2.5h4.28A2.86 2.86 0 0 1 17 5.36v3.75a2.85 2.85 0 0 1-2.86 2.85H8.89a2.85 2.85 0 0 0-2.85 2.86v2.68zM9.14 5.71c.4 0 .72-.3.72-.89s-.32-.71-.72-.71c-.39 0-.71.12-.71.71s.32.89.71.89"/></svg></span> <img alt="🧵" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.1.0/assets/svg/1f9f5.svg" title=":thread:" /></p>
-<h2 id="purpose-of-this-site">Purpose of this site<a class="headerlink" href="#purpose-of-this-site" title="Permanent link">#</a></h2>
-<p>This website serves as a <strong>centralized resource</strong> for Python package
-maintainers, as well as end users, interested in supporting or experimenting with
-free-threaded Python.</p>
-<p>It also tracks the <strong>compatibility status of packages</strong>
-that include native code here:</p>
+<h1 id="monthly-free-threading-documentation-meeting">Monthly Free-threading Documentation Meeting<a class="headerlink" href="#monthly-free-threading-documentation-meeting" title="Permanent link">#</a></h1>
+<p>We hold a monthly free-threading documentation meeting where contributors and interested
+community members can discuss documentation improvements, share updates, and coordinate
+efforts.</p>
+<h2 id="meeting-details">Meeting Details<a class="headerlink" href="#meeting-details" title="Permanent link">#</a></h2>
+<p><strong>When</strong>: Second Monday of every month at 4:00 PM UTC (1 hour)</p>
+<p><strong>Where</strong>: <a href="https://meet.google.com/dqw-qkeg-jnh">Google Meet</a></p>
+<p>Everyone is welcome to join! The meeting provides an opportunity to:</p>
 <ul>
-<li><a href="tracking/">Free-threading Python Compatibility Status Tracker</a></li>
+<li>Discuss documentation improvements and additions</li>
+<li>Share experiences with free-threading adoption</li>
+<li>Coordinate community efforts</li>
+<li>Ask questions and get help</li>
 </ul>
-<p>It offers <strong>documentation and guidance</strong> for setting up a
-free-threaded Python development environment and getting code working under the
-free-threaded build.</p>
-<p>Lysandros Nikolaou and Nathan Goldbaum presented a talk at PyCon 2025 based on
-content covered by this guide. You can see a recording of the talk <a href="https://youtu.be/EuU3ksI1l04">on
-YouTube</a>.</p>
-<h2 id="status-of-free-threaded-python">Status of Free-Threaded Python<a class="headerlink" href="#status-of-free-threaded-python" title="Permanent link">#</a></h2>
-<p>After the <a href="https://discuss.python.org/t/a-steering-council-notice-about-pep-703-making-the-global-interpreter-lock-optional-in-cpython/30474">acceptance by the Python Steering
-Council</a>
-of <a href="https://peps.python.org/pep-0703/">PEP 703 - Making the Global Interpreter Lock Optional in
-CPython</a>, CPython 3.13 shipped an experimental
-free-threaded build. With <a href="https://discuss.python.org/t/pep-779-criteria-for-supported-status-for-free-threaded-python/84319/123">the
-acceptance</a>
-of <a href="https://peps.python.org/pep-0779/">PEP 779 - Criteria for supported status for free-threaded
-Python</a>, the free-threaded interpreter is no
-longer considered experimental starting in Python 3.14, although it is not yet the default interpreter build.</p>
-<p>Work is underway across the ecosystem to update packages to support
-free-threaded Python alongside improvements to thread safety guarantees,
-testing, and documentation.</p>
-<h2 id="install-free-threaded-python">Install free-threaded Python<a class="headerlink" href="#install-free-threaded-python" title="Permanent link">#</a></h2>
-<p>The following sections describe how to install free-threaded Python, run it, and verify
-the GIL is disabled.</p>
-<ul>
-<li><a href="installing-cpython/">Installing Free-Threaded Python</a></li>
-<li><a href="running-gil-disabled/">Running Python with the GIL Disabled</a></li>
-</ul>
-<h2 id="why-is-free-threaded-python-exciting">Why is free-threaded Python exciting?<a class="headerlink" href="#why-is-free-threaded-python-exciting" title="Permanent link">#</a></h2>
-<p>We've put together a few example multithreaded Python applications where
-free-threaded Python is substantially faster than the GIL-enabled build.</p>
-<ul>
-<li><a href="examples/">Examples for How to Use Free-Threaded Python in an Application</a></li>
-</ul>
-<h2 id="run-your-code-on-free-threaded-python">Run your code on free-threaded Python<a class="headerlink" href="#run-your-code-on-free-threaded-python" title="Permanent link">#</a></h2>
-<p>If you are interested in updating your code to work on free-threaded Python,
-your next steps depend on your needs and goals. To begin, select the option
-that best describes you:</p>
-<details class="success">
-<summary>I am writing a Python script or application that uses Python libraries I don't maintain</summary>
-<p>You should start experimenting with free-threaded Python once the libraries
-you depend on advertise support for free-threading. See <a href="tracking/">the tracking
-table</a> for more details about the status of free-threaded
-support in Python libraries.</p>
-<p>If your dependencies advertise free-threaded support, good news! If you do
-not use the <code>threading</code> module and do not plan to, then you're done and you
-can feel safe declaring support for running your project on the
-free-threaded build.</p>
-<p>If you would like to use the <code>threading</code> module to improve the performance of
-your project, you should read the documentation of your dependencies and
-learn about their thread safety guarantees. This is particularly true of
-libraries that expose mutable objects, doubly so if you want to mutate a
-shared object from many threads.</p>
-<p>Pure Python code can exhibit thread safety issues, so you may also want to
-look at the first section of the porting guide, particularly on the thread
-safety of pure Python code:</p>
-<ul>
-<li><a href="porting/">Porting Python Packages to Support Free-Threading</a></li>
-</ul>
-</details>
-<details class="success">
-<summary>I maintain a pure Python app or tool written in pure Python with no public Python API</summary>
-<p>You should start experimenting with free-threaded Python once the libraries
-you depend on advertise support for free-threading. See <a href="tracking/">the tracking
-table</a> for more details about the status of free-threaded
-support in Python libraries.</p>
-<p>If your dependencies advertise free-threaded support, good news! If you do
-not use the <code>threading</code> module and do not plan to, then you're done and you
-can feel safe declaring support for running your project on the
-free-threaded build.</p>
-<p>If you make use of the <code>threading</code> module internally and already have
-multithreaded tests, consider experimenting with your existing tests with a
-very short <a href="https://docs.python.org/3/library/sys.html#sys.getswitchinterval">thread switch
-interval</a>. This
-can elicit thread safety issues on the GIL-enabled build. If you do not use
-<code>threading</code> or thread pools internally your tool or app should behave
-identically under free-threading.</p>
-<p>If you would like to use the <code>threading</code> module to improve the performance of
-your project, you should read the documentation of your dependencies and
-learn about their thread safety guarantees. This is particularly true of
-libraries that expose mutable objects, doubly so if you want to mutate a
-shared object from many threads.</p>
-<p>Pure Python code can exhibit thread safety issues, so you may also want to
-look at the first section of the porting guide, particularly on the thread
-safety of pure Python code:</p>
-<ul>
-<li><a href="porting/">Porting Python Packages to Support Free-Threading</a></li>
-</ul>
-</details>
-<details class="success">
-<summary>I maintain a pure Python package with a public Python API</summary>
-<p>Free-threading is implemented in CPython such that pure Python code is
-thread-safe, at least to the same extent as it is with the GIL enabled
-today. We use "thread-safe" here to mean that CPython should not crash
-running multithreaded pure Python code, not necessarily that a multithreaded
-program will always produce deterministic results, even if the GIL-enabled
-build is deterministic. It is up to the author of a program, application, or
-library to ensure safe multithreaded usage when using the library in a
-supported manner.</p>
-<p>There are a few ways you can create thread safety issues in your own
-code. The most common ones are: using global state for configuration or
-other purposes, implementing a cache with a dict or other variable not meant
-for that purpose, or using functionality of a dependency that itself isn't
-thread-safe. You should also think about whether you would like to support
-multithreaded use of any mutable data structures exposed by your package. If
-your package does none of those things, you are very likely ready for
-free-threading already.</p>
-<p>What gets trickier is testing whether your package is thread-safe. For that
-you'll need multi-threaded tests, and that can be more involved - see <a href="testing/">our guide
-to adding multithreaded test coverage</a> to Python packages.</p>
-<ul>
-<li><a href="porting/">Porting Python Packages to Support Free-Threading</a></li>
-<li><a href="testing/">Improving Multithreaded Test Coverage</a></li>
-</ul>
-</details>
-<details class="success">
-<summary>I maintain a Python package with compiled extension modules</summary>
-<p>As usual with extensions, dealing with native code will take some work but
-we hope that this guide will provide you with a toolkit to get things
-working.</p>
-<p>We suggest reading through the the full porting guide, including the final
-section that focuses on considerations for native code.</p>
-<ul>
-<li><a href="porting/">Porting Python Packages to Support Free-Threading</a></li>
-<li><a href="testing/">Improving Multithreaded Test Coverage</a></li>
-<li><a href="porting-extensions/">Updating Native Extensions to Support Free-Threading</a></li>
-</ul>
-</details>
-<h2 id="frequently-asked-questions-about-errors">Frequently asked questions about errors<a class="headerlink" href="#frequently-asked-questions-about-errors" title="Permanent link">#</a></h2>
-<ul>
-<li><a href="faq/">Frequently seen errors and how to fix them</a></li>
-</ul>
-<h2 id="advanced-topics-for-package-maintainers">Advanced topics for package maintainers<a class="headerlink" href="#advanced-topics-for-package-maintainers" title="Permanent link">#</a></h2>
-<ul>
-<li><a href="ci/">Setting up Continuous Integration</a></li>
-<li><a href="debugging/">Debugging Thread Safety Issues</a></li>
-<li><a href="thread_sanitizer/">Validating Thread Safety with Thread Sanitizer</a></li>
-<li><a href="profiling/">Multithreaded Profiling</a></li>
-</ul>
-<h2 id="further-reading">Further reading<a class="headerlink" href="#further-reading" title="Permanent link">#</a></h2>
-<p>We've collected additional resources on free-threaded Python and multithreaded
-programming here:</p>
-<ul>
-<li><a href="resources/">More Resources</a></li>
-</ul>
-<h2 id="news-and-getting-help">News and getting help<a class="headerlink" href="#news-and-getting-help" title="Permanent link">#</a></h2>
-<p>You can join the Free-threaded Python Community Discord using this invite link:
-<a href="https://discord.gg/rqgHCDqdRr">https://discord.gg/rqgHCDqdRr</a>.</p>
-<p>You can also ask questions in the <a href="https://discuss.python.org/c/threading/38">Threading
-category</a> of the Python community
-Discourse forum.</p>
-<p>Please read and be mindful of community rules. Both communities enforce the
-Python Software Foundation Code of Conduct.</p>
-<h2 id="contributing">Contributing<a class="headerlink" href="#contributing" title="Permanent link">#</a></h2>
-<p>We welcome your contributions.
-Please read the
-<a href="contributing/">Contributing</a> page for more details.
-Please open issues or pull requests
-<a href="https://github.com/Quansight-Labs/free-threaded-compatibility">on this repo</a>
-for anything that seems in scope for this site or for tracking issues related
-to support for free-threaded Python across the ecosystem.</p>
-<h2 id="about-this-site">About this site<a class="headerlink" href="#about-this-site" title="Permanent link">#</a></h2>
-<p>This site is maintained primarily by Quansight Labs, where a team is working
-together with the Python runtime team at Meta and stakeholders across the
-ecosystem to jumpstart work on converting the libraries that make up the
-scientific Python and AI/ML stacks to work with the free-threaded build of
-CPython 3.13. Additionally, that effort will look at libraries like PyO3 that
-are needed to interface with CPython from other languages.</p>
+<h2 id="add-to-your-calendar">Add to Your Calendar<a class="headerlink" href="#add-to-your-calendar" title="Permanent link">#</a></h2>
+<p>Click the button below to add the monthly meeting to your Google Calendar:</p>
+<p><a target="_blank" href="https://calendar.google.com/calendar/event?action=TEMPLATE&amp;tmeid=NzZhcmY5cXF0YnBzcnBjaTFuajg2aGN1c2ZfMjAyNTEyMDhUMTcwMDAwWiBsbmlrb2xhb3VAcXVhbnNpZ2h0LmNvbQ&amp;tmsrc=lnikolaou%40quansight.com&amp;scp=ALL"><img border="0" src="https://calendar.google.com/calendar/images/ext/gc_button1_en.gif" alt="Google Calendar"></a></p>
+<h2 id="questions">Questions?<a class="headerlink" href="#questions" title="Permanent link">#</a></h2>
+<p>If you have any questions about the meeting or would like more information, please reach
+out on the <a href="https://discord.gg/rqgHCDqdRr">Free-threaded Python Community Discord</a>.</p>
 
 
 
@@ -1510,7 +1175,7 @@ are needed to interface with CPython from other languages.</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="August 19, 2025 13:12:47 UTC">August 19, 2025</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="November 28, 2025 14:19:43 UTC">November 28, 2025</span>
   </span>
 
     
@@ -1520,7 +1185,7 @@ are needed to interface with CPython from other languages.</p>
     <span class="md-icon" title="Created">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="July 10, 2024 10:09:59 UTC">July 10, 2024</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="November 28, 2025 14:19:43 UTC">November 28, 2025</span>
   </span>
 
     
@@ -1600,10 +1265,10 @@ are needed to interface with CPython from other languages.</p>
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["content.code.copy", "header.autohide", "navigation.indexes"], "search": "assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["content.code.copy", "header.autohide", "navigation.indexes"], "search": "../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="assets/javascripts/bundle.e71a0d61.min.js"></script>
+      <script src="../assets/javascripts/bundle.e71a0d61.min.js"></script>
       
     
   </body>
