@@ -9,10 +9,10 @@
       
       
       
-        <link rel="prev" href="../documentation-principles/">
+        <link rel="prev" href="../profiling/">
       
       
-        <link rel="next" href="../resources/">
+        <link rel="next" href="../faq/">
       
       
         
@@ -23,7 +23,7 @@
     
     
       
-        <title>Frequently seen errors and how to fix them - Python Free-Threading Guide</title>
+        <title>Documentation Principles - Python Free-Threading Guide</title>
       
     
     
@@ -74,7 +74,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#frequently-seen-errors-and-how-to-fix-them" class="md-skip">
+        <a href="#documentation-principles" class="md-skip">
           Skip to content
         </a>
       
@@ -110,7 +110,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Frequently seen errors and how to fix them
+              Documentation Principles
             
           </span>
         </div>
@@ -872,33 +872,6 @@
       
   
   
-  
-  
-    <li class="md-nav__item">
-      <a href="../documentation-principles/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Documentation Principles
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-    
-      
-      
-  
-  
     
   
   
@@ -918,7 +891,7 @@
   <span class="md-ellipsis">
     
   
-    Frequently seen errors and how to fix them
+    Documentation Principles
   
 
     
@@ -936,7 +909,7 @@
   <span class="md-ellipsis">
     
   
-    Frequently seen errors and how to fix them
+    Documentation Principles
   
 
     
@@ -962,57 +935,274 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#cython-compilation-errors-unknown-type-name-__pyx_vectorcallfunc" class="md-nav__link">
+  <a href="#core-principles" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Cython compilation errors: unknown type name '__pyx_vectorcallfunc'
+        Core Principles
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core Principles">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-document-reality-not-aspirations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Document Reality, Not Aspirations
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#what-does-runtimewarning-the-global-interpreter-lock-gil-has-been-enabled-mean" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#2-centralize-thread-safety-documentation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        What does RuntimeWarning: The global interpreter lock (GIL) has been enabled mean?
+        2. Centralize Thread Safety Documentation
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#pip-install-jupyter-fails" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#3-balance-detail-with-succinctness" class="md-nav__link">
     <span class="md-ellipsis">
       
-        pip install jupyter fails
+        3. Balance Detail with Succinctness
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#what-does-py_limited_api-is-currently-incompatible-with-py_gil_disabled-mean" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#4-distinguish-levels-of-support" class="md-nav__link">
     <span class="md-ellipsis">
       
-        What does "Py_LIMITED_API is currently incompatible with Py_GIL_DISABLED" mean?
+        4. Distinguish Levels of Support
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#im-trying-to-build-a-library-on-windows-but-msvc-says-c-atomic-support-is-not-enabled" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#5-be-consistent-across-documentation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        I'm trying to build a library on Windows, but MSVC says "C atomic support is not enabled"
+        5. Be Consistent Across Documentation
       
     </span>
   </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-document-common-pitfalls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Document Common Pitfalls
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-provide-actionable-guidance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Provide Actionable Guidance
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#anti-patterns-to-avoid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Anti-Patterns to Avoid
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Anti-Patterns to Avoid">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#vague-statements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vague Statements
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#implementation-details-in-user-docs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implementation Details in User Docs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scattered-thread-safety-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scattered Thread Safety Notes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#examples-of-good-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Examples of Good Documentation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Examples of Good Documentation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-1-built-in-type-thread-safety" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 1: Built-in Type Thread Safety
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#free-threading-terminology" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Free-Threading Terminology
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Free-Threading Terminology">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#common-data-consistency-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common data consistency patterns
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common data consistency patterns">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#immutable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Immutable
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#thread-local" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Thread-Local
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#atomic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Atomic
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#internally-synchronized" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Internally Synchronized
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#externally-synchronized" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Externally Synchronized
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reentrant" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reentrant
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1020,6 +1210,33 @@
   
 </nav>
       
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../faq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Frequently seen errors and how to fix them
+  
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -1132,57 +1349,274 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#cython-compilation-errors-unknown-type-name-__pyx_vectorcallfunc" class="md-nav__link">
+  <a href="#core-principles" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Cython compilation errors: unknown type name '__pyx_vectorcallfunc'
+        Core Principles
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Core Principles">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-document-reality-not-aspirations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Document Reality, Not Aspirations
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#what-does-runtimewarning-the-global-interpreter-lock-gil-has-been-enabled-mean" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#2-centralize-thread-safety-documentation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        What does RuntimeWarning: The global interpreter lock (GIL) has been enabled mean?
+        2. Centralize Thread Safety Documentation
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#pip-install-jupyter-fails" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#3-balance-detail-with-succinctness" class="md-nav__link">
     <span class="md-ellipsis">
       
-        pip install jupyter fails
+        3. Balance Detail with Succinctness
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#what-does-py_limited_api-is-currently-incompatible-with-py_gil_disabled-mean" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#4-distinguish-levels-of-support" class="md-nav__link">
     <span class="md-ellipsis">
       
-        What does "Py_LIMITED_API is currently incompatible with Py_GIL_DISABLED" mean?
+        4. Distinguish Levels of Support
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#im-trying-to-build-a-library-on-windows-but-msvc-says-c-atomic-support-is-not-enabled" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#5-be-consistent-across-documentation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        I'm trying to build a library on Windows, but MSVC says "C atomic support is not enabled"
+        5. Be Consistent Across Documentation
       
     </span>
   </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#6-document-common-pitfalls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Document Common Pitfalls
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#7-provide-actionable-guidance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Provide Actionable Guidance
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#anti-patterns-to-avoid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Anti-Patterns to Avoid
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Anti-Patterns to Avoid">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#vague-statements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vague Statements
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#implementation-details-in-user-docs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implementation Details in User Docs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scattered-thread-safety-notes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scattered Thread Safety Notes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#examples-of-good-documentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Examples of Good Documentation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Examples of Good Documentation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-1-built-in-type-thread-safety" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 1: Built-in Type Thread Safety
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#free-threading-terminology" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Free-Threading Terminology
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Free-Threading Terminology">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#common-data-consistency-patterns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Common data consistency patterns
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Common data consistency patterns">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#immutable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Immutable
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#thread-local" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Thread-Local
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#atomic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Atomic
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#internally-synchronized" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Internally Synchronized
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#externally-synchronized" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Externally Synchronized
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reentrant" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reentrant
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1206,86 +1640,218 @@
   
 
 
-<h1 id="frequently-seen-errors-and-how-to-fix-them">Frequently seen errors and how to fix them<a class="headerlink" href="#frequently-seen-errors-and-how-to-fix-them" title="Permanent link">#</a></h1>
-<p>These are error messages that we see come up often when working with code or
-development workflows that have not been updated to accommodate the
-free-threaded build. We also provide suggested fixes. Please send in pull
-requests to <a href="https://github.com/quansight-labs/free-threaded-compatibility">the repository for this
-document</a> if you
-run into any confusing free-threading-specific errors that you suspect apply to
-other libraries and aren't covered here.</p>
-<h2 id="cython-compilation-errors-unknown-type-name-__pyx_vectorcallfunc">Cython compilation errors: <code>unknown type name '__pyx_vectorcallfunc'</code><a class="headerlink" href="#cython-compilation-errors-unknown-type-name-__pyx_vectorcallfunc" title="Permanent link">#</a></h2>
-<p>This happens if you try to build a Cython extension for the free-threaded build
-using a release of Cython that does not support it (&lt; 3.1.0). This might happen
-if a package pins an older version of Cython. You should check the build
-dependencies of the package and try relaxing any Cython pin or otherwise
-establish why the latest Cython release is not being installed at build time.</p>
-<p>See <a href="../porting/">the porting guide</a>
-for more details about porting Cython code to work under free-threading.</p>
-<h2 id="what-does-runtimewarning-the-global-interpreter-lock-gil-has-been-enabled-mean">What does <code>RuntimeWarning: The global interpreter lock (GIL) has been enabled</code> mean?<a class="headerlink" href="#what-does-runtimewarning-the-global-interpreter-lock-gil-has-been-enabled-mean" title="Permanent link">#</a></h2>
-<p>This happens when python imports a module defined in a native extension that
-does not explicitly declare support for running without the GIL. By default,
-native extensions do not support running without the GIL because of the long
-history of extensions assuming the GIL locks concurrent access to extension
-internals. As a precaution, when the free-threaded Python build imports such an
-extension, it assumes that the GIL is <em>necessary</em> to run the extension, and
-enables the GIL at runtime.</p>
-<p>If you have control over the code in the native extension, then you should
-update the extension to support the free-threaded build. See <a href="../porting-extensions/">the guide
-section</a> on that topic. If you do not control the
-extension or simply want to test running with the GIL disabled despite the
-extension not explicitly supporting it, then you can set either the <code>PYTHON_GIL</code>
-environment variable or the <code>-X gil</code> command-like flag for the python
-interpreter to <code>0</code> (i.e. the GIL is disabled). This skips the runtime check for
-whether extensions support running with the GIL disabled. See the <a href="../running-gil-disabled/">section on
-running free-threaded Python</a> for more details.</p>
-<h2 id="pip-install-jupyter-fails"><code>pip install jupyter</code> fails<a class="headerlink" href="#pip-install-jupyter-fails" title="Permanent link">#</a></h2>
-<p>This happens because some of the dependencies of the <code>jupyter</code> project on PyPI
-do not yet support the free-threaded build. You might see this if you do not
-have a compilation environment set up, since dependencies like <code>PyYAML</code> do not
-ship free-threaded binaries and require from-source compilation.</p>
-<p>You also might see errors related to [CFFI] on free-threaded Python 3.13. This
-happens because one of Jupyter's dependencies, <code>argon2-cffi-bindings</code> uses CFFI
-to build a C extension. CFFI 2.0 added support for the free-threaded build, but
-only on Python 3.14 and newer. That means that <code>argon2-cffi-bindings</code> will never
-successfully build on Python 3.13 without some hacking to disable the extension
-or force CFFI to build.</p>
-<p>For that reason, if you need to use Python 3.13 and Jupyter, we suggest
-installing a Jupyter kernel for the free-threaded build into a Jupyter
-installation that is installed using a GIL-enabled interpreter. See <a href="../installing-cpython/#installing-a-free-threaded-jupyter-kernel">the
-installation section of this
-guide</a> for
-instructions to create a new python 3.13t kernel for use in any Jupyter
-installation. Alternatively use Python 3.14t.</p>
-<h2 id="what-does-py_limited_api-is-currently-incompatible-with-py_gil_disabled-mean">What does "Py_LIMITED_API is currently incompatible with Py_GIL_DISABLED" mean?<a class="headerlink" href="#what-does-py_limited_api-is-currently-incompatible-with-py_gil_disabled-mean" title="Permanent link">#</a></h2>
-<p>You might see an error with this message generated by setuptools, but other
-tools might generate similar errors for the same reason.</p>
-<p>The ultimate problem is that CPython does not yet offer a <a href="https://docs.python.org/3/c-api/stable.html#stable-application-binary-interface">stable
-ABI</a>
-on the free-threaded build. See <a href="https://github.com/python/cpython/issues/111506">this CPython
-issue</a> for more details. This
-means it's not yet possible to build an extension that any CPython version can
-import and instead libraries have to distribute one wheel for each version of
-free-threaded CPython. A future version of CPython will likely support a new
-version of the stable ABI that works correctly with both the GIL-enabled and
-free-threaded builds.</p>
-<p>Until then, tools or libraries that <em>default</em> to using the stable ABI via the
-limited API will generate build errors on the free-threaded build. The fix is
-usually to disable the <code>Py_LIMITED_API</code> declaration that triggers use of the
-stable ABI on the free-threaded build by using the following incantation:</p>
-<div class="highlight"><pre><span></span><code>import sysconfig
-FREETHREADED_BUILD = bool(sysconfig.get_config_var(&quot;Py_GIL_DISABLED&quot;))
+<h1 id="documentation-principles">Documentation Principles<a class="headerlink" href="#documentation-principles" title="Permanent link">#</a></h1>
+<p>This document outlines principles and guidelines for documenting free-threading in
+CPython core documentation and the broader Python ecosystem. These principles aim
+to provide clear, accurate, and maintainable documentation while avoiding common
+pitfalls.</p>
+<h2 id="core-principles">Core Principles<a class="headerlink" href="#core-principles" title="Permanent link">#</a></h2>
+<p>These principles apply to both CPython core documentation and ecosystem documentation.</p>
+<h3 id="1-document-reality-not-aspirations">1. Document Reality, Not Aspirations<a class="headerlink" href="#1-document-reality-not-aspirations" title="Permanent link">#</a></h3>
+<p>Only document features, behaviors, and guarantees that are actually implemented and
+tested. Documentation should reflect the current state, not planned features.</p>
+<ul>
+<li>Don't document future aspirations as parts of the current feature set or design</li>
+<li>Don't document incomplete work unless it causes crashes or data corruption. If
+    something is partially implemented and <em>needs</em> to be documented, clearly state
+    what works and what doesn't.</li>
+<li>Don't document bugs, that's what issue trackers are for.</li>
+<li>Use issue trackers and PEPs for planned features, not user-facing docs</li>
+</ul>
+<p>Good: "Individual operations on <code>x</code> are atomic. Sequences of operations require
+external synchronization for deterministic results."</p>
+<p>Bad: "The <code>x</code> type will be fully thread-safe in a future release."</p>
+<h3 id="2-centralize-thread-safety-documentation">2. Centralize Thread Safety Documentation<a class="headerlink" href="#2-centralize-thread-safety-documentation" title="Permanent link">#</a></h3>
+<p>Prefer centralized documentation over scattered thread-safety notes. Thread safety
+concerns cut across many APIs; centralizing makes documentation consistent,
+comprehensive, and easier to maintain.</p>
+<ul>
+<li>Create dedicated pages for thread safety guarantees (by type, by module)</li>
+<li>Link to centralized docs from specific API entries when needed</li>
+<li>For C APIs, use hybrid approach: centralized overview plus inline notes for
+    critical APIs</li>
+</ul>
+<p>Good: Centralized "Thread Safety of Built-in Types" page with per-type guarantees,
+linked from individual type docs.</p>
+<p>Bad: Scattered thread safety notes on every method without consistent structure.</p>
+<h3 id="3-balance-detail-with-succinctness">3. Balance Detail with Succinctness<a class="headerlink" href="#3-balance-detail-with-succinctness" title="Permanent link">#</a></h3>
+<p>Provide enough detail for users to write correct code without overwhelming them
+with implementation details.</p>
+<ul>
+<li>Focus on guarantees needed to write correct code</li>
+<li>Avoid documenting implementation details. If they're needed, separate them
+    from high-level user docs.</li>
+<li>Use examples to illustrate complex concepts</li>
+<li>Python APIs: module-level summaries, not per-API notes</li>
+<li>C APIs: more detail since extension authors need lower-level understanding</li>
+</ul>
+<p>Good: "Individual list operations like <code>append()</code> and <code>pop()</code> are atomic. Compound
+operations require external synchronization. See PEP 703 for implementation details."</p>
+<p>Bad (too brief): "Thread-safe."</p>
+<p>Bad (too detailed): "The list implementation uses biased critical sections. Each
+operation acquires locks in the following order..."</p>
+<h3 id="4-distinguish-levels-of-support">4. Distinguish Levels of Support<a class="headerlink" href="#4-distinguish-levels-of-support" title="Permanent link">#</a></h3>
+<p>Clearly differentiate between different levels of thread safety. Not all code needs
+to be fully thread-safe; clear distinctions help users understand guarantees.</p>
+<ul>
+<li>Use consistent terminology (see <a href="#free-threading-terminology">Terminology</a>)</li>
+<li>Document known limitations explicitly</li>
+<li>Use <a href="../porting/#define-and-document-thread-safety-guarantees">trove classifiers</a> for
+    package-level support declarations</li>
+</ul>
+<p>Good: "Individual operations on <code>x</code> are atomic and will not cause crashes. Sequences
+of operations may observe inconsistent state without external synchronization.
+Iteration while another thread modifies <code>x</code> may raise <code>RuntimeError</code>."</p>
+<p>Bad: "Thread-safe." (no indication of what this means or limitations)</p>
+<h3 id="5-be-consistent-across-documentation">5. Be Consistent Across Documentation<a class="headerlink" href="#5-be-consistent-across-documentation" title="Permanent link">#</a></h3>
+<p>Use consistent terminology, structure, and level of detail across all free-threading
+documentation. Consistency helps users build accurate mental models.</p>
+<ul>
+<li>Use terms defined in <a href="#free-threading-terminology">Terminology</a></li>
+<li>Follow the same structure for similar content</li>
+<li>Cross-reference related documentation</li>
+<li>Use the same examples and idioms across guides</li>
+</ul>
+<p>Good: All docs for different types follow same structure.</p>
+<h3 id="6-document-common-pitfalls">6. Document Common Pitfalls<a class="headerlink" href="#6-document-common-pitfalls" title="Permanent link">#</a></h3>
+<p>Document scenarios that are likely to cause serious problems. Users need to know about
+critical issues to avoid crashes, data corruption, or security problems.</p>
+<ul>
+<li>Document known issues that cause crashes or data corruption</li>
+<li>Warn about common pitfalls leading to subtle bugs</li>
+<li>Provide workarounds when available</li>
+<li>Link to issue tracker for status</li>
+<li>Remove or update warnings once/if resolved</li>
+</ul>
+<h3 id="7-provide-actionable-guidance">7. Provide Actionable Guidance<a class="headerlink" href="#7-provide-actionable-guidance" title="Permanent link">#</a></h3>
+<p>Documentation should help users know what to do, not just what exists. Users need
+to understand not just how things work, but how to use them correctly.</p>
+<ul>
+<li>Include examples of correct usage</li>
+<li>Show common patterns and idioms</li>
+<li>Explain when synchronization is needed</li>
+<li>Provide migration guides for porting existing code</li>
+<li>Link to tools and testing strategies</li>
+</ul>
+<p>Good: Code example showing lock usage for compound operations on <code>x</code>, explicitly
+noting that individual reads don't require the lock.</p>
+<p>Bad: "The <code>x</code> type provides atomic operations for basic access." (no guidance on how to
+use safely)</p>
+<h2 id="anti-patterns-to-avoid">Anti-Patterns to Avoid<a class="headerlink" href="#anti-patterns-to-avoid" title="Permanent link">#</a></h2>
+<h3 id="vague-statements">Vague Statements<a class="headerlink" href="#vague-statements" title="Permanent link">#</a></h3>
+<p>Avoid using the term "thread-safe" by itself, because it's vague and does not provide enough
+information for users to understand an API's guarantees. Only use "Thread safety" in section or
+page headers that need to be easily searchable.</p>
+<p>Bad: "Most operations are thread-safe."</p>
+<p>Good: "Individual <code>append()</code> and <code>pop()</code> operations are atomic. Compound operations require synchronization."</p>
+<h3 id="implementation-details-in-user-docs">Implementation Details in User Docs<a class="headerlink" href="#implementation-details-in-user-docs" title="Permanent link">#</a></h3>
+<p>Bad: "The GIL is replaced by biased reference counting with deferred RC for..."</p>
+<p>Good: "Free-threaded Python removes the GIL, enabling parallel execution. See PEP 703
+for implementation details."</p>
+<h3 id="scattered-thread-safety-notes">Scattered Thread Safety Notes<a class="headerlink" href="#scattered-thread-safety-notes" title="Permanent link">#</a></h3>
+<p>Bad: Thread safety mentioned inconsistently across 50 different function docs.</p>
+<p>Good: Centralized thread safety page with links from individual functions.</p>
+<h2 id="examples-of-good-documentation">Examples of Good Documentation<a class="headerlink" href="#examples-of-good-documentation" title="Permanent link">#</a></h2>
+<h3 id="example-1-built-in-type-thread-safety">Example 1: Built-in Type Thread Safety<a class="headerlink" href="#example-1-built-in-type-thread-safety" title="Permanent link">#</a></h3>
+<div class="highlight"><pre><span></span><code><span class="gh"># Thread Safety of Built-in Types</span>
+
+<span class="gu">## MyDict</span>
+
+<span class="gu">### Guarantees</span>
+
+<span class="k">-</span><span class="w"> </span><span class="gs">**Individual operations are atomic**</span>: Operations like <span class="sb">`d[key]`</span>, <span class="sb">`d.get(key)`</span>,
+  <span class="sb">`d[key] = value`</span>, and <span class="sb">`d.pop(key)`</span> execute atomically and will not cause crashes
+  or corruption.
+
+<span class="k">-</span><span class="w"> </span><span class="gs">**Object invariants maintained**</span>: Internal data structures remain consistent
+  even under concurrent access.
+
+<span class="gu">### Limitations</span>
+
+<span class="k">-</span><span class="w"> </span><span class="gs">**Compound operations require synchronization**</span>: Sequences like &quot;check if key
+  exists, then insert&quot; may observe inconsistent state:
+
+<span class="sb">  ```python</span>
+  <span class="c1"># Not deterministic without external lock</span>
+  <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">d</span><span class="p">:</span>
+      <span class="n">d</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>  <span class="c1"># Another thread might have added key</span>
+<span class="sb">  ```</span>
+
+<span class="k">-</span><span class="w"> </span><span class="gs">**Iteration not thread-safe during modification**</span>: Iterating over a <span class="sb">`MyDict`</span> instance
+    while another thread modifies it may raise <span class="sb">`RuntimeError`</span> or produce inconsistent
+    results.
+
+<span class="gu">### Recommended Patterns</span>
+
+For compound operations:
+
+<span class="sb">```python</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">threading</span><span class="w"> </span><span class="kn">import</span> <span class="n">Lock</span>
+
+<span class="n">lock</span> <span class="o">=</span> <span class="n">Lock</span><span class="p">()</span>
+<span class="k">with</span> <span class="n">lock</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">d</span><span class="p">:</span>
+        <span class="n">d</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+<span class="sb">```</span>
+
+For iteration over possibly-modified dict:
+
+<span class="sb">```python</span>
+<span class="c1"># Option 1: Snapshot</span>
+<span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="nb">dict</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">process</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+<span class="c1"># Option 2: External lock</span>
+<span class="k">with</span> <span class="n">lock</span><span class="p">:</span>
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">process</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+<span class="sb">```</span>
 </code></pre></div>
-<p>If you spell it this way, <code>FREETHREADED_BUILD</code> will be <code>False</code> on the
-GIL-enabled build and <code>True</code> for free-threaded builds.</p>
-<h2 id="im-trying-to-build-a-library-on-windows-but-msvc-says-c-atomic-support-is-not-enabled">I'm trying to build a library on Windows, but MSVC says "C atomic support is not enabled"<a class="headerlink" href="#im-trying-to-build-a-library-on-windows-but-msvc-says-c-atomic-support-is-not-enabled" title="Permanent link">#</a></h2>
-<p>This happens when a C project uses <a href="../porting-extensions/#lock-free-concurrent-programming-with-atomics">atomic
-operations</a>
-that are part of the C standard library in the C11 and C17 standards. MSVC does
-not yet fully support C standard library atomics, but it does have experimental
-support. You can enable it by passing <code>/experimental:c11atomics</code> to MSVC as a
-compiler option. Precisely how to do this will depend on the project. For an
-example in a project that uses setuptools, see <a href="https://github.com/nedbat/coveragepy/pull/2020/files"><code>coveragepy</code> PR #2020</a>.</p>
+<h2 id="free-threading-terminology">Free-Threading Terminology<a class="headerlink" href="#free-threading-terminology" title="Permanent link">#</a></h2>
+<p>This section provides definitions of key terms for describing the thread-safety guarantees
+of Python library APIs. Library maintainers should use these terms when documenting how
+their APIs can be used from multiple threads.</p>
+<h3 id="common-data-consistency-patterns">Common data consistency patterns<a class="headerlink" href="#common-data-consistency-patterns" title="Permanent link">#</a></h3>
+<p>When documenting your library's APIs, use these data consistency patterns and locking semantics
+to describe their concurrent access guarantees:</p>
+<h4 id="immutable">Immutable<a class="headerlink" href="#immutable" title="Permanent link">#</a></h4>
+<p>An object whose state cannot be modified after creation. Immutable objects can be safely
+shared across threads without synchronization.</p>
+<p>When to use: For objects that provide no mutating operations.</p>
+<p>Example: "Configuration objects are immutable once created and can be safely shared
+across all threads."</p>
+<h4 id="thread-local">Thread-Local<a class="headerlink" href="#thread-local" title="Permanent link">#</a></h4>
+<p>An API where each thread has its own independent instance or state. No cross-thread
+sharing occurs.</p>
+<p>When to use: When your library maintains per-thread state.</p>
+<p>Example: "Each thread gets its own random number generator state. State is thread-local
+and operations don't require synchronization."</p>
+<h4 id="atomic">Atomic<a class="headerlink" href="#atomic" title="Permanent link">#</a></h4>
+<p>An operation that completes as a single, indivisible unit from the perspective of other
+threads. No other thread can observe a partial state.</p>
+<p>When to use: For operations that either complete fully or not at all, with no
+observable intermediate state.</p>
+<p>Example: "The <code>increment()</code> method is atomic - other threads will see either the old
+or new value, never a partial update."</p>
+<p>Note: Atomic operations may still have race conditions when combined with other
+operations. Atomicity only guarantees the operation itself is indivisible.</p>
+<h4 id="internally-synchronized">Internally Synchronized<a class="headerlink" href="#internally-synchronized" title="Permanent link">#</a></h4>
+<p>An API that uses internal locking or synchronization mechanisms. Multiple threads can
+call the API concurrently without external coordination.</p>
+<p>When to use: When your library handles all necessary locking internally.</p>
+<p>Example: "The connection pool is internally synchronized. Multiple threads can safely
+call <code>acquire()</code> and <code>release()</code> concurrently."</p>
+<h4 id="externally-synchronized">Externally Synchronized<a class="headerlink" href="#externally-synchronized" title="Permanent link">#</a></h4>
+<p>An API that requires callers to provide their own synchronization (e.g., locks) when
+used from multiple threads concurrently.</p>
+<p>When to use: When thread-safety is the caller's responsibility.</p>
+<p>Example: "The parser requires external synchronization. Protect calls with a lock
+when sharing a parser instance across threads."</p>
+<h4 id="reentrant">Reentrant<a class="headerlink" href="#reentrant" title="Permanent link">#</a></h4>
+<p>An API that can safely be called again before a previous invocation has completed,
+including from signal handlers.</p>
+<p>When to use: Important for signal handlers and callbacks.</p>
+<p>Example: "This function is reentrant and safe to call from signal handlers."</p>
 
 
 
@@ -1308,7 +1874,7 @@ example in a project that uses setuptools, see <a href="https://github.com/nedba
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="October 8, 2025 12:21:50 UTC">October 8, 2025</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="December 9, 2025 20:20:27 UTC">December 9, 2025</span>
   </span>
 
     
@@ -1318,7 +1884,7 @@ example in a project that uses setuptools, see <a href="https://github.com/nedba
     <span class="md-icon" title="Created">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 18, 2025 15:30:22 UTC">April 18, 2025</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="December 9, 2025 20:20:27 UTC">December 9, 2025</span>
   </span>
 
     
