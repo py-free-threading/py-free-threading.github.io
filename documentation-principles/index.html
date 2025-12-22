@@ -1807,6 +1807,8 @@ For iteration over possibly-modified dict:
         <span class="n">process</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
 <span class="sb">```</span>
 </code></pre></div>
+<!-- ref:free-threading-terminology -->
+
 <h2 id="free-threading-terminology">Free-Threading Terminology<a class="headerlink" href="#free-threading-terminology" title="Permanent link">#</a></h2>
 <p>This section provides definitions of key terms for describing the thread-safety guarantees
 of Python library APIs. Library maintainers should use these terms when documenting how
@@ -1814,18 +1816,24 @@ their APIs can be used from multiple threads.</p>
 <h3 id="common-data-consistency-patterns">Common data consistency patterns<a class="headerlink" href="#common-data-consistency-patterns" title="Permanent link">#</a></h3>
 <p>When documenting your library's APIs, use these data consistency patterns and locking semantics
 to describe their concurrent access guarantees:</p>
+<!-- ref:term-immutable -->
+
 <h4 id="immutable">Immutable<a class="headerlink" href="#immutable" title="Permanent link">#</a></h4>
 <p>An object whose state cannot be modified after creation. Immutable objects can be safely
 shared across threads without synchronization.</p>
 <p>When to use: For objects that provide no mutating operations.</p>
 <p>Example: "Configuration objects are immutable once created and can be safely shared
 across all threads."</p>
+<!-- ref:term-thread-local -->
+
 <h4 id="thread-local">Thread-Local<a class="headerlink" href="#thread-local" title="Permanent link">#</a></h4>
 <p>An API where each thread has its own independent instance or state. No cross-thread
 sharing occurs.</p>
 <p>When to use: When your library maintains per-thread state.</p>
 <p>Example: "Each thread gets its own random number generator state. State is thread-local
 and operations don't require synchronization."</p>
+<!-- ref:term-atomic -->
+
 <h4 id="atomic">Atomic<a class="headerlink" href="#atomic" title="Permanent link">#</a></h4>
 <p>An operation that completes as a single, indivisible unit from the perspective of other
 threads. No other thread can observe a partial state.</p>
@@ -1835,18 +1843,24 @@ observable intermediate state.</p>
 or new value, never a partial update."</p>
 <p>Note: Atomic operations may still have race conditions when combined with other
 operations. Atomicity only guarantees the operation itself is indivisible.</p>
+<!-- ref:term-internally-synchronized -->
+
 <h4 id="internally-synchronized">Internally Synchronized<a class="headerlink" href="#internally-synchronized" title="Permanent link">#</a></h4>
 <p>An API that uses internal locking or synchronization mechanisms. Multiple threads can
 call the API concurrently without external coordination.</p>
 <p>When to use: When your library handles all necessary locking internally.</p>
 <p>Example: "The connection pool is internally synchronized. Multiple threads can safely
 call <code>acquire()</code> and <code>release()</code> concurrently."</p>
+<!-- ref:term-externally-synchronized -->
+
 <h4 id="externally-synchronized">Externally Synchronized<a class="headerlink" href="#externally-synchronized" title="Permanent link">#</a></h4>
 <p>An API that requires callers to provide their own synchronization (e.g., locks) when
 used from multiple threads concurrently.</p>
 <p>When to use: When thread-safety is the caller's responsibility.</p>
 <p>Example: "The parser requires external synchronization. Protect calls with a lock
 when sharing a parser instance across threads."</p>
+<!-- ref:term-reentrant -->
+
 <h4 id="reentrant">Reentrant<a class="headerlink" href="#reentrant" title="Permanent link">#</a></h4>
 <p>An API that can safely be called again before a previous invocation has completed,
 including from signal handlers.</p>
@@ -1874,7 +1888,7 @@ including from signal handlers.</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="December 9, 2025 20:20:27 UTC">December 9, 2025</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="December 22, 2025 18:45:40 UTC">December 22, 2025</span>
   </span>
 
     
