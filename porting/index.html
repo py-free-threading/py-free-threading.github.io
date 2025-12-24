@@ -642,10 +642,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#current-status-as-of-early-2025" class="md-nav__link">
+  <a href="#why-do-projects-need-updates" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Current status (as of early 2025)
+        Why do projects need updates?
       
     </span>
   </a>
@@ -737,10 +737,21 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#making-mutable-global-caches-thread-safe-with-locking" class="md-nav__link">
+  <a href="#copy-on-write" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Making mutable global caches thread-safe with locking
+        Copy-on-Write
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#locking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Locking
       
     </span>
   </a>
@@ -1240,10 +1251,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#current-status-as-of-early-2025" class="md-nav__link">
+  <a href="#why-do-projects-need-updates" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Current status (as of early 2025)
+        Why do projects need updates?
       
     </span>
   </a>
@@ -1335,10 +1346,21 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#making-mutable-global-caches-thread-safe-with-locking" class="md-nav__link">
+  <a href="#copy-on-write" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Making mutable global caches thread-safe with locking
+        Copy-on-Write
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#locking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Locking
       
     </span>
   </a>
@@ -1421,34 +1443,42 @@
 
 
 <h1 id="porting-python-packages-to-support-free-threading">Porting Python Packages to Support Free-Threading<a class="headerlink" href="#porting-python-packages-to-support-free-threading" title="Permanent link">#</a></h1>
-<p>This document discusses porting an existing Python package to support free-threading Python.</p>
-<h2 id="current-status-as-of-early-2025">Current status (as of early 2025)<a class="headerlink" href="#current-status-as-of-early-2025" title="Permanent link">#</a></h2>
-<p>Many Python packages, particularly packages relying on C
-extension modules, do not consider multithreaded use or make strong
-assumptions about the GIL providing sequential consistency in multithreaded
-contexts. These packages will:</p>
-<ul>
-<li>fail to produce deterministic results on the free-threaded build</li>
-<li>may, if there are C extensions involved, crash the interpreter in multithreaded use in ways that are impossible on the
-    GIL-enabled build</li>
-</ul>
+<p>Many packages already support free-threaded Python. Check the <a href="../tracking/">tracking
+table</a> in this guide, the <a href="https://hugovk.github.io/free-threaded-wheels/">free-threaded wheels
+tracker</a>, and the documentation
+and PyPI release pages for packages your project depends on to evaluate whether
+your project can run on the free-threaded build. In addition, you may need to
+update your code to support the free-threaded build.</p>
+<h2 id="why-do-projects-need-updates">Why do projects need updates?<a class="headerlink" href="#why-do-projects-need-updates" title="Permanent link">#</a></h2>
+<p>Free-threaded Python can exploit the many cores present in modern CPUs in pure
+Python code. In all previous Python releases before the free-threaded build and
+in the current default build, only one thread at a time could execute Python
+code because of the <a href="https://docs.python.org/3/glossary.html#term-global-interpreter-lock">global interpreter
+lock</a> (the
+GIL).</p>
 <p>Attempting to parallelize many workflows using the Python
 <a href="https://docs.python.org/3/library/threading.html">threading</a> module will not
-produce any speedups on the GIL-enabled build, so thread safety issues that are possible even with the
-GIL are not hit often since users do not make use of threading as much as other
-parallelization strategies. This means many codebases have threading bugs that
-up-until-now have only been theoretical or present in niche use cases. With
-free-threading, many more users will want to use Python threads.</p>
-<p>This means we must analyze Python codebases to identify supported and
-unsupported multithreaded workflows and make changes to fix thread safety
-issues. Extra care must be taken to address this need, particularly when using low-level C, C++, Cython, and Rust
-code exposed to Python. Even pure Python codebases can exhibit
-non-determinism and races in the free-threaded build that are either very
-unlikely or impossible in the default configuration of the GIL-enabled build.</p>
+produce any speedups on the GIL-enabled build. This means many codebases have
+threading bugs that up-until-now have only been theoretical or present in niche
+use cases. With free-threading, many more users will want to use Python threads,
+making fixing existing thread safety issues more important. Additionally,
+free-threading makes new kinds of concurrent use possible, so situations were
+the GIL <em>was</em> providing safety will need new analysis to ensure they are safe
+under free-threaded Python.</p>
+<p>Packages that have not yet been updated may exhibit behaviors such as:</p>
+<ul>
+<li>Fail to produce deterministic results on the free-threaded build and may not be
+    deterministic <em>with</em> the GIL either.</li>
+<li>May, if there are C extensions involved, crash the interpreter in multithreaded
+    use in ways that are impossible on the GIL-enabled build. Some extensions may
+    crash the interpreter under multithreaded use even with the GIL.</li>
+</ul>
 <p>For a more in-depth look at the differences between the GIL-enabled and
 free-threaded build, we suggest reading <a href="https://github.com/facebookincubator/ft_utils/blob/main/docs/ft_worked_examples.md">the <code>ft_utils</code>
 documentation</a>
-on this topic.</p>
+on this topic. Also see the <a href="../porting-extensions/">section of this porting
+guide</a> on extensions to understand why compiled code
+needs special updates to support the free threaded build.</p>
 <!-- ref:plan-of-attack -->
 
 <h2 id="suggested-plan-of-attack">Suggested Plan of Attack<a class="headerlink" href="#suggested-plan-of-attack" title="Permanent link">#</a></h2>
@@ -1503,15 +1533,31 @@ you are doing.</p>
 <p>Many projects assume the GIL serializes access to state shared between threads,
 introducing the possibility of data races in native extensions and race
 conditions that are impossible when the GIL is enabled.</p>
-<p>We suggest focusing on safety and multithreaded scaling before single-threaded
-performance.</p>
-<p>Here's an example of this approach. If adding a lock to a global cache would harm
-multithreaded scaling, and turning off the cache implies a small performance
-hit, consider doing the simpler thing and disabling the cache in the
+<p>Ideally it should be possible to add safety without adding any performance
+cost. This may be impossible in the real world but is the ideal goal. You should
+benchmark to check that single-threaded performance is not seriously impacted by
+work to improve thread safety. It may be possible to set things up so that
+single-threaded users of your library can find ways to avoid paying the cost of
+synchronization.</p>
+<p>If there is no way to add zero-cost thread-safety but the GIL is sufficient to
+prevent races on the GIL-enabled build, consider adding logic that only triggers
+if the GIL is disabled at runtime or only triggers on the free-threaded build:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sysconfig</span>
+
+<span class="k">if</span> <span class="ow">not</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">sys</span><span class="p">,</span> <span class="s1">&#39;_is_gil_enabled&#39;</span><span class="p">,</span> <span class="k">lambda</span><span class="p">:</span> <span class="kc">True</span><span class="p">)():</span>
+    <span class="c1"># logic that only happens if the GIL is disabled</span>
+
+<span class="k">if</span> <span class="n">sysconfig</span><span class="o">.</span><span class="n">get_config_var</span><span class="p">(</span><span class="s2">&quot;Py_GIL_DISABLED&quot;</span><span class="p">):</span>
+    <span class="c1"># logic that only happens on the free-threaded build</span>
+</code></pre></div>
+<p>Here's an example of this approach. If adding a lock to a global cache would
+harm multithreaded scaling, and turning off the cache implies a small
+performance hit, consider doing the simpler thing and disabling the cache in the
 free-threaded build.</p>
-<p>Single-threaded performance can always be improved later,
-once you've established free-threaded support and hopefully improved test
-coverage for multithreaded workflows.</p>
+<p>Single-threaded performance can always be improved later, once you've
+established free-threaded support and hopefully improved test coverage for
+multithreaded workflows.</p>
 <p>NumPy, for example, decided <em>not</em> to add explicit locking to the ndarray object
 and <a href="https://numpy.org/devdocs/reference/thread_safety.html#thread-safety">does not support mutating shared
 ndarrays</a>. This
@@ -1601,7 +1647,72 @@ rewrite the above example to use a thread-local cache like so:</p>
 <p>This wouldn't help a case where each thread having a copy of the cache would be
 prohibitive, but it does fix possible issues with resource leaks issues due to
 races filling a cache.</p>
-<h3 id="making-mutable-global-caches-thread-safe-with-locking">Making mutable global caches thread-safe with locking<a class="headerlink" href="#making-mutable-global-caches-thread-safe-with-locking" title="Permanent link">#</a></h3>
+<!-- ref:copy-on-write -->
+
+<h3 id="copy-on-write">Copy-on-Write<a class="headerlink" href="#copy-on-write" title="Permanent link">#</a></h3>
+<p><a href="https://en.wikipedia.org/wiki/Copy-on-write">Copy-on-Write (CoW)</a> is a
+thread-safe pattern to implement lock-free sharing of data structures. It is
+useful when reads are much more frequent than writes. It is commonly used for
+caching, where reads are frequent and writes are infrequent.</p>
+<p>Consider a library which generates the nth Fibonacci number. The library caches
+previously computed Fibonacci numbers.</p>
+<div class="highlight"><pre><span></span><code><span class="n">cache</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">fib</span><span class="p">(</span><span class="n">nth</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+    <span class="k">global</span> <span class="n">cache</span>
+    <span class="k">if</span> <span class="n">nth</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;nth must be a positive integer&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Atomically read shared reference to global cache</span>
+    <span class="n">local_cache</span> <span class="o">=</span> <span class="n">cache</span>
+
+    <span class="k">if</span> <span class="n">nth</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">local_cache</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="c1"># Make a new un-shared list</span>
+        <span class="n">local_cache</span> <span class="o">=</span> <span class="n">local_cache</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+        <span class="c1"># Mutating here is safe because the list local_cache refers</span>
+        <span class="c1"># to is private to this thread</span>
+        <span class="k">while</span> <span class="n">nth</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">local_cache</span><span class="p">):</span>
+            <span class="n">local_cache</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">local_cache</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">local_cache</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span>
+
+        <span class="c1"># Atomically update global shared reference to point to the new list</span>
+        <span class="n">cache</span> <span class="o">=</span> <span class="n">local_cache</span>
+
+    <span class="c1"># Must use a reference to the local_cache because another thread</span>
+    <span class="c1"># may have updated the global reference</span>
+    <span class="k">return</span> <span class="n">local_cache</span><span class="p">[</span><span class="n">nth</span><span class="p">]</span>
+</code></pre></div>
+<p>This code is thread-safe because the shared global cache is never modified
+in-place. Instead, a new copy of the cache is created and updated, and then the
+reference to the cache is updated atomically. This ensures that readers always
+see a consistent view of the cache, even if a writer is updating it
+concurrently.</p>
+<p>This does not rely on the thread-safety of the underlying list. Instead, it
+relies on the fact that shared references can be read from and modified
+atomically. This means you can use this technique to allow lock-free access to a
+shared global cache implemented using a thread-unsafe data structure.</p>
+<p>Note that for this to work correctly, readers must <em>not</em> assume that the shared
+reference (the global <code>cache</code> variable) will be unchanged from one access to the
+next. For example, this is not thread-safe:</p>
+<div class="highlight"><pre><span></span><code><span class="k">if</span> <span class="n">nth</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">cache</span><span class="p">):</span>
+    <span class="c1"># Another thread may replace cache with a shorter list</span>
+    <span class="c1"># after len(cache) but before cache[nth] so that this fails:</span>
+    <span class="k">return</span> <span class="n">cache</span><span class="p">[</span><span class="n">nth</span><span class="p">]</span>
+</code></pre></div>
+<p>Instead, readers should atomically copy the shared reference to a local
+variable and then only access the local variable:</p>
+<div class="highlight"><pre><span></span><code>    <span class="n">local_cache</span> <span class="o">=</span> <span class="n">cache</span>
+    <span class="k">if</span> <span class="n">nth</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">local_cache</span><span class="p">):</span>
+        <span class="c1"># No other thread will reassign the local_cache variable</span>
+        <span class="c1"># or mutate the object that it points to.</span>
+        <span class="k">return</span> <span class="n">local_cache</span><span class="p">[</span><span class="n">nth</span><span class="p">]</span>
+</code></pre></div>
+<p>Also keep in mind that readers may not necessarily see the most up-to-date
+version of the cache. The CPU cost to calculate some entries will be wasted if
+there are races to create a new cache. For memoization and other caching this is
+often fine but may be problematic for some use-cases.</p>
+<h3 id="locking">Locking<a class="headerlink" href="#locking" title="Permanent link">#</a></h3>
 <p>If a thread-local cache doesn't make sense, then you can serialize access to the
 cache with a lock. A
 <a href="https://en.wikipedia.org/wiki/Lock_(computer_science)">lock</a> provides exclusive
@@ -1647,11 +1758,11 @@ one lock. Care must be taken to ensure that operations done while the lock is
 held cannot lead to recursive calls or lead to a situation where a thread owning
 the lock is blocked on acquiring a different mutex. You do not need to worry
 about deadlocking with the GIL in pure Python code, the interpreter will handle
-that for you.
-There is also
+that for you.</p>
+<p>There is also
 <a href="https://docs.python.org/3/library/threading.html#rlock-objects">threading.RLock</a>,
 which provides a reentrant lock allowing threads to recursively acquire the same
-lock.</p>
+lock, but is not quite as performant as a <code>threading.Lock</code> in single-threaded use.</p>
 <p>Finally, note how the above code will ensure that only a single call to
 <code>_do_expensive_calculation</code> will run at any given time, regardless of <code>arg</code>.
 This may not be desirable; one could want to allow calling the function in
@@ -1781,7 +1892,7 @@ be able to switch to a fork that does. Find more details in
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="December 22, 2025 18:45:40 UTC">December 22, 2025</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="December 24, 2025 15:50:53 UTC">December 24, 2025</span>
   </span>
 
     
