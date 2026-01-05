@@ -1515,11 +1515,9 @@ instead of being directed to stderr, which is the default.</p>
 <code>halt_on_error=1</code>. If you observe hangs, try setting <code>halt_on_error=0</code> in
 TSAN_OPTIONS.</p>
 <p>The <a href="https://github.com/pytest-dev/pytest-xdist">pytest-xdist</a> plugin can also
-sometimes be problematic if a test runner happens to crash during
-execution. While <code>pytest-xdist</code> does have some support for detecting a crashed
-worker, it is not foolproof and the authors of this guide have observed hangs on
-CI due to pytest-xdist not properly handling a worker failing due to a TSan
-error.</p>
+be useful, but be sure to <a href="../testing/#configure-timeouts-to-avoid-hanging-tests">configure
+pytest</a> to use
+faulthandler and exit on timeout to avoid having hangs in CI workers.</p>
 <p>The <code>pytest-xdist</code> plugin also <a href="https://github.com/pytest-dev/pytest-xdist/issues/82">makes it impossible to obtain stdout from
 a test runner</a>, so there
 is no way to see TSan output if there is an issue. This can lead to hangs on CI
@@ -1585,7 +1583,7 @@ Segmentation fault (core dumped)
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="December 24, 2025 14:54:10 UTC">December 24, 2025</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="January 5, 2026 19:45:46 UTC">January 5, 2026</span>
   </span>
 
     
