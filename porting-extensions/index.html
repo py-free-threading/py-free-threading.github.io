@@ -896,6 +896,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#dependencies-that-dont-support-free-threading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dependencies that don't support free-threading
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1532,6 +1543,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#dependencies-that-dont-support-free-threading" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dependencies that don't support free-threading
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1557,7 +1579,7 @@
 section</a> but with a focus on advice for updating native extension
 modules, particularly modules relying directly on the CPython C API. The general
 advice remains the same: identify supported multithreaded workflows, add
-testing, and fix and identified thread safety issues. We will also describe how
+testing, and fix any identified thread safety issues. We will also describe how
 to handle some common thread-unsafe patterns we have found in many extension
 modules across the open source ecosystem.</p>
 <h2 id="declaring-free-threaded-support">Declaring free-threaded support<a class="headerlink" href="#declaring-free-threaded-support" title="Permanent link">#</a></h2>
@@ -1755,7 +1777,7 @@ that has native extensions.</p>
 <figure>
 <p><img alt="GIL execution diagram" src="../assets/images/GIL_diagram.png" width="600" /></p>
 <figcaption>
-<p>A diagramatic snapshot of the state of a multithreaded Python
+<p>A diagrammatic snapshot of the state of a multithreaded Python
 application running on the GIL-enabled interpreter</p>
 </figcaption>
 </figure>
@@ -1781,7 +1803,7 @@ simultaneously call into the CPython C API.</p>
 <figure>
 <p><img alt="free-threaded execution diagram" src="../assets/images/free_threaded_diagram.png" width="600" /></p>
 <figcaption>
-<p>A diagramatic snapshot of the state of a multithreaded Python
+<p>A diagrammatic snapshot of the state of a multithreaded Python
 application running on the free-threaded-enabled interpreter</p>
 </figcaption>
 </figure>
@@ -1811,9 +1833,9 @@ code as in the GIL-enabled build</p>
 <p>As illustrated above, attaching and detaching from the runtime uses exactly the
 same code in the free-threaded build as is used in the GIL-enabled build to
 acquire and release the GIL. It is an unfortunate naming issue that
-<code>PyGILState_Ensure</code> and <code>PyGILState_Release</code> has "<code>GIL</code>" in the name of the
+<code>PyGILState_Ensure</code> and <code>PyGILState_Release</code> have "<code>GIL</code>" in the name of the
 function, despite the lack of a GIL on the free-threaded build. It's likely that
-the C API in future Python version will fix this naming issue.</p>
+the C API in a future Python version will fix this naming issue.</p>
 <p>Hopefully you now have a better mental model for how native code interacts with
 the CPython interpreter runtime in the free-threaded build and how it is similar
 to what happens on the GIL-enabled build, and what exactly it means for multiple
@@ -2035,17 +2057,17 @@ is accessed.</p>
 <span class="kt">int</span><span class="w"> </span><span class="nf">call_library_function</span><span class="p">(</span><span class="n">lib_state_struct</span><span class="w"> </span><span class="o">*</span><span class="n">lib_state</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">PyMutex_Lock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">lib_state</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">);</span>
 <span class="w">    </span><span class="n">library_function</span><span class="p">(</span><span class="n">lib_state</span><span class="o">-&gt;</span><span class="n">state</span><span class="p">);</span>
-<span class="w">    </span><span class="n">PyMutex_Unlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">lib_state</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">)</span>
+<span class="w">    </span><span class="n">PyMutex_Unlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">lib_state</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">);</span>
 <span class="p">}</span>
 
 <span class="kt">int</span><span class="w"> </span><span class="nf">call_another_library_function</span><span class="p">(</span><span class="n">lib_state_struct</span><span class="w"> </span><span class="o">*</span><span class="n">lib_state</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="n">PyMutex_Lock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">lib_state</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">);</span>
 <span class="w">    </span><span class="n">another_library_function</span><span class="p">(</span><span class="n">lib_state</span><span class="o">-&gt;</span><span class="n">state</span><span class="p">);</span>
-<span class="w">    </span><span class="n">PyMutex_Unlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">lib_state</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">)</span>
+<span class="w">    </span><span class="n">PyMutex_Unlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">lib_state</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">);</span>
 <span class="p">}</span>
 </code></pre></div>
 <p>With this setup, if two threads call <code>library_function</code> and
-<code>another_library_functions</code> simultaneously, one thread will block until the
+<code>another_library_function</code> simultaneously, one thread will block until the
 other thread finishes, preventing concurrent access to <code>lib_state-&gt;state</code>.</p>
 <p>Non-reentrant libraries provide an even weaker guarantee: threads cannot
 call library functions simultaneously without causing undefined
@@ -2177,11 +2199,11 @@ where a borrowed reference is returned to a shared, mutable data structure, and
 replace uses of APIs like <code>PyList_GetItem</code> with APIs exposed by the CPython C
 API returning strong references like <code>PyList_GetItemRef</code>. Not all usages are
 problematic (see above) and we do not currently suggest converting all usages of
-possibly unsafe APIs returning borrowed references to return new reference. This
+possibly unsafe APIs returning borrowed references to return new references. This
 would introduce unnecessary reference count churn in situations that are
 thread-safe by construction and also likely introduce new reference counting
 bugs in C or C++ code using the C API directly. However, many usages <em>are</em>
-unsafe, and maintaining a borrowed reference to an objects that could be exposed
+unsafe, and maintaining a borrowed reference to an object that could be exposed
 to another thread is unsafe.</p>
 <p>A good starting place to find instances of this would be to look for usages of the
 <a href="https://docs.python.org/3/howto/free-threading-extensions.html#borrowed-references">unsafe borrowed reference APIs mentioned in the free-threading compatibility docs</a>.</p>
@@ -2208,7 +2230,7 @@ time. This also means that code inside <code>#ifdef Py_GIL_DISABLED</code> check
 API constructs outside the limited API if you would like to do that, although
 these uses will need to be removed once the free-threaded build gains support
 for compiling with the limited API.</p>
-<h1 id="dependencies-that-dont-support-free-threading">Dependencies that don't support free-threading<a class="headerlink" href="#dependencies-that-dont-support-free-threading" title="Permanent link">#</a></h1>
+<h2 id="dependencies-that-dont-support-free-threading">Dependencies that don't support free-threading<a class="headerlink" href="#dependencies-that-dont-support-free-threading" title="Permanent link">#</a></h2>
 <p>See <a href="../dependencies/">our guidance for handling dependencies that don't support
 free-threading</a>.</p>
 
@@ -2233,7 +2255,7 @@ free-threading</a>.</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="December 22, 2025 18:45:40 UTC">December 22, 2025</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 21, 2026 18:10:45 UTC">April 21, 2026</span>
   </span>
 
     

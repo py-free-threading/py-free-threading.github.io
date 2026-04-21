@@ -762,7 +762,7 @@
   <a href="#raising-errors-under-shared-concurrent-use" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Raising errors under shared concurrent use.
+        Raising errors under shared concurrent use
       
     </span>
   </a>
@@ -1371,7 +1371,7 @@
   <a href="#raising-errors-under-shared-concurrent-use" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Raising errors under shared concurrent use.
+        Raising errors under shared concurrent use
       
     </span>
   </a>
@@ -1459,19 +1459,19 @@ GIL).</p>
 <p>Attempting to parallelize many workflows using the Python
 <a href="https://docs.python.org/3/library/threading.html">threading</a> module will not
 produce any speedups on the GIL-enabled build. This means many codebases have
-threading bugs that up-until-now have only been theoretical or present in niche
+threading bugs that up until now have only been theoretical or present in niche
 use cases. With free-threading, many more users will want to use Python threads,
-making fixing existing thread safety issues more important. Additionally,
-free-threading makes new kinds of concurrent use possible, so situations were
+making it more important to fix existing thread safety issues. Additionally,
+free-threading makes new kinds of concurrent use possible, so situations where
 the GIL <em>was</em> providing safety will need new analysis to ensure they are safe
 under free-threaded Python.</p>
 <p>Packages that have not yet been updated may exhibit behaviors such as:</p>
 <ul>
-<li>Fail to produce deterministic results on the free-threaded build and may not be
-    deterministic <em>with</em> the GIL either.</li>
-<li>May, if there are C extensions involved, crash the interpreter in multithreaded
-    use in ways that are impossible on the GIL-enabled build. Some extensions may
-    crash the interpreter under multithreaded use even with the GIL.</li>
+<li>Failing to produce deterministic results on the free-threaded build, and possibly
+    not being deterministic <em>with</em> the GIL either.</li>
+<li>Crashing the interpreter in multithreaded use if C extensions are involved, in ways
+    that are impossible on the GIL-enabled build. Some extensions may even crash the
+    interpreter under multithreaded use with the GIL enabled.</li>
 </ul>
 <p>For a more in-depth look at the differences between the GIL-enabled and
 free-threaded build, we suggest reading <a href="https://github.com/facebookincubator/ft_utils/blob/main/docs/ft_worked_examples.md">the <code>ft_utils</code>
@@ -1504,14 +1504,14 @@ your package. The currently supported trove classifiers for this purpose are:</p
 <li><code>Programming Language :: Python :: Free Threading :: 3 - Stable</code></li>
 <li><code>Programming Language :: Python :: Free Threading :: 4 - Resilient</code></li>
 </ul>
-<p>The numeric level of support in the classifier corresponds to the level of support. To give some guidance as to what that means:</p>
+<p>To give some guidance as to what each level means:</p>
 <ol>
 <li>For experimentation and feedback only.</li>
 <li>Free threaded usage is supported, but documentation of constraints and limitations may be incomplete.</li>
 <li>Supported for production use, multithreaded use is tested, and thread safety issues are clearly documented.</li>
 <li>Fully supported and fully thread safe.</li>
 </ol>
-<p>You can see how supporting the free-threaded build is not all all-or-nothing
+<p>You can see how supporting the free-threaded build is not an all-or-nothing
 thing. It is a perfectly valid choice to, for example, only support running on
 the free-threaded build in effectively single-threaded contexts and not support
 shared use of objects. It is then up to the users of your library to add locking
@@ -1562,7 +1562,7 @@ multithreaded workflows.</p>
 and <a href="https://numpy.org/devdocs/reference/thread_safety.html#thread-safety">does not support mutating shared
 ndarrays</a>. This
 was a pragmatic choice given existing heavy multithreaded use of NumPy in the
-GIL-enabled build and a desire to not introducing scaling bottlenecks in
+GIL-enabled build and a desire to not introduce scaling bottlenecks in
 existing workflows.</p>
 <p>Eventually NumPy may need to offer explicitly thread-safe data structures, but
 it is a valid choice to initially support free-threading while still exposing
@@ -1645,7 +1645,7 @@ rewrite the above example to use a thread-local cache like so:</p>
     <span class="k">return</span> <span class="n">local</span><span class="o">.</span><span class="n">cache</span><span class="p">[</span><span class="n">arg</span><span class="p">]</span>
 </code></pre></div>
 <p>This wouldn't help a case where each thread having a copy of the cache would be
-prohibitive, but it does fix possible issues with resource leaks issues due to
+prohibitive, but it does fix possible resource leak issues due to
 races filling a cache.</p>
 <!-- ref:copy-on-write -->
 
@@ -1765,10 +1765,10 @@ which provides a reentrant lock allowing threads to recursively acquire the same
 lock, but is not quite as performant as a <code>threading.Lock</code> in single-threaded use.</p>
 <p>Finally, note how the above code will ensure that only a single call to
 <code>_do_expensive_calculation</code> will run at any given time, regardless of <code>arg</code>.
-This may not be desirable; one could want to allow calling the function in
+This may not be desirable; one might want to allow calling the function in
 parallel for different arguments. This however would require a substantially more
 complex locking pattern.</p>
-<h3 id="raising-errors-under-shared-concurrent-use">Raising errors under shared concurrent use.<a class="headerlink" href="#raising-errors-under-shared-concurrent-use" title="Permanent link">#</a></h3>
+<h3 id="raising-errors-under-shared-concurrent-use">Raising errors under shared concurrent use<a class="headerlink" href="#raising-errors-under-shared-concurrent-use" title="Permanent link">#</a></h3>
 <p>Sometimes it's a programming error to share an object between threads. An
 example might be a wrapper for a low-level C compression library that does not
 support sharing compression contexts between threads. You could make it so users
@@ -1790,7 +1790,7 @@ see an error at runtime when they try to share a compression context like this:<
             <span class="bp">self</span><span class="o">.</span><span class="n">lock</span><span class="o">.</span><span class="n">release</span><span class="p">()</span>
 </code></pre></div>
 <p>This does require paying the cost of acquiring and releasing a mutex, but
-because no thread ever blocks on acquiring the lock, this thread cannot
+because no thread ever blocks on acquiring the lock, this approach cannot
 introduce hidden multithreaded scaling issues.</p>
 <h2 id="dealing-with-thread-unsafe-objects">Dealing with thread-unsafe objects<a class="headerlink" href="#dealing-with-thread-unsafe-objects" title="Permanent link">#</a></h2>
 <p>Mutability of objects is deeply embedded in the Python runtime and many tools freely
@@ -1816,10 +1816,10 @@ access to state stored in a Python object. Consider the following class:</p>
         <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.0001</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">current_value</span> <span class="o">+</span> <span class="mi">1</span>
 </code></pre></div>
-<p>Here we're simulating doing an in-place addition on an expensive function. A
+<p>Here we're simulating an in-place addition using an expensive function. A
 real example might have a method that looks something like this:</p>
 <div class="highlight"><pre><span></span><code><span class="k">def</span><span class="w"> </span><span class="nf">increment</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">do_some_expensive_calulation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">do_some_expensive_calculation</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
 </code></pre></div>
 <p>If we run this example in a thread pool, you'll see that the answer you get will
 vary randomly depending on the timing of the sleeps:</p>
@@ -1867,7 +1867,7 @@ strategies, but doing so requires knowledge of the problem.</p>
 that add enhanced atomicity or improved multithreaded scaling compared with
 standard library primitives.</p>
 <h2 id="dependencies-that-dont-support-free-threading">Dependencies that don't support free-threading<a class="headerlink" href="#dependencies-that-dont-support-free-threading" title="Permanent link">#</a></h2>
-<p>If one of your package's dependencies do not support free-threading, you might
+<p>If one of your package's dependencies does not support free-threading, you might
 be able to switch to a fork that does. Find more details in
 <a href="../dependencies/">our guidance for handling dependencies that don't support free-threading</a>.</p>
 
@@ -1892,7 +1892,7 @@ be able to switch to a fork that does. Find more details in
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="December 24, 2025 15:50:53 UTC">December 24, 2025</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 21, 2026 18:10:45 UTC">April 21, 2026</span>
   </span>
 
     

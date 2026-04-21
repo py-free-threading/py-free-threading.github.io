@@ -1361,9 +1361,9 @@ integrated with the LLVM and GCC compilers. The sanitizers instrument compiled
 code with additional runtime checks for common sources of <a href="https://en.wikipedia.org/wiki/Undefined_behavior">undefined
 behavior</a>.</p>
 <p>Thread Sanitizer specializes in finding data races, a form of undefined behavior
-that are possible in low-level multithreaded code. While Rust has compile-time
+that is possible in low-level multithreaded code. While Rust has compile-time
 guarantees to prevent most data races, C and C++ do not prevent data races from
-occurring and in practice many C and C++ extensions exhibit data races while
+occurring, and in practice many C and C++ extensions exhibit data races while
 adding support for the free-threaded build.</p>
 <h2 id="compiling-cpython-and-foundational-packages-with-thread-sanitizer">Compiling CPython and foundational packages with Thread Sanitizer<a class="headerlink" href="#compiling-cpython-and-foundational-packages-with-thread-sanitizer" title="Permanent link">#</a></h2>
 <p>In this section we provide the commands to build a free-threading compatible
@@ -1387,7 +1387,7 @@ compute time per CI run.</p>
 <div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/python/cpython.git<span class="w"> </span>-b<span class="w"> </span><span class="m">3</span>.14
 </code></pre></div>
 <ul>
-<li>Configure and build the interpreter. Below instructions are for Linux
+<li>Configure and build the interpreter. The instructions below are for Linux
     (Windows and macOS may require some changes). We skip the instructions on how
     to install the Clang compiler.</li>
 </ul>
@@ -1417,10 +1417,10 @@ make<span class="w"> </span>install
 <p>On MacOS, you may see messages like this when you start Python:</p>
 <div class="highlight"><pre><span></span><code>python(7027,0x1f6dfc240) malloc: nano zone abandoned due to inability to reserve vm space.
 </code></pre></div>
-<p>This message is being emitted by the MacOS malloc implementation. As
+<p>This message is emitted by the macOS malloc implementation. As
 <a href="https://stackoverflow.com/questions/64126942/malloc-nano-zone-abandoned-due-to-inability-to-preallocate-reserved-vm-space">explained
 here</a>,
-this happens for any program compiled with TSan on MacOS and can
+this happens for any program compiled with TSan on macOS and can
 be safely ignored by setting the <code>MallocNanoZone</code> environment variable to
 0. You should only set this in the session you are running TSan
 under, as this setting will slow down other programs that allocate memory.</p>
@@ -1456,20 +1456,20 @@ known issues and point TSan at the suppressions when you run it.</p>
 race:partial_vectorcall_fallback
 race:dnnl_sgemm
 </code></pre></div>
-<p>This suppressions file tells TSan to not any races it detects in the functions
+<p>This suppressions file tells TSan to not report any races it detects in the functions
 <code>llvm::RuntimeDyldELF::registerEHFrames</code>, <code>partial_vectorcall_fallback</code>, and
 <code>dnnl_sgemm</code>.</p>
 <p>You can tell TSan to use your suppressions file by setting <code>suppressions</code> in
 <code>TSAN_OPTIONS</code>:</p>
 <div class="highlight"><pre><span></span><code>TSAN_OPTIONS=&quot;suppressions=$PWD/tsan-suppressions&quot; python my_test.py
 </code></pre></div>
-<p>This would use a suppressions file name <code>tsan-suppressions</code> located in the
+<p>This would use a suppressions file named <code>tsan-suppressions</code> located in the
 current directory.</p>
 <h3 id="using-suppressions-files-from-other-projects">Using suppressions files from other projects<a class="headerlink" href="#using-suppressions-files-from-other-projects" title="Permanent link">#</a></h3>
 <p>Depending on what you are doing, you may see races coming from code outside of your project, including from CPython itself.</p>
 <p>There are known races in CPython that are tracked in a suppressions file used
 for TSan testing in the CPython CI. You can see the version of this file in the
-the 3.14 branch of CPython
+3.14 branch of CPython
 <a href="https://github.com/python/cpython/blob/3.14/Tools/tsan/suppressions_free_threading.txt">here</a>. This
 file might be a good place to start for your own testing, particularly if you
 see races inside of CPython that are listed in CPython's suppressions file.</p>
@@ -1509,7 +1509,7 @@ this means that you might only see output like <code>ThreadSanitizer: reported 2
 <p>To ensure that pytest doesn't capture any output from TSan, you can
 pass <code>-s</code> (short for <code>--show-capture</code>) to your pytest invocation.</p>
 <p>You can also set <code>log_path=/path/to/log_file</code> in TSAN_OPTIONS, and logs
-fill be written to <code>/path/to/log_file.pid</code>, where <code>pid</code> is the process ID
+will be written to <code>/path/to/log_file.pid</code>, where <code>pid</code> is the process ID,
 instead of being directed to stderr, which is the default.</p>
 <p>Some authors of this guide have observed hangs running pytest with
 <code>halt_on_error=1</code>. If you observe hangs, try setting <code>halt_on_error=0</code> in
@@ -1549,7 +1549,7 @@ do that.</p>
 <div class="highlight"><pre><span></span><code>$ TSAN_OPTIONS=&#39;allocator_may_return_null=1 halt_on_error=1&#39; pytest -s
 </code></pre></div>
 <h1 id="common-issues">Common Issues<a class="headerlink" href="#common-issues" title="Permanent link">#</a></h1>
-<p>If you are using Linux, either bare metal or in a docker coontainer, you may need
+<p>If you are using Linux, either bare metal or in a docker container, you may need
 to adjust some settings. To avoid ASLR interfering with the TSAN checking, the
 following config change on the docker host system may be required:</p>
 <div class="highlight"><pre><span></span><code>sudo sysctl vm.mmap_rnd_bits=28
@@ -1583,7 +1583,7 @@ Segmentation fault (core dumped)
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="January 5, 2026 19:45:46 UTC">January 5, 2026</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 21, 2026 18:10:45 UTC">April 21, 2026</span>
   </span>
 
     

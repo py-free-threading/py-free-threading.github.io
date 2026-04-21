@@ -916,7 +916,7 @@
   <a href="#python-stack-frames-on-macos-python-315" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Python stack frames on MacOS (Python 3.15+)
+        Python stack frames on macOS (Python 3.15+)
       
     </span>
   </a>
@@ -1126,7 +1126,7 @@
   <a href="#python-stack-frames-on-macos-python-315" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Python stack frames on MacOS (Python 3.15+)
+        Python stack frames on macOS (Python 3.15+)
       
     </span>
   </a>
@@ -1187,14 +1187,14 @@ profiler</a>.</p>
 Ctrl-C - samply will print out a report and open a web browser pointing at the
 profile browser.</p>
 <p>Briefly, the interface is broken up into two pieces: a timeline in which
-the CPU utilization appears as a graph and a set of panels that allow diving
-into the callstack at individual instants in the timeline or aggregated over
+the CPU utilization appears as a graph, and a set of panels that allow diving
+into the call stack at individual instants in the timeline or aggregated over
 selections in the timeline. It's particularly useful to look at the <a href="https://profiler.firefox.com/docs/#/./guide-ui-tour-panels?id=the-flame-graph">flame
 graph</a>
 and <a href="https://profiler.firefox.com/docs/#/./guide-ui-tour-panels?id=the-stack-chart">stack
 chart</a>
-panels. The former allows identifying calls that are particularly expensive
-while the latter allows visualization of how the call stack changes with time.</p>
+panels. The former helps identify calls that are particularly expensive,
+while the latter visualizes how the call stack changes over time.</p>
 <p>See <a href="https://profiler.firefox.com/docs/#/">the Firefox profiler documentation</a> for more details
 about how to use the interface.</p>
 <p>Note that by default, you will only see information about native
@@ -1214,21 +1214,21 @@ with the <code>-X perf</code> command-line option:</p>
 <p>The resulting profile will include annotations with information about the Python
 frames. In the profile browser, Python frames show up in light blue and native
 frames show up in yellow.</p>
-<h2 id="python-stack-frames-on-macos-python-315">Python stack frames on MacOS (Python 3.15+)<a class="headerlink" href="#python-stack-frames-on-macos-python-315" title="Permanent link">#</a></h2>
-<p>MacOS stack frames requires you to use Python 3.15+, which as of this writing you
+<h2 id="python-stack-frames-on-macos-python-315">Python stack frames on macOS (Python 3.15+)<a class="headerlink" href="#python-stack-frames-on-macos-python-315" title="Permanent link">#</a></h2>
+<p>macOS stack frames require you to use Python 3.15+, which as of this writing you
 will need to <a href="../installing-cpython/#build-from-source">compile yourself</a>. See the documentation of the <a href="https://docs.python.org/3.15/howto/perf_profiling.html">dev version of
 CPython on how to enable perf events on
-MacOX</a>.</p>
+macOS</a>.</p>
 <h2 id="uploading-profiler-data-to-profilerfirefoxcom">Uploading profiler data to profiler.firefox.com<a class="headerlink" href="#uploading-profiler-data-to-profilerfirefoxcom" title="Permanent link">#</a></h2>
-<p>The neat thing about using the Firefox profiler as the UI for samply is it means
+<p>The neat thing about using the Firefox profiler as the UI for samply is that
 sharing profiling information over the internet is as easy as clicking a button
 in the UI.</p>
-<p>By default, samply runs the firefox profiler locally and does not share data it
+<p>By default, samply runs the Firefox profiler locally and does not share the data it
 collects. You can optionally click the upload button in the top-right corner of
 the profiler interface to upload the profile data and generate a permalink. This
-uploads the data to profiler.firefox.com and others can view the exact same
-profiler interface as the one you see locally. This can be a powerful tool to
-get help if you don't understand what you are looking at.</p>
+uploads the data to profiler.firefox.com, and others can then view the exact same
+profiler interface as the one you see locally. This can be a powerful tool for
+getting help if you don't understand what you are looking at.</p>
 
 
 
@@ -1251,7 +1251,7 @@ get help if you don't understand what you are looking at.</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="November 11, 2025 21:00:41 UTC">November 11, 2025</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 21, 2026 18:10:45 UTC">April 21, 2026</span>
   </span>
 
     
