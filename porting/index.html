@@ -726,10 +726,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#converting-global-state-to-thread-local-state" class="md-nav__link">
+  <a href="#converting-global-state-to-context-local-or-thread-local-state" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Converting global state to thread-local state
+        Converting global state to context-local or thread-local state
       
     </span>
   </a>
@@ -1335,10 +1335,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#converting-global-state-to-thread-local-state" class="md-nav__link">
+  <a href="#converting-global-state-to-context-local-or-thread-local-state" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Converting global state to thread-local state
+        Converting global state to context-local or thread-local state
       
     </span>
   </a>
@@ -1620,8 +1620,54 @@ possible for at least two threads to see that <code>global_cache</code> doesn't 
 cached key and call <code>_do_expensive_calculation</code>. In some cases this is harmless,
 but depending on the nature of the cache, this could lead to unnecessary network
 access, resource leaks, or wasted unnecessary compute cost.</p>
-<h3 id="converting-global-state-to-thread-local-state">Converting global state to thread-local state<a class="headerlink" href="#converting-global-state-to-thread-local-state" title="Permanent link">#</a></h3>
-<p>One way of dealing with issues like this is to convert a shared global cache
+<h3 id="converting-global-state-to-context-local-or-thread-local-state">Converting global state to context-local or thread-local state<a class="headerlink" href="#converting-global-state-to-context-local-or-thread-local-state" title="Permanent link">#</a></h3>
+<p>One way to remove a race on mutable global state is to stop sharing it and give
+each unit of execution its own copy. For a state that tracks the current operation
+and that should be set and restored around a block using the <code>with</code> statement,
+such as a configuration option or a nesting counter, prefer
+<a href="https://docs.python.org/3/library/contextvars.html#contextvars.ContextVar"><code>contextvars.ContextVar</code></a>;
+it is isolated per thread and per <code>asyncio</code> task, so it is both thread-safe and
+async-safe, and it is usually the right choice in pure Python. For a state that is
+initialized once per thread and reused for the lifetime of the thread, such as a
+per-thread cache, use
+<a href="https://docs.python.org/3/library/threading.html#thread-local-data"><code>threading.local</code></a>.
+Unlike a <code>ContextVar</code>, it is not aware of <code>asyncio</code> tasks, so state mutated across
+an <code>await</code> can leak between coroutines running on the same thread.</p>
+<p><code>ContextVar.set</code> returns a token and <code>ContextVar.reset</code> restores the value the
+variable had before that <code>set</code>. This pairs naturally with a context manager and a
+<code>finally</code> block, which makes the cleanup exception-safe and keeps nested scopes
+correct. For example, to track how deeply nested the current operation is:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">contextlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">contextmanager</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">contextvars</span><span class="w"> </span><span class="kn">import</span> <span class="n">ContextVar</span>
+
+<span class="c1"># Each thread and each asyncio task gets its own independent value.</span>
+<span class="n">depth</span> <span class="o">=</span> <span class="n">ContextVar</span><span class="p">(</span><span class="s2">&quot;depth&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+
+<span class="nd">@contextmanager</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">new_level</span><span class="p">():</span>
+    <span class="n">token</span> <span class="o">=</span> <span class="n">depth</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">depth</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">yield</span> <span class="n">depth</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="c1"># Runs even if the body raises, and restores the exact previous value so</span>
+        <span class="c1"># that nested scopes unwind correctly.</span>
+        <span class="n">depth</span><span class="o">.</span><span class="n">reset</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+</code></pre></div>
+<p>Always create the <code>ContextVar</code> at module scope, never inside a function or
+closure, otherwise a new variable is created on every call and the value is not
+shared as intended. On Python 3.14 and newer, the <a href="https://docs.python.org/3/library/contextvars.html#contextvars.ContextVar.set">token returned by
+<code>ContextVar.set</code></a>
+is itself a context manager that resets the variable on exit, so you can drop the
+explicit <code>try</code>/<code>finally</code> and write <code>with depth.set(depth.get() + 1):</code> instead.</p>
+<p>What a thread or task starts from depends on context inheritance. An <code>asyncio</code>
+task copies the context active when it is created, so it continues from the
+values set by the code that spawned it. A newly spawned thread inherits a copy of
+the spawning thread's context on the free-threaded build, where
+<a href="https://docs.python.org/3/using/cmdline.html#envvar-PYTHON_THREAD_INHERIT_CONTEXT"><code>PYTHON_THREAD_INHERIT_CONTEXT</code></a>
+is enabled by default, but starts from each variable's default on the GIL-enabled
+build, where it is disabled by default.</p>
+<p>Another way of dealing with issues like this is to convert a shared global cache
 into a thread-local cache. In this approach, each thread will see its own private
 copy of the cache, making races between threads impossible. This approach makes
 sense if having extra copies of the cache in each thread is not prohibitively
@@ -1892,7 +1938,7 @@ be able to switch to a fork that does. Find more details in
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 21, 2026 18:10:45 UTC">April 21, 2026</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="June 28, 2026 16:56:15 UTC">June 28, 2026</span>
   </span>
 
     
