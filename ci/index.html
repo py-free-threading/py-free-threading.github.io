@@ -19,7 +19,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -27,7 +27,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -1252,11 +1252,11 @@ Windows</a>.</p>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">custom python install script</span>
 <span class="w">        </span><span class="nt">shell</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pwsh</span>
 <span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
-<span class="w">          </span><span class="no">$pythonInstallerUrl = &#39;https://www.nuget.org/api/v2/package/python-freethreaded/3.13.1&#39;</span>
-<span class="w">          </span><span class="no">Invoke-WebRequest $pythonInstallerUrl -OutFile &#39;python-freethreaded.3.13.1.nupkg&#39;</span>
+<span class="w">          </span><span class="no">$pythonInstallerUrl = 'https://www.nuget.org/api/v2/package/python-freethreaded/3.13.1'</span>
+<span class="w">          </span><span class="no">Invoke-WebRequest $pythonInstallerUrl -OutFile 'python-freethreaded.3.13.1.nupkg'</span>
 <span class="w">          </span><span class="no">Install-Package python-freethreaded -Scope CurrentUser -Source $pwd</span>
 <span class="w">          </span><span class="no">$python_dir = (Get-Item((Get-Package -Name python-freethreaded).Source)).DirectoryName</span>
-<span class="w">          </span><span class="no">$env:path = $python_dir + &quot;\tools;&quot; + $python_dir + &quot;\tools\Scripts;&quot; + $env:Path</span>
+<span class="w">          </span><span class="no">$env:path = $python_dir + "\tools;" + $python_dir + "\tools\Scripts;" + $env:Path</span>
 </code></pre></div>
 <h2 id="building-free-threaded-wheels-with-cibuildwheel">Building free-threaded wheels with cibuildwheel<a class="headerlink" href="#building-free-threaded-wheels-with-cibuildwheel" title="Permanent link">#</a></h2>
 <p><a href="https://cibuildwheel.pypa.io/en/stable/">cibuildwheel</a> 3.1+ has support for
@@ -1417,7 +1417,7 @@ GitHub Actions and other Continuous Integration systems often support timeouts:
       <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["content.code.copy", "header.autohide", "navigation.indexes"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

@@ -19,7 +19,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -27,7 +27,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -1443,13 +1443,13 @@ is accessed by multiple threads. We can write a test for it using either
 <span class="nv">PYTHON_GIL</span><span class="o">=</span><span class="m">0</span><span class="w"> </span>gdb<span class="w"> </span>--args<span class="w"> </span>python<span class="w"> </span>my_program.py<span class="w"> </span>...
 
 <span class="c1"># To test under pytest</span>
-<span class="nv">PYTHON_GIL</span><span class="o">=</span><span class="m">0</span><span class="w"> </span>gdb<span class="w"> </span>--args<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>pytest<span class="w"> </span>-x<span class="w"> </span>-v<span class="w"> </span><span class="s2">&quot;test_here.py::TestClass::test_method&quot;</span>
+<span class="nv">PYTHON_GIL</span><span class="o">=</span><span class="m">0</span><span class="w"> </span>gdb<span class="w"> </span>--args<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>pytest<span class="w"> </span>-x<span class="w"> </span>-v<span class="w"> </span><span class="s2">"test_here.py::TestClass::test_method"</span>
 
 <span class="c1"># Using LLDB (under LLVM/clang)</span>
 <span class="nv">PYTHON_GIL</span><span class="o">=</span><span class="m">0</span><span class="w"> </span>lldb<span class="w"> </span>--<span class="w"> </span><span class="k">$(</span>which<span class="w"> </span>python<span class="k">)</span><span class="w"> </span>my_program.py
 
 <span class="c1"># Using LLDB (and pyenv)</span>
-<span class="nv">PYTHON_GIL</span><span class="o">=</span><span class="m">0</span><span class="w"> </span>lldb<span class="w"> </span>--<span class="w"> </span><span class="k">$(</span>pyenv<span class="w"> </span>which<span class="w"> </span>python<span class="k">)</span><span class="w"> </span><span class="k">$(</span>pyenv<span class="w"> </span>which<span class="w"> </span>pytest<span class="k">)</span><span class="w"> </span>-x<span class="w"> </span>-v<span class="w"> </span><span class="s2">&quot;test_here.py::TestClass::test_method&quot;</span>
+<span class="nv">PYTHON_GIL</span><span class="o">=</span><span class="m">0</span><span class="w"> </span>lldb<span class="w"> </span>--<span class="w"> </span><span class="k">$(</span>pyenv<span class="w"> </span>which<span class="w"> </span>python<span class="k">)</span><span class="w"> </span><span class="k">$(</span>pyenv<span class="w"> </span>which<span class="w"> </span>pytest<span class="k">)</span><span class="w"> </span>-x<span class="w"> </span>-v<span class="w"> </span><span class="s2">"test_here.py::TestClass::test_method"</span>
 </code></pre></div>
 <p>When Python is run under <code>gdb</code>, several Python integration commands will be
 available; such commands start with the <code>py-</code> prefix. For instance, <code>py-bt</code>
@@ -1648,7 +1648,7 @@ built into AddressSanitizer by setting <code>ASAN_OPTIONS="detect_leaks=0"</code
       <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["content.code.copy", "header.autohide", "navigation.indexes"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

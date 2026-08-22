@@ -19,7 +19,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -27,7 +27,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -1363,19 +1363,19 @@ with the <code>python</code> package.</p>
 <p>Update the various places in the script below to reflect your desired
 Python version.</p>
 </div>
-<div class="highlight"><pre><span></span><code><span class="nv">$url</span> <span class="p">=</span> <span class="s1">&#39;https://www.nuget.org/api/v2/package/python-freethreaded/3.14.0&#39;</span>
-<span class="nb">Invoke-WebRequest</span> <span class="n">-Uri</span> <span class="nv">$url</span> <span class="n">-OutFile</span> <span class="s1">&#39;python-freethreaded.3.14.0.nupkg&#39;</span>
+<div class="highlight"><pre><span></span><code><span class="nv">$url</span> <span class="p">=</span> <span class="s1">'https://www.nuget.org/api/v2/package/python-freethreaded/3.14.0'</span>
+<span class="nb">Invoke-WebRequest</span> <span class="n">-Uri</span> <span class="nv">$url</span> <span class="n">-OutFile</span> <span class="s1">'python-freethreaded.3.14.0.nupkg'</span>
 <span class="nb">Install-Package</span> <span class="n">python-freethreaded</span> <span class="n">-Scope</span> <span class="n">CurrentUser</span> <span class="n">-Source</span> <span class="nv">$pwd</span>
 <span class="nv">$python_dir</span> <span class="p">=</span> <span class="p">(</span><span class="nb">Get-Item</span><span class="p">((</span><span class="nb">Get-Package</span> <span class="n">-Name</span> <span class="n">python-freethreaded</span><span class="p">).</span><span class="n">Source</span><span class="p">)).</span><span class="n">DirectoryName</span>
-<span class="nv">$env:path</span> <span class="p">=</span> <span class="nv">$python_dir</span> <span class="p">+</span> <span class="s2">&quot;\tools;&quot;</span> <span class="p">+</span> <span class="nv">$python_dir</span> <span class="p">+</span> <span class="s2">&quot;\tools\Scripts;&quot;</span> <span class="p">+</span> <span class="nv">$env:Path</span>
+<span class="nv">$env:path</span> <span class="p">=</span> <span class="nv">$python_dir</span> <span class="p">+</span> <span class="s2">"\tools;"</span> <span class="p">+</span> <span class="nv">$python_dir</span> <span class="p">+</span> <span class="s2">"\tools\Scripts;"</span> <span class="p">+</span> <span class="nv">$env:Path</span>
 </code></pre></div>
 <p>This will only modify your Path for the current Powershell session, so you
 will also need to permanently add the nuget package location to your Path to
 use it after closing the current session.</p>
 <p>If for some reason you <em>need</em> to use the Python.org installer, despite the problems
 described above, you can install it like so:</p>
-<div class="highlight"><pre><span></span><code><span class="nv">$url</span> <span class="p">=</span> <span class="s1">&#39;https://www.python.org/ftp/python/3.14.0/python-3.14.0-amd64.exe&#39;</span>
-<span class="nb">Invoke-WebRequest</span> <span class="n">-Uri</span> <span class="nv">$url</span> <span class="n">-OutFile</span> <span class="s1">&#39;python-3.14.0-amd64.exe&#39;</span>
+<div class="highlight"><pre><span></span><code><span class="nv">$url</span> <span class="p">=</span> <span class="s1">'https://www.python.org/ftp/python/3.14.0/python-3.14.0-amd64.exe'</span>
+<span class="nb">Invoke-WebRequest</span> <span class="n">-Uri</span> <span class="nv">$url</span> <span class="n">-OutFile</span> <span class="s1">'python-3.14.0-amd64.exe'</span>
 <span class="p">.\</span><span class="n">python</span><span class="p">-</span><span class="n">3</span><span class="p">.</span><span class="n">14</span><span class="p">.</span><span class="n">0-amd64</span><span class="p">.</span><span class="n">exe</span> <span class="p">/</span><span class="n">quiet</span> <span class="n">Include_freethreaded</span><span class="p">=</span><span class="n">1</span>
 </code></pre></div>
 <p>If you are running this script without administrator privileges,
@@ -1417,9 +1417,9 @@ It follows the process described in the CPython documentation for <a href="https
 <li>
 <p>Create a <code>choicechanges.plist</code> file to customize the install to enable the PythonTFramework-3.14 package and accept the other defaults (install all other packages).</p>
 <div class="highlight"><pre><span></span><code>cat<span class="w"> </span>&gt;<span class="w"> </span>./choicechanges.plist<span class="w"> </span><span class="s">&lt;&lt;EOF</span>
-<span class="s">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
-<span class="s">&lt;!DOCTYPE plist PUBLIC &quot;-//Apple//DTD PLIST 1.0//EN&quot; &quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;&gt;</span>
-<span class="s">&lt;plist version=&quot;1.0&quot;&gt;</span>
+<span class="s">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="s">&lt;!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;</span>
+<span class="s">&lt;plist version="1.0"&gt;</span>
 <span class="s">&lt;array&gt;</span>
 <span class="s">        &lt;dict&gt;</span>
 <span class="s">                &lt;key&gt;attributeSetting&lt;/key&gt;</span>
@@ -1674,7 +1674,7 @@ for more details.</p>
       <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["content.code.copy", "header.autohide", "navigation.indexes"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

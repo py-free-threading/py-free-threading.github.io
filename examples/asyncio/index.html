@@ -19,7 +19,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -27,7 +27,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -1166,8 +1166,8 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">time</span><span class="w"> </span><span class="kn">import</span> <span class="n">perf_counter</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">argparse</span><span class="w"> </span><span class="kn">import</span> <span class="n">ArgumentParser</span>
 
-<span class="n">BASE_URL</span> <span class="o">=</span> <span class="s2">&quot;https://news.ycombinator.com/news?p=</span><span class="si">{}</span><span class="s2">&quot;</span>
-<span class="n">ITEM_URL</span> <span class="o">=</span> <span class="s2">&quot;https://news.ycombinator.com/item?id=</span><span class="si">{}</span><span class="s2">&quot;</span>
+<span class="n">BASE_URL</span> <span class="o">=</span> <span class="s2">"https://news.ycombinator.com/news?p=</span><span class="si">{}</span><span class="s2">"</span>
+<span class="n">ITEM_URL</span> <span class="o">=</span> <span class="s2">"https://news.ycombinator.com/item?id=</span><span class="si">{}</span><span class="s2">"</span>
 
 
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">fetch</span><span class="p">(</span><span class="n">session</span><span class="p">:</span> <span class="n">aiohttp</span><span class="o">.</span><span class="n">ClientSession</span><span class="p">,</span> <span class="n">url</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -1176,33 +1176,33 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">parse_stories</span><span class="p">(</span><span class="n">html</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
-    <span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">html</span><span class="p">,</span> <span class="s2">&quot;html.parser&quot;</span><span class="p">)</span>
+    <span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">html</span><span class="p">,</span> <span class="s2">"html.parser"</span><span class="p">)</span>
     <span class="n">stories</span> <span class="o">=</span> <span class="p">[]</span>
 
-    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">soup</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;.athing&quot;</span><span class="p">):</span>
-        <span class="n">title_tag</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">select_one</span><span class="p">(</span><span class="s2">&quot;.titleline &gt; a&quot;</span><span class="p">)</span>
-        <span class="n">story_id</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;id&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">soup</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">".athing"</span><span class="p">):</span>
+        <span class="n">title_tag</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">select_one</span><span class="p">(</span><span class="s2">".titleline &gt; a"</span><span class="p">)</span>
+        <span class="n">story_id</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"id"</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">title_tag</span> <span class="ow">and</span> <span class="n">story_id</span><span class="p">:</span>
             <span class="n">title</span> <span class="o">=</span> <span class="n">title_tag</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-            <span class="n">link</span> <span class="o">=</span> <span class="n">title_tag</span><span class="p">[</span><span class="s2">&quot;href&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-            <span class="n">stories</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">story_id</span><span class="p">,</span> <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="n">title</span><span class="p">,</span> <span class="s2">&quot;link&quot;</span><span class="p">:</span> <span class="n">link</span><span class="p">})</span>
+            <span class="n">link</span> <span class="o">=</span> <span class="n">title_tag</span><span class="p">[</span><span class="s2">"href"</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="n">stories</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">"id"</span><span class="p">:</span> <span class="n">story_id</span><span class="p">,</span> <span class="s2">"title"</span><span class="p">:</span> <span class="n">title</span><span class="p">,</span> <span class="s2">"link"</span><span class="p">:</span> <span class="n">link</span><span class="p">})</span>
 
     <span class="k">return</span> <span class="n">stories</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">parse_comments</span><span class="p">(</span><span class="n">html</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">]:</span>
-    <span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">html</span><span class="p">,</span> <span class="s2">&quot;html.parser&quot;</span><span class="p">)</span>
+    <span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">html</span><span class="p">,</span> <span class="s2">"html.parser"</span><span class="p">)</span>
     <span class="n">comments</span> <span class="o">=</span> <span class="p">[]</span>
 
-    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">soup</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;tr.comtr&quot;</span><span class="p">):</span>
-        <span class="n">user_tag</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="n">select_one</span><span class="p">(</span><span class="s2">&quot;.hnuser&quot;</span><span class="p">)</span>
-        <span class="n">comment_tag</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="n">select_one</span><span class="p">(</span><span class="s2">&quot;.commtext&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">soup</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">"tr.comtr"</span><span class="p">):</span>
+        <span class="n">user_tag</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="n">select_one</span><span class="p">(</span><span class="s2">".hnuser"</span><span class="p">)</span>
+        <span class="n">comment_tag</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="n">select_one</span><span class="p">(</span><span class="s2">".commtext"</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">user_tag</span> <span class="ow">and</span> <span class="n">comment_tag</span><span class="p">:</span>
             <span class="n">user</span> <span class="o">=</span> <span class="n">user_tag</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-            <span class="n">text</span> <span class="o">=</span> <span class="n">comment_tag</span><span class="o">.</span><span class="n">get_text</span><span class="p">(</span><span class="n">separator</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="n">strip</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-            <span class="n">comments</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">&quot;user&quot;</span><span class="p">:</span> <span class="n">user</span><span class="p">,</span> <span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="n">text</span><span class="p">})</span>
+            <span class="n">text</span> <span class="o">=</span> <span class="n">comment_tag</span><span class="o">.</span><span class="n">get_text</span><span class="p">(</span><span class="n">separator</span><span class="o">=</span><span class="s2">" "</span><span class="p">,</span> <span class="n">strip</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">comments</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">"user"</span><span class="p">:</span> <span class="n">user</span><span class="p">,</span> <span class="s2">"text"</span><span class="p">:</span> <span class="n">text</span><span class="p">})</span>
 
     <span class="k">return</span> <span class="n">comments</span>
 
@@ -1210,8 +1210,8 @@
 <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">fetch_story_with_comments</span><span class="p">(</span>
     <span class="n">session</span><span class="p">:</span> <span class="n">aiohttp</span><span class="o">.</span><span class="n">ClientSession</span><span class="p">,</span> <span class="n">story</span><span class="p">:</span> <span class="nb">dict</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-    <span class="n">comment_html</span> <span class="o">=</span> <span class="k">await</span> <span class="n">fetch</span><span class="p">(</span><span class="n">session</span><span class="p">,</span> <span class="n">ITEM_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">story</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]))</span>
-    <span class="n">story</span><span class="p">[</span><span class="s2">&quot;comments&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">parse_comments</span><span class="p">(</span><span class="n">comment_html</span><span class="p">)</span>
+    <span class="n">comment_html</span> <span class="o">=</span> <span class="k">await</span> <span class="n">fetch</span><span class="p">(</span><span class="n">session</span><span class="p">,</span> <span class="n">ITEM_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">story</span><span class="p">[</span><span class="s2">"id"</span><span class="p">]))</span>
+    <span class="n">story</span><span class="p">[</span><span class="s2">"comments"</span><span class="p">]</span> <span class="o">=</span> <span class="n">parse_comments</span><span class="p">(</span><span class="n">comment_html</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">story</span>
 
 
@@ -1239,27 +1239,27 @@
         <span class="n">queue</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">BASE_URL</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">page</span><span class="p">))</span>
     <span class="n">start_time</span> <span class="o">=</span> <span class="n">perf_counter</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">multithreaded</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Using multithreading for fetching stories...&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Using multithreading for fetching stories..."</span><span class="p">)</span>
         <span class="n">workers</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">8</span>  <span class="c1"># no of CPU cores to use</span>
         <span class="k">with</span> <span class="n">ThreadPoolExecutor</span><span class="p">(</span><span class="n">max_workers</span><span class="o">=</span><span class="n">workers</span><span class="p">)</span> <span class="k">as</span> <span class="n">executor</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">workers</span><span class="p">):</span>
                 <span class="n">executor</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">worker</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="n">all_stories</span><span class="p">)))</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Using single thread for fetching stories...&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"Using single thread for fetching stories..."</span><span class="p">)</span>
         <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">worker</span><span class="p">(</span><span class="n">queue</span><span class="p">,</span> <span class="n">all_stories</span><span class="p">))</span>
     <span class="n">end_time</span> <span class="o">=</span> <span class="n">perf_counter</span><span class="p">()</span>
     <span class="nb">print</span><span class="p">(</span>
-        <span class="sa">f</span><span class="s2">&quot;Scraping speed: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">all_stories</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="n">end_time</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start_time</span><span class="p">)</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> stories/sec&quot;</span>
+        <span class="sa">f</span><span class="s2">"Scraping speed: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">all_stories</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="n">end_time</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start_time</span><span class="p">)</span><span class="si">:</span><span class="s2">.0f</span><span class="si">}</span><span class="s2"> stories/sec"</span>
     <span class="p">)</span>
 
 
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-    <span class="n">parser</span> <span class="o">=</span> <span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Scrape Hacker News stories and comments.&quot;</span><span class="p">)</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">"Scrape Hacker News stories and comments."</span><span class="p">)</span>
     <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-        <span class="s2">&quot;--multithreaded&quot;</span><span class="p">,</span>
-        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
+        <span class="s2">"--multithreaded"</span><span class="p">,</span>
+        <span class="n">action</span><span class="o">=</span><span class="s2">"store_true"</span><span class="p">,</span>
         <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Use multithreading for fetching stories.&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">"Use multithreading for fetching stories."</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
     <span class="n">main</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">multithreaded</span><span class="p">)</span>
@@ -1424,7 +1424,7 @@ releases the GIL during I/O operations. This allows other threads to run while a
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["content.code.copy", "header.autohide", "navigation.indexes"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

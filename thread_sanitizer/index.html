@@ -19,7 +19,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -27,7 +27,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -1409,7 +1409,7 @@ make<span class="w"> </span>install
 <span class="nb">cd</span><span class="w"> </span>..
 </code></pre></div>
 <p>If you use pyenv, you can also enable a thread sanitizer build with <code>pyenv install</code> like so:</p>
-<div class="highlight"><pre><span></span><code><span class="nv">CC</span><span class="o">=</span>/path/to/clang<span class="w"> </span><span class="nv">CXX</span><span class="o">=</span>/path/to/clang++<span class="w"> </span><span class="nv">CONFIGURE_OPTS</span><span class="o">=</span><span class="s2">&quot;--with-thread-sanitizer&quot;</span><span class="w"> </span>pyenv<span class="w"> </span>install<span class="w"> </span><span class="m">3</span>.14t-dev
+<div class="highlight"><pre><span></span><code><span class="nv">CC</span><span class="o">=</span>/path/to/clang<span class="w"> </span><span class="nv">CXX</span><span class="o">=</span>/path/to/clang++<span class="w"> </span><span class="nv">CONFIGURE_OPTS</span><span class="o">=</span><span class="s2">"--with-thread-sanitizer"</span><span class="w"> </span>pyenv<span class="w"> </span>install<span class="w"> </span><span class="m">3</span>.14t-dev
 </code></pre></div>
 <p>And then activate the build with e.g. <code>pyenv local 3.14t-dev</code>.</p>
 <div class="admonition note">
@@ -1461,7 +1461,7 @@ race:dnnl_sgemm
 <code>dnnl_sgemm</code>.</p>
 <p>You can tell TSan to use your suppressions file by setting <code>suppressions</code> in
 <code>TSAN_OPTIONS</code>:</p>
-<div class="highlight"><pre><span></span><code>TSAN_OPTIONS=&quot;suppressions=$PWD/tsan-suppressions&quot; python my_test.py
+<div class="highlight"><pre><span></span><code>TSAN_OPTIONS="suppressions=$PWD/tsan-suppressions" python my_test.py
 </code></pre></div>
 <p>This would use a suppressions file named <code>tsan-suppressions</code> located in the
 current directory.</p>
@@ -1546,7 +1546,7 @@ threads in native code (e.g. with OpenMP or other threading primitives) or use
 Python packages that spawn threads, but is a good option if your library doesn't
 do that.</p>
 <p>Altogether, a pytest invocation using TSan might look like:</p>
-<div class="highlight"><pre><span></span><code>$ TSAN_OPTIONS=&#39;allocator_may_return_null=1 halt_on_error=1&#39; pytest -s
+<div class="highlight"><pre><span></span><code>$ TSAN_OPTIONS='allocator_may_return_null=1 halt_on_error=1' pytest -s
 </code></pre></div>
 <h1 id="common-issues">Common Issues<a class="headerlink" href="#common-issues" title="Permanent link">#</a></h1>
 <p>If you are using Linux, either bare metal or in a docker container, you may need
@@ -1558,7 +1558,7 @@ following config change on the docker host system may be required:</p>
 number of bits after running tests.</p>
 <p>If ASLR is not disabled, you might see an error similar to the following:</p>
 <div class="highlight"><pre><span></span><code>root@b60155750c89:/work# python
-ThreadSanitizer: CHECK failed: tsan_platform_linux.cpp:290 &quot;((personality(old_personality | ADDR_NO_RANDOMIZE))) != ((-1))&quot; (0xffffffffffffffff, 0xffffffffffffffff) (tid=13)
+ThreadSanitizer: CHECK failed: tsan_platform_linux.cpp:290 "((personality(old_personality | ADDR_NO_RANDOMIZE))) != ((-1))" (0xffffffffffffffff, 0xffffffffffffffff) (tid=13)
 Segmentation fault (core dumped)
 </code></pre></div>
 
@@ -1676,7 +1676,7 @@ Segmentation fault (core dumped)
       <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["content.code.copy", "header.autohide", "navigation.indexes"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>
