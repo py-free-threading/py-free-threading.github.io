@@ -12,7 +12,7 @@
         <link rel="prev" href="../porting/">
       
       
-        <link rel="next" href="../dependencies/">
+        <link rel="next" href="../abi3t/">
       
       
         
@@ -535,6 +535,8 @@
       
         
       
+        
+      
     
     
     
@@ -911,6 +913,34 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../abi3t/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Building and distributing abi3t extensions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -1716,35 +1746,30 @@ argument to the <code>nanobind_add_module</code> CMake target command. Example:<
 </code></pre></div>
 </div>
 <div class="tabbed-block">
-<p>If you use the CPython C API in Rust via <a href="https://pyo3.rs">PyO3</a>, then you
-can follow the <a href="https://pyo3.rs/latest/free-threading.html">PyO3 Guide
-section</a> on supporting
-free-threaded Python. You must also update your extension to at least
-version 0.23.</p>
+<p>If you use the CPython C API from Rust through <a href="https://pyo3.rs">PyO3</a>,
+follow <a href="https://pyo3.rs/latest/free-threading.html">PyO3's free-threading
+guide</a>. For a new port, update
+to PyO3 0.28 or newer. Targeting the Stable ABI for free-threaded builds
+requires PyO3 0.29 or newer; see the <a href="../abi3t/#pyo3-and-maturin"><code>abi3t</code> packaging
+guide</a>.</p>
 <p>You should write multithreaded tests of any code you expose to Python. See
 our guide on <a href="../testing/#fixing-thread-unsafe-tests">updating test suites</a> for
 more details. You should fix any thread safety issues you discover while
 running multithreaded tests.</p>
-<p>As of PyO3 0.23, PyO3 enforces Rust's borrow checking rules at
-runtime and may produce runtime panics if you simultaneously mutably borrow
-data in more than one thread. You may want to consider storing state in using
-atomic data structures, with mutexes or locks, or behind <code>Arc</code>
-pointers.</p>
-<p>Once you are satisfied the Python modules defined by your rust crate are
-thread safe, you can pass <code>gil_used = false</code> to the <a href="https://docs.rs/pyo3/latest/pyo3/attr.pymodule.html"><code>pymodule</code>
-macro</a>:</p>
-<div class="highlight"><pre><span></span><code><span class="cp">#[pymodule(gil_used = false)]</span>
-<span class="k">fn</span><span class="w"> </span><span class="nf">my_module</span><span class="p">(</span><span class="n">py</span><span class="p">:</span><span class="w"> </span><span class="nc">Python</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">:</span><span class="w"> </span><span class="kp">&amp;</span><span class="nc">Bound</span><span class="o">&lt;'</span><span class="nb">_</span><span class="p">,</span><span class="w"> </span><span class="n">PyModule</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">-&gt;</span><span class="w"> </span><span class="nc">PyResult</span><span class="o">&lt;</span><span class="p">()</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="o">..</span><span class="p">.</span>
-<span class="p">}</span>
-</code></pre></div>
-<p>If you define any modules procedurally by manually creating a <code>PyModule</code>
-struct without using the <code>pymodule</code> macro, you can call
-<a href="https://docs.rs/pyo3/latest/pyo3/prelude/trait.PyModuleMethods.html#tymethod.gil_used"><code>PyModuleMethods::gil_used</code></a>
-after instantiating the module.</p>
-<p>If you use the <code>pyo3-ffi</code> crate and/or <code>unsafe</code> FFI calls to call directly into the C
-API, then see the section on porting C extensions in this guide as well as
-the PyO3 source code.</p>
+<p>PyO3 applies runtime borrow checking to data in <code>#[pyclass]</code> instances.
+Concurrent conflicting borrows can raise exceptions or, in some cases,
+panic. For shared mutable state, use synchronization primitives such as
+atomics or mutexes. If a <code>#[pyclass]</code> provides its own interior mutability,
+consider declaring it <a href="https://pyo3.rs/latest/class.html#frozen-classes-opting-out-of-interior-mutability"><code>frozen</code></a>
+to opt out of PyO3's runtime borrow checking.</p>
+<p>In PyO3 0.28 and newer, modules defined with the <a href="https://docs.rs/pyo3/latest/pyo3/attr.pymodule.html"><code>pymodule</code>
+macro</a> declare
+free-threading support by default. This is a promise about your code, not an
+automatic safety check. If the module is not ready, opt out with
+<code>#[pymodule(gil_used = true)]</code> until it has been ported and tested.</p>
+<p>If you use the <code>pyo3-ffi</code> crate or make <code>unsafe</code> FFI calls directly into the
+C API, also follow the <a href="#porting-c-extensions">C extension guidance</a> in this
+guide.</p>
 </div>
 <div class="tabbed-block">
 <p>Starting with NumPy 2.1.0, extension modules containing f2py-wrapped
@@ -1834,8 +1859,13 @@ code as in the GIL-enabled build</p>
 same code in the free-threaded build as is used in the GIL-enabled build to
 acquire and release the GIL. It is an unfortunate naming issue that
 <code>PyGILState_Ensure</code> and <code>PyGILState_Release</code> have "<code>GIL</code>" in the name of the
-function, despite the lack of a GIL on the free-threaded build. It's likely that
-the C API in a future Python version will fix this naming issue.</p>
+function, despite the lack of a GIL on the free-threaded build. Python 3.15 adds
+the GIL-neutral <a href="https://docs.python.org/3.15/c-api/threads.html#attaching-detaching-thread-states"><code>PyThreadState_Ensure</code> and <code>PyThreadState_Release</code>
+APIs</a>
+and soft-deprecates the older pair. Unlike the older APIs, the new ones take an
+interpreter and return an interpreter guard, so they are not drop-in
+replacements. Code that supports older Python versions can continue using the
+older APIs.</p>
 <p>Hopefully you now have a better mental model for how native code interacts with
 the CPython interpreter runtime in the free-threaded build and how it is similar
 to what happens on the GIL-enabled build, and what exactly it means for multiple
@@ -2221,15 +2251,15 @@ do any internal locking and should only be used to build newly created
 values. Do <em>not</em> use them to modify existing containers in the free-threaded
 build.</p>
 <h3 id="limited-api-support">Limited API support<a class="headerlink" href="#limited-api-support" title="Permanent link">#</a></h3>
-<p>The free-threaded build does not support the limited CPython C API. If you
-currently use the limited API to build wheels that do not depend on a specific
-Python version, you will not be able to use it while shipping binaries for the
-free-threaded build. In practice, the limited API is a subset of the full C API,
-so your extension will build, you just cannot set <code>Py_LIMITED_API</code> at build
-time. This also means that code inside <code>#ifdef Py_GIL_DISABLED</code> checks can use C
-API constructs outside the limited API if you would like to do that, although
-these uses will need to be removed once the free-threaded build gains support
-for compiling with the limited API.</p>
+<p>Free-threaded CPython 3.13 and 3.14 do not support the Limited API, so
+extensions for those interpreters need version-specific wheels. An ordinary
+<code>abi3</code> extension remains limited to GIL-enabled builds.</p>
+<p>CPython 3.15 adds a separate Stable ABI named <code>abi3t</code>. Extensions that satisfy
+its restrictions can publish one wheel compatible with both GIL-enabled and
+free-threaded CPython 3.15 and later. See <a href="../abi3t/">Building and distributing <code>abi3t</code>
+extensions</a> for the CPython migration guide, build backend status,
+and examples. If an extension cannot target <code>abi3t</code>, build it against the full
+C API instead and publish version-specific free-threaded wheels.</p>
 <h2 id="dependencies-that-dont-support-free-threading">Dependencies that don't support free-threading<a class="headerlink" href="#dependencies-that-dont-support-free-threading" title="Permanent link">#</a></h2>
 <p>See <a href="../dependencies/">our guidance for handling dependencies that don't support
 free-threading</a>.</p>
@@ -2255,7 +2285,7 @@ free-threading</a>.</p>
     <span class="md-icon" title="Last update">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1zM12.5 7v5.2l4 2.4-1 1L11 13V7zM11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2z"/></svg>
     </span>
-    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 21, 2026 18:10:45 UTC">April 21, 2026</span>
+    <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 25, 2026 19:19:12 UTC">September 25, 2026</span>
   </span>
 
     
